@@ -1,0 +1,13 @@
+<h2 class="text-center">Оформление заказа</h2>
+<ul>
+    <li *ngFor="let order of orders.productOrders">
+        {{ order.product.name }} - {{ order.product.price }}₽ x {{ order.quantity}} шт.
+    </li>
+</ul>
+<h3 class="text-right">Общая стоимость: {{ total }}₽</h3>
+
+<button class="btn btn-primary btn-block" (click)="pay()" *ngIf="!paid">Оплатить</button>
+
+<div class="alert alert-success" role="alert" *ngIf="paid">
+    <strong>Отлично!</strong> Заказ успешно оформлен.
+</div>

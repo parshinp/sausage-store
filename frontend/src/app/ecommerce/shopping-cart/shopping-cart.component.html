@@ -1,0 +1,18 @@
+<div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
+    <div class="card-header text-center">Корзина</div>
+    <div class="card-body">
+        <h5 class="card-title">Всего: {{total}}₽</h5>
+        <hr>
+        <h6 class="card-title">Товары в корзине:</h6>
+
+        <ul>
+            <li *ngFor="let order of orders.productOrders">
+                {{ order.product.name }} - {{ order.quantity}} шт.
+            </li>
+        </ul>
+
+        <button class="btn btn-light btn-block" (click)="finishOrder()"
+                [disabled]="orders.productOrders.length == 0">Оформить заказ
+        </button>
+    </div>
+</div>
