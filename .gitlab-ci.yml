@@ -25,6 +25,7 @@ build-code-job:  # задача с именем build-code-job
     - mkdir sausage-store-0.0.1  # создание директории, в которую копируются артефакты. Это нужно для организации удобной структуры архива
     - mv backend/target/sausage-store-0.0.1-SNAPSHOT.jar sausage-store-0.0.1/sausage-store-0.0.1.jar # копирование собранного бэкенда
     - mv frontend/dist/frontend sausage-store-0.0.1/public_html # копирование собранного фронтэнда
+
   artifacts:
     paths:
       - ${CI_PROJECT_DIR}/.m2/ # сохранение зависимостей для SAST 
@@ -32,6 +33,14 @@ build-code-job:  # задача с именем build-code-job
       - sausage-store-0.0.1/sausage-store-0.0.1.jar # сохранение собранного бэкенда как артефакт
     reports:
       dotenv: CI_JOB_ID.txt # сохранение файла с переменными как артефакт
+
+testing_job:
+  stage: test
+  script: 
+    - sonar-scanner \ 
+      -Dsonar.projectKey=parshin_sausage-store_AX5VY2NDWyGwrBh1KfJm \
+      -Dsonar.sources=. \
+      -Dsonar.host.url=${SONAR_URL} Dsonar.login=${SONAR_TOKEN}
 
 upload-release: # задача с именем upload-release
   stage: release # этап release
