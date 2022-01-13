@@ -39,6 +39,7 @@ upload-release: # задача с именем upload-release
       -T sausage-store-0.0.1.zip "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/sausage-store/${CI_COMMIT_SHA}/" 
 
 notification-slack:
+  # add this comment to show how I managed with issues =))
   stage: notification
   script:
     - 'curl -X POST -H "Content-type: application/json" --data "{\"text\":\"Pavel Parshin собрал release-0.0.1.\"}" https://hooks.slack.com/services/TPV9DP0N4/B02PSECK8JF/$MY_SLACK_TOKEN'
