@@ -33,6 +33,9 @@ build-code-job:  # задача с именем build-code-job
     reports:
       dotenv: CI_JOB_ID.txt # сохранение файла с переменными как артефакт
 
+testing:
+  stage: test
+
 upload-release: # задача с именем upload-release
   stage: release # этап release
   # only: # запуск этого шага только при изменениях в директориях backend и frontend
