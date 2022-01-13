@@ -1,7 +1,16 @@
 stages:
   - build
+  - test
   - release
-  - notification
+ # - notification
+
+include:
+  - template: Security/SAST.gitlab-ci.yml
+
+spotbugs-sast:
+  variables:
+    COMPILE: "false"
+    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository 
 
 build-code-job:  # задача с именем build-code-job
   stage: build   # этап build
@@ -18,6 +27,7 @@ build-code-job:  # задача с именем build-code-job
     - mv frontend/dist/frontend sausage-store-0.0.1/public_html # копирование собранного фронтэнда
   artifacts:
     paths:
+      - ${CI_PROJECT_DIR}/.m2/ # сохранение зависимостей для SAST 
       - sausage-store-0.0.1/public_html  # сохранение собранного фронтэнда как артефакт
       - sausage-store-0.0.1/sausage-store-0.0.1.jar # сохранение собранного бэкенда как артефакт
     reports:
@@ -38,8 +48,8 @@ upload-release: # задача с именем upload-release
       curl -sSL -H "JOB-TOKEN: ${CI_JOB_TOKEN}" 
       -T sausage-store-0.0.1.zip "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/sausage-store/${CI_COMMIT_SHA}/" 
 
-notification-slack:
+#notification-slack:
   # add this comment to show how I managed with issues =))
-  stage: notification
-  script:
-    - 'curl -X POST -H "Content-type: application/json" --data "{\"text\":\"Pavel Parshin собрал release-0.0.1.\"}" https://hooks.slack.com/services/TPV9DP0N4/B02PSECK8JF/$MY_SLACK_TOKEN'
+ # stage: notification
+ # script:
+ #   - 'curl -X POST -H "Content-type: application/json" --data "{\"text\":\"Pavel Parshin собрал release-0.0.1.\"}" https://hooks.slack.com/services/TPV9DP0N4/B02PSECK8JF/$MY_SLACK_TOKEN'
