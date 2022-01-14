@@ -62,7 +62,7 @@ sonarqube-check:
       - .sonar/cache
   script:
       - cd backend 
-      - mvn verify sonar:sonar -Dsonar.projectKey=parshin_sausage-store_AX5VY2NDWyGwrBh1KfJm -Dsonar.host.url=${SONAR_URL} -Dsonar.login=${SONAR_TOKEN}
+      - mvn verify sonar:sonar -Dsonar.projectKey=parshin_sausage-store_AX5VY2NDWyGwrBh1KfJm -Dsonar.host.url=${SONAR_URL} -Dsonar.login=${SONAR_TOKEN} -Dsonar.projectName=02_PARSHINPAVEL_BACKEND
   allow_failure: true
   only:
       - merge_requests
