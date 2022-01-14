@@ -61,10 +61,10 @@ sonarqube-check:
     paths:
       - .sonar/cache
   script:
-    cd backend 
-    - mvn verify sonar:sonar
+   - cd backend 
+    - mvn sonar:sonar \
      -Dsonar.projectKey=parshin_sausage-store_AX5VY2NDWyGwrBh1KfJm \
-      -Dsonar.host.url=${SONAR_URL} 
+      -Dsonar.host.url=${SONAR_URL} \
       -Dsonar.login=${SONAR_TOKEN}
   allow_failure: true
   only:
