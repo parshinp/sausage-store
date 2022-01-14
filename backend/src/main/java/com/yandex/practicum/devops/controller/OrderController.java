@@ -80,7 +80,7 @@ public class OrderController {
           .collect(Collectors.toList());
 
         if (!CollectionUtils.isEmpty(list)) {
-            new ResourceNotFoundException("Product not found");
+            throw new ResourceNotFoundException("Product not found");
         }
     }
 
