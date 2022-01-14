@@ -35,6 +35,7 @@ build-code-job:  # задача с именем build-code-job
       dotenv: CI_JOB_ID.txt # сохранение файла с переменными как артефакт
 
 sonarqube-check:
+  stage: test
   image: maven:3.8.2-openjdk-16
   variables:
     SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
@@ -45,9 +46,11 @@ sonarqube-check:
       - .sonar/cache
   script:
     cd backend 
-    - mvn verify sonar:sonar -Dsonar.qualitygate.wait=true
+    - mvn verify sonar:sonar
      -Dsonar.projectKey=parshin_sausage-store_AX5VY2NDWyGwrBh1KfJm \
-      -Dsonar.host.url=${SONAR_URL} Dsonar.login=${SONAR_TOKEN}
+      -Dsonar.host.url=${SONAR_URL} 
+      -Dsonar.login=${SONAR_TOKEN}
+
   allow_failure: true
   only:
     - merge_requests
