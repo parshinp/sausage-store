@@ -61,16 +61,13 @@ sonarqube-check:
     paths:
       - .sonar/cache
   script:
-   - cd backend 
-    - mvn sonar:sonar \
-     -Dsonar.projectKey=parshin_sausage-store_AX5VY2NDWyGwrBh1KfJm \
-      -Dsonar.host.url=${SONAR_URL} \
-      -Dsonar.login=${SONAR_TOKEN}
+      - cd backend 
+      - mvn sonar:sonar -Dsonar.projectKey=parshin_sausage-store_AX5VY2NDWyGwrBh1KfJm -Dsonar.host.url=${SONAR_URL} -Dsonar.login=${SONAR_TOKEN}
   allow_failure: true
   only:
-    - merge_requests
-    - main # or the name of your main branch
-    - develop
+      - merge_requests
+      - main # or the name of your main branch
+      - develop
 
 #notification-slack:
   # add this comment to show how I managed with issues =))
