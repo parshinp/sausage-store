@@ -2,7 +2,8 @@ stages:
   - build
   - test
   - release
-  - backend
+  - backend-check
+  - frontend-check
  # - notification
 
 include:
@@ -82,8 +83,8 @@ sonarqube-check-frontend:
     paths:
       - .sonar/cache
   script:
-    - cd frontend
-    - sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.projectKey=591acb99e84bd69ddbde30cadaf0fee228799d59 -Dsonar.host.url=https://sonarqube.praktikum-services.ru -Dsonar.login=591acb99e84bd69ddbde30cadaf0fee228799d59 -Dsonar.projectName=02_PAVELPARSHIN_FRONTEND
+      - cd frontend
+      - sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.projectKey=591acb99e84bd69ddbde30cadaf0fee228799d59 -Dsonar.host.url=https://sonarqube.praktikum-services.ru -Dsonar.login=591acb99e84bd69ddbde30cadaf0fee228799d59 -Dsonar.projectName=02_PAVELPARSHIN_FRONTEND
   allow_failure: true
   only:
     - merge_requests
