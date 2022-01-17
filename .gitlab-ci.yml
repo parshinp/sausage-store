@@ -20,7 +20,6 @@ build-code-job:  # задача с именем build-code-job
     - npm run build # запуск сборки кода
     - cd .. 
     - mkdir sausage-store-0.0.1  # создание директории, в которую копируются артефакты. Это нужно для организации удобной структуры архива
-    - ls /builds/parshin/sausage-store/backend/
     - mv backend/target/sausage-store-0.0.1-SNAPSHOT.jar sausage-store-0.0.1/sausage-store-0.0.1.jar # копирование собранного бэкенда
     #sausage-store-0.0.1/sausage-store-0.0.1.jar # копирование собранного бэкенда
     - mv frontend/dist/frontend sausage-store-0.0.1/public_html # копирование собранного фронтэнда
@@ -87,6 +86,8 @@ upload-release: # задача с именем upload-release
   #   - backend//*
   #   - frontend//*
   script:
+    - cd ../sausage-store-0.0.1
+    - zip -d sausage-store-0.0.1.zip ".m2/*"
     - echo "Get artifact from job ${ARTIFACT_JOB_ID}" 
     - > # скачивание артефакта в файл sausage-store-0.0.1.zip
       curl --location --output sausage-store-0.0.1.zip -H "PRIVATE-TOKEN: ${MY_TOKEN}" 
