@@ -49,11 +49,7 @@ sonarqube-check:
       - .sonar/cache
   script:
       - cd backend 
-      - mvn verify sonar:sonar \
-        -Dsonar.projectKey=parshin_sausage-store_AX5VY2NDWyGwrBh1KfJm \
-        -Dsonar.host.url=${SONAR_URL} \
-        -Dsonar.login=${SONAR_TOKEN} \
-        -Dsonar.projectName=02_PAVELPARSHIN_BACKEND
+      - mvn verify sonar:sonar -Dsonar.projectKey=parshin_sausage-store_AX5VY2NDWyGwrBh1KfJm -Dsonar.host.url=${SONAR_URL} -Dsonar.login=${SONAR_TOKEN} -Dsonar.projectName=02_PAVELPARSHIN_BACKEND
   allow_failure: true
   only:
       - merge_requests
@@ -74,12 +70,7 @@ sonarqube-check-frontend:
       - .sonar/cache
   script:
       - cd frontend
-      - sonar-scanner \
-        -Dsonar.qualitygate.wait=true \
-        -Dsonar.projectKey=591acb99e84bd69ddbde30cadaf0fee228799d59 \
-        -Dsonar.host.url=https://sonarqube.praktikum-services.ru \
-        -Dsonar.login=591acb99e84bd69ddbde30cadaf0fee228799d59 \
-        -Dsonar.projectName=02_PAVELPARSHIN_FRONTEND
+      - sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.projectKey=591acb99e84bd69ddbde30cadaf0fee228799d59 -Dsonar.host.url=https://sonarqube.praktikum-services.ru -Dsonar.login=591acb99e84bd69ddbde30cadaf0fee228799d59 -Dsonar.projectName=02_PAVELPARSHIN_FRONTEND
   allow_failure: true
   only:
     - merge_requests
@@ -92,8 +83,7 @@ upload-release: # задача с именем upload-release
   #   changes:
   #   - backend//*
   #   - frontend//*
-  script: 
-    - mv backend/sausage-store-0.0.1.jar sausage-store-0.0.1/sausage-store-0.0.1.jar
+  script:
     - echo "Get artifact from job ${ARTIFACT_JOB_ID}" 
     - > # скачивание артефакта в файл sausage-store-0.0.1.zip
       curl --location --output sausage-store-0.0.1.zip -H "PRIVATE-TOKEN: ${MY_TOKEN}" 
