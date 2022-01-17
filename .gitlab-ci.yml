@@ -34,7 +34,8 @@ build-code-job:  # задача с именем build-code-job
 
 spotbugs-sast:
   before_script:
-    - cp sausage-store-0.0.1/sausage-store-0.0.1.jar builds/parshin/sausage-store/backend/sausage-store-0.0.1.jar
+    - pwd
+    - cp sausage-store-0.0.1/sausage-store-0.0.1.jar backend/sausage-store-0.0.1.jar
   variables:
     COMPILE: "false"
     MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository 
