@@ -85,10 +85,12 @@ upload-release: # задача с именем upload-release
   #   changes:
   #   - backend//*
   #   - frontend//*
-  script:
+  before_script:
     - pwd
     - cd sausage-store-0.0.1
+    #- tar -czvf ./new.tar.gz --exclude='._*' @old.tar.gz
     - zip -d sausage-store-0.0.1.zip ".m2/*"
+  script:
     - echo "Get artifact from job ${ARTIFACT_JOB_ID}" 
     - > # скачивание артефакта в файл sausage-store-0.0.1.zip
       curl --location --output sausage-store-0.0.1.zip -H "PRIVATE-TOKEN: ${MY_TOKEN}" 
