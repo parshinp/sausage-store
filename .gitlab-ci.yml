@@ -1,9 +1,9 @@
 stages:
   - build
   - test
-  - release
   - backend-check
   - frontend-check
+  - release
  # - notification
 
 include:
