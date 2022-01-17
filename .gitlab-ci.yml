@@ -11,10 +11,6 @@ include:
 
 build-code-job:  # задача с именем build-code-job
   stage: build   # этап build
-  cache:
-    #key: project-cache
-    paths:
-      - ${CI_PROJECT_DIR}/.m2/ # сохранение зависимостей для SAST
   script:        # объявление скрипта
     - echo "ARTIFACT_JOB_ID=${CI_JOB_ID}" > CI_JOB_ID.txt  # сохранение номера задачи в файл, чтобы в дальнейшем использовать для копирования артефакта  
     - cd backend 
@@ -29,6 +25,7 @@ build-code-job:  # задача с именем build-code-job
     - mv frontend/dist/frontend sausage-store-0.0.1/public_html # копирование собранного фронтэнда
   artifacts:
     paths:
+      - ${CI_PROJECT_DIR}/.m2/ # сохранение зависимостей для SAST
       - sausage-store-0.0.1/public_html  # сохранение собранного фронтэнда как артефакт
       - sausage-store-0.0.1/sausage-store-0.0.1.jar # сохранение собранного бэкенда как артефакт
     reports:
