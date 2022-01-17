@@ -51,10 +51,10 @@ sonarqube-check:
       - .sonar/cache
   script:
       - cd backend 
-      - mvn verify sonar:sonar /
-        -Dsonar.projectKey=parshin_sausage-store_AX5VY2NDWyGwrBh1KfJm /
-        -Dsonar.host.url=${SONAR_URL} /
-        -Dsonar.login=${SONAR_TOKEN} /
+      - mvn verify sonar:sonar \
+        -Dsonar.projectKey=parshin_sausage-store_AX5VY2NDWyGwrBh1KfJm \
+        -Dsonar.host.url=${SONAR_URL} \
+        -Dsonar.login=${SONAR_TOKEN} \
         -Dsonar.projectName=02_PAVELPARSHIN_BACKEND
   allow_failure: true
   only:
@@ -76,11 +76,11 @@ sonarqube-check-frontend:
       - .sonar/cache
   script:
       - cd frontend
-      - sonar-scanner /
-        -Dsonar.qualitygate.wait=true /
-        -Dsonar.projectKey=591acb99e84bd69ddbde30cadaf0fee228799d59 /
-        -Dsonar.host.url=https://sonarqube.praktikum-services.ru /
-        -Dsonar.login=591acb99e84bd69ddbde30cadaf0fee228799d59 /
+      - sonar-scanner \
+        -Dsonar.qualitygate.wait=true \
+        -Dsonar.projectKey=591acb99e84bd69ddbde30cadaf0fee228799d59 \
+        -Dsonar.host.url=https://sonarqube.praktikum-services.ru \
+        -Dsonar.login=591acb99e84bd69ddbde30cadaf0fee228799d59 \
         -Dsonar.projectName=02_PAVELPARSHIN_FRONTEND
   allow_failure: true
   only:
