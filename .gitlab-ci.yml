@@ -9,17 +9,12 @@ stages:
 include:
   - template: Security/SAST.gitlab-ci.yml
 
-spotbugs-sast:
-  variables:
-    COMPILE: "false"
-    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository 
-  cache:
-    key: project-cache
-    paths:
-      - ${CI_PROJECT_DIR}/.m2/ # сохранение зависимостей для SAST 
-
 build-code-job:  # задача с именем build-code-job
   stage: build   # этап build
+  cache:
+    #key: project-cache
+    paths:
+      - ${CI_PROJECT_DIR}/.m2/ # сохранение зависимостей для SAST
   script:        # объявление скрипта
     - echo "ARTIFACT_JOB_ID=${CI_JOB_ID}" > CI_JOB_ID.txt  # сохранение номера задачи в файл, чтобы в дальнейшем использовать для копирования артефакта  
     - cd backend 
@@ -29,15 +24,20 @@ build-code-job:  # задача с именем build-code-job
     - npm run build # запуск сборки кода
     - cd .. 
     - mkdir sausage-store-0.0.1  # создание директории, в которую копируются артефакты. Это нужно для организации удобной структуры архива
-    - mv backend/target/sausage-store-0.0.1-SNAPSHOT.jar sausage-store-0.0.1/sausage-store-0.0.1.jar # копирование собранного бэкенда
+    - mv backend/target/sausage-store-0.0.1-SNAPSHOT.jar backend/sausage-store-0.0.1.jar
+    #sausage-store-0.0.1/sausage-store-0.0.1.jar # копирование собранного бэкенда
     - mv frontend/dist/frontend sausage-store-0.0.1/public_html # копирование собранного фронтэнда
   artifacts:
     paths:
-      - ${CI_PROJECT_DIR}/.m2/ # сохранение зависимостей для SAST 
       - sausage-store-0.0.1/public_html  # сохранение собранного фронтэнда как артефакт
       - sausage-store-0.0.1/sausage-store-0.0.1.jar # сохранение собранного бэкенда как артефакт
     reports:
       dotenv: CI_JOB_ID.txt # сохранение файла с переменными как артефакт
+
+spotbugs-sast:
+  variables:
+    COMPILE: "false"
+    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository 
 
 sonarqube-check:
   stage: backend-check
@@ -95,6 +95,7 @@ upload-release: # задача с именем upload-release
   #   - backend//*
   #   - frontend//*
   script: 
+    - mv backend/sausage-store-0.0.1.jar sausage-store-0.0.1/sausage-store-0.0.1.jar
     - echo "Get artifact from job ${ARTIFACT_JOB_ID}" 
     - > # скачивание артефакта в файл sausage-store-0.0.1.zip
       curl --location --output sausage-store-0.0.1.zip -H "PRIVATE-TOKEN: ${MY_TOKEN}" 
