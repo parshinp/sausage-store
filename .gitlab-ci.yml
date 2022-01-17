@@ -33,6 +33,7 @@ build-code-job:  # задача с именем build-code-job
     - mv frontend/dist/frontend sausage-store-0.0.1/public_html # копирование собранного фронтэнда
   artifacts:
     paths:
+      - ${CI_PROJECT_DIR}/.m2/ # сохранение зависимостей для SAST 
       - sausage-store-0.0.1/public_html  # сохранение собранного фронтэнда как артефакт
       - sausage-store-0.0.1/sausage-store-0.0.1.jar # сохранение собранного бэкенда как артефакт
     reports:
