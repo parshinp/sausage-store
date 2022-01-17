@@ -1,8 +1,8 @@
 stages:
   - build
   - test
-  - backend-check
-  - frontend-check
+  #- backend-check
+  #- frontend-check
   - release
  # - notification
 
@@ -40,8 +40,8 @@ spotbugs-sast:
     COMPILE: "false"
     MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository 
 
-sonarqube-check:
-  stage: backend-check
+sonarqube-check-backend:
+  stage: test
   image: maven:3.8.2-openjdk-16
   variables:
     SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
@@ -60,7 +60,7 @@ sonarqube-check:
       - develop
 
 sonarqube-check-frontend:
-  stage: frontend-check
+  stage: test
   image:
     name: sonarsource/sonar-scanner-cli:4.6
     entrypoint: [""]
