@@ -88,6 +88,7 @@ upload-release: # задача с именем upload-release
   before_script:
     - pwd
     - cd sausage-store-0.0.1
+    - apt-get install -y zip 
     #- tar -czvf ./new.tar.gz --exclude='._*' @old.tar.gz
     - zip -d sausage-store-0.0.1.zip ".m2/*"
   script:
