@@ -1,0 +1,35 @@
+configuration:
+  name: Default
+  properties:
+    property:
+      - name: report-path
+        value: $${env:REPORT_PATH}/
+  appenders:
+    Console:
+      PatternLayout:
+        pattern: '[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n'
+      name: Console-Appender
+      target: SYSTEM_OUT
+    RollingFile:
+      DefaultRolloverStrategy:
+        max: '5'
+      PatternLayout:
+        pattern: '[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n'
+      Policies:
+        SizeBasedTriggeringPolicy:
+          size: 1 KB
+      fileName: ${report-path}/report.txt
+      filePattern: ${report-path}/report.txt.%d{yyyy-MM-dd-hh-mm}.gz
+      name: RollingFile-Appender
+  loggers:
+    logger:
+      additivity: 'false'
+      appender-ref:
+        - level: info
+          ref: RollingFile-Appender
+      level: info
+      name: ReportGenerator
+    root:
+      appender-ref:
+        ref: Console-Appender
+      level: info
