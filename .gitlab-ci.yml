@@ -30,15 +30,15 @@ build-code-job:  # задача с именем build-code-job
   artifacts:
     paths:
       - ${CI_PROJECT_DIR}/.m2/ # сохранение зависимостей для SAST
-      - sausage-store-${VERSION}/public_html  # сохранение собранного фронтэнда как артефакт
-      - sausage-store-${VERSION}/sausage-store-${VERSION}.jar # сохранение собранного бэкенда как артефакт
+      - sausage-store-$VERSION/public_html  # сохранение собранного фронтэнда как артефакт
+      - sausage-store-$VERSION/sausage-store-$VERSION.jar # сохранение собранного бэкенда как артефакт
     reports:
       dotenv: CI_JOB_ID.txt # сохранение файла с переменными как артефакт
 
 spotbugs-sast:
   before_script:
     - pwd
-    - cp sausage-store-${VERSION}/sausage-store-${VERSION}.jar backend/sausage-store-${VERSION}.jar
+    - cp sausage-store-$VERSION/sausage-store-$VERSION.jar backend/sausage-store-$VERSION.jar
   variables:
     COMPILE: "false"
     MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository 
@@ -91,19 +91,19 @@ upload-release: # задача с именем upload-release
   #   - frontend//*
   before_script:
     - pwd
-    - cd sausage-store-${VERSION}
+    - cd sausage-store-$VERSION
     - ls
     - apt-get install -y zip 
     #- tar -czvf ./new.tar.gz --exclude='._*' @old.tar.gz
   script:
     - echo "Get artifact from job ${ARTIFACT_JOB_ID}" 
     - > # скачивание артефакта в файл sausage-store-0.0.1.zip
-      curl --location --output sausage-store-0.0.1.zip -H "PRIVATE-TOKEN: ${MY_TOKEN}" 
+      curl --location --output sausage-store-$VERSION.zip -H "PRIVATE-TOKEN: ${MY_TOKEN}" 
       "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/jobs/${ARTIFACT_JOB_ID}/artifacts"
-    - zip -d sausage-store-${VERSION} ".m2/*"
+    - zip -d sausage-store-$VERSION ".m2/*"
     - > # сохранение артефакта в package registry
       curl -sSL -H "JOB-TOKEN: ${CI_JOB_TOKEN}" 
-      -T sausage-store-${VERSION} "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/sausage-store/${CI_COMMIT_SHA}/" 
+      -T sausage-store-$VERSION "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/sausage-store/${CI_COMMIT_SHA}/" 
 
 #notification-slack:
   # add this comment to show how I managed with issues =))
