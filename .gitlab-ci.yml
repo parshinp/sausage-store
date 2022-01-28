@@ -22,11 +22,11 @@ build-code-job:  # задача с именем build-code-job
     - npm install # загрузка всех сторонних зависимостей
     - npm run build # запуск сборки кода
     - cd .. 
-    - mkdir sausage-store-\"$VERSION\"  #создание директории,в которую копируются артефакты. для организации удобной структуры архива
+    - mkdir sausage-store-$VERSION  #создание директории,в которую копируются артефакты. для организации удобной структуры архива
     - ls -la
-    - mv backend/target/sausage-store-"$VERSION".jar sausage-store-"$VERSION"/sausage-store-"$VERSION".jar # копирование собранного бэкенда
+    - mv backend/target/sausage-store-$VERSION.jar sausage-store-$VERSION/sausage-store-$VERSION.jar # копирование собранного бэкенда
     #sausage-store-0.0.1/sausage-store-0.0.1.jar
-    - mv frontend/dist/frontend sausage-store-"$VERSION"/public_html # копирование собранного фронтэнда
+    - mv frontend/dist/frontend sausage-store-$VERSION/public_html # копирование собранного фронтэнда
   artifacts:
     paths:
       - ${CI_PROJECT_DIR}/.m2/ # сохранение зависимостей для SAST
