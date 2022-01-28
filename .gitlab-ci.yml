@@ -1,3 +1,6 @@
+variables:
+  VERSION: 1.0.${CI_PIPELINE_ID}
+
 stages:
   - build
   - test
@@ -12,29 +15,30 @@ include:
 build-code-job:  # задача с именем build-code-job
   stage: build   # этап build
   script:        # объявление скрипта
-    - echo "ARTIFACT_JOB_ID=${CI_JOB_ID}" > CI_JOB_ID.txt  # сохранение номера задачи в файл, чтобы в дальнейшем использовать для копирования артефакта  
+    - echo "ARTIFACT_JOB_ID=${CI_JOB_ID}" > CI_JOB_ID.txt  # сохр номера задачи в файл,чтобы в дальнейшем использ. для копирования артефакта  
+    - mvn package -Dversion.application=${VERSION}
     - cd backend 
     - mvn package -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository # запуск сборки кода
     - cd ../frontend 
     - npm install # загрузка всех сторонних зависимостей
     - npm run build # запуск сборки кода
     - cd .. 
-    - mkdir sausage-store-0.0.1  # создание директории, в которую копируются артефакты. Это нужно для организации удобной структуры архива
-    - mv backend/target/sausage-store-0.0.1-SNAPSHOT.jar sausage-store-0.0.1/sausage-store-0.0.1.jar # копирование собранного бэкенда
-    #sausage-store-0.0.1/sausage-store-0.0.1.jar # копирование собранного бэкенда
-    - mv frontend/dist/frontend sausage-store-0.0.1/public_html # копирование собранного фронтэнда
+    - - mkdir sausage-store-${VERSION}  #создание директории,в которую копируются артефакты. для организации удобной структуры архива
+    - mv backend/target/sausage-store-${VERSION}.jar sausage-store-${VERSION}/sausage-store-${VERSION}.jar # копирование собранного бэкенда
+    #sausage-store-0.0.1/sausage-store-0.0.1.jar
+    - mv frontend/dist/frontend sausage-store-${VERSION}/public_html # копирование собранного фронтэнда
   artifacts:
     paths:
       - ${CI_PROJECT_DIR}/.m2/ # сохранение зависимостей для SAST
-      - sausage-store-0.0.1/public_html  # сохранение собранного фронтэнда как артефакт
-      - sausage-store-0.0.1/sausage-store-0.0.1.jar # сохранение собранного бэкенда как артефакт
+      - sausage-store-${VERSION}/public_html  # сохранение собранного фронтэнда как артефакт
+      - sausage-store-${VERSION}/sausage-store-${VERSION}.jar # сохранение собранного бэкенда как артефакт
     reports:
       dotenv: CI_JOB_ID.txt # сохранение файла с переменными как артефакт
 
 spotbugs-sast:
   before_script:
     - pwd
-    - cp sausage-store-0.0.1/sausage-store-0.0.1.jar backend/sausage-store-0.0.1.jar
+    - cp sausage-store-${VERSION}/sausage-store-${VERSION}.jar backend/sausage-store-${VERSION}.jar
   variables:
     COMPILE: "false"
     MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository 
@@ -87,7 +91,7 @@ upload-release: # задача с именем upload-release
   #   - frontend//*
   before_script:
     - pwd
-    - cd sausage-store-0.0.1
+    - cd sausage-store-${VERSION}
     - ls
     - apt-get install -y zip 
     #- tar -czvf ./new.tar.gz --exclude='._*' @old.tar.gz
@@ -96,10 +100,10 @@ upload-release: # задача с именем upload-release
     - > # скачивание артефакта в файл sausage-store-0.0.1.zip
       curl --location --output sausage-store-0.0.1.zip -H "PRIVATE-TOKEN: ${MY_TOKEN}" 
       "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/jobs/${ARTIFACT_JOB_ID}/artifacts"
-    - zip -d sausage-store-0.0.1.zip ".m2/*"
+    - zip -d sausage-store-${VERSION} ".m2/*"
     - > # сохранение артефакта в package registry
       curl -sSL -H "JOB-TOKEN: ${CI_JOB_TOKEN}" 
-      -T sausage-store-0.0.1.zip "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/sausage-store/${CI_COMMIT_SHA}/" 
+      -T sausage-store-${VERSION} "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/sausage-store/${CI_COMMIT_SHA}/" 
 
 #notification-slack:
   # add this comment to show how I managed with issues =))
