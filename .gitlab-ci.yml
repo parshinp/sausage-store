@@ -16,14 +16,13 @@ build-code-job:  # задача с именем build-code-job
   stage: build   # этап build
   script:        # объявление скрипта
     - echo "ARTIFACT_JOB_ID=${CI_JOB_ID}" > CI_JOB_ID.txt  # сохр номера задачи в файл,чтобы в дальнейшем использ. для копирования артефакта  
-    - mvn package -Dversion.application=${VERSION}
     - cd backend 
-    - mvn package -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository # запуск сборки кода
+    - mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository # запуск сборки кода
     - cd ../frontend 
     - npm install # загрузка всех сторонних зависимостей
     - npm run build # запуск сборки кода
     - cd .. 
-    - - mkdir sausage-store-${VERSION}  #создание директории,в которую копируются артефакты. для организации удобной структуры архива
+    - mkdir sausage-store-${VERSION}  #создание директории,в которую копируются артефакты. для организации удобной структуры архива
     - mv backend/target/sausage-store-${VERSION}.jar sausage-store-${VERSION}/sausage-store-${VERSION}.jar # копирование собранного бэкенда
     #sausage-store-0.0.1/sausage-store-0.0.1.jar
     - mv frontend/dist/frontend sausage-store-${VERSION}/public_html # копирование собранного фронтэнда
