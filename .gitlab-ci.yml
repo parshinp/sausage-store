@@ -39,8 +39,6 @@ spotbugs-sast:
   before_script:
     - cd sausage-store-$VERSION/
     - ls -la
-    - cd ../backend
-    - ls -la
     - pwd
     - cp sausage-store-$VERSION/sausage-store-$VERSION.jar backend/sausage-store-$VERSION.jar
   variables:
@@ -101,11 +99,11 @@ upload-release: # задача с именем upload-release
     #- tar -czvf ./new.tar.gz --exclude='._*' @old.tar.gz
   script:
     - echo "Get artifact from job ${ARTIFACT_JOB_ID}" 
-    - > # скачивание артефакта в файл sausage-store-0.0.1.zip
-      curl --location --output sausage-store-${VERSION}.zip -H "PRIVATE-TOKEN: ${MY_TOKEN}" 
+    - > # скачивание артефакта в файл sausage-store-$VERSION.zip
+      curl --location --output "sausage-store-$VERSION.zip" -H "PRIVATE-TOKEN: ${MY_TOKEN}" 
       "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/jobs/${ARTIFACT_JOB_ID}/artifacts"
     - ls -la
-    #- zip -d sausage-store-$VERSION ".m2/*"
+    - zip -d "sausage-store-$VERSION" ".m2/*"
     - > # сохранение артефакта в package registry
       curl -sSL -H "JOB-TOKEN: ${CI_JOB_TOKEN}" 
       -T "sausage-store-$VERSION.zip" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/sausage-store/${CI_COMMIT_SHA}/" 
