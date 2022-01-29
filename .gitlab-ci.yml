@@ -103,6 +103,7 @@ upload-release: # задача с именем upload-release
   script:
     - cd backend
     - pwd
+    - ls -la
     - mvn -e -s settings.xml deploy -DskipTests
     - tar czvf sausage-store-${VERSION}.tar.gz sausage-store-${VERSION}
     - >
