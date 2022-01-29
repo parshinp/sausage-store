@@ -43,7 +43,7 @@ spotbugs-sast:
     - pwd
     - ls -la
     - ls -la /builds/parshin/sausage-store/
-    - cp sausage-store-$VERSION.jar backend/sausage-store-$VERSION.jar
+    - cp sausage-store-$VERSION.jar /builds/parshin/sausage-store/backend/sausage-store-$VERSION.jar
   variables:
     COMPILE: "false"
     MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository 
@@ -103,7 +103,7 @@ upload-release: # задача с именем upload-release
   script:
     - echo "Get artifact from job ${ARTIFACT_JOB_ID}" 
     - > # скачивание артефакта в файл sausage-store-$VERSION.zip
-      curl --location --output sausage-store-$VERSION.zip -H "PRIVATE-TOKEN: ${MY_TOKEN}" 
+      curl --location --output sausage-store-test.zip -H "PRIVATE-TOKEN: ${MY_TOKEN}" 
       "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/jobs/${ARTIFACT_JOB_ID}/artifacts"
     - ls -la
     #- zip -d "sausage-store-$VERSION" ".m2/*"
