@@ -101,10 +101,11 @@ upload-release: # задача с именем upload-release
    # - apt-get install -y zip 
     #- tar -czvf ./new.tar.gz --exclude='._*' @old.tar.gz
   script:
-  #  - cd backend
-  #  - mvn -e -s settings.xml deploy -DskipTests
-  #  - tar czvf sausage-store-${VERSION}.tar.gz sausage-store-${VERSION}
-  #  - >
+    - cd backend
+    - pwd
+    - mvn -e -s settings.xml deploy -DskipTests
+    - tar czvf sausage-store-${VERSION}.tar.gz sausage-store-${VERSION}
+    - >
       curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file sausage-store-${VERSION}.tar.gz ${NEXUS_REPO_URL}/sausage-store-front/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz
    
     #- echo "Get artifact from job ${ARTIFACT_JOB_ID}" 
