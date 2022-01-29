@@ -105,6 +105,8 @@ upload-release: # задача с именем upload-release
     - pwd
     - ls -la
     - mvn -e -s settings.xml deploy -DskipTests
+    - cd ..
+    - pwd
     - tar czvf sausage-store-${VERSION}.tar.gz sausage-store-${VERSION}
     - >
       curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file sausage-store-${VERSION}.tar.gz ${NEXUS_REPO_URL}/sausage-store-front/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz
