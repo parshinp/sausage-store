@@ -102,7 +102,7 @@ upload-release: # задача с именем upload-release
     #- tar -czvf ./new.tar.gz --exclude='._*' @old.tar.gz
   script:
     - cd backend
-    - mvn -s settings.xml deploy -DskipTests
+    - mvn -e -s settings.xml deploy -DskipTests
     - tar czvf sausage-store-${VERSION}.tar.gz sausage-store-${VERSION}
     - >
       curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file sausage-store-${VERSION}.tar.gz ${NEXUS_REPO_URL}/sausage-store-front/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz
