@@ -96,6 +96,7 @@ upload-release: # задача с именем upload-release
     - > # скачивание артефакта в файл sausage-store-0.0.1.zip
       curl --location --output sausage-store-0.0.1.zip -H "PRIVATE-TOKEN: ${MY_TOKEN}" 
       "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/jobs/${ARTIFACT_JOB_ID}/artifacts"
+    - ls -la
     - zip -d sausage-store-0.0.1.zip ".m2/*"
     - > # сохранение артефакта в package registry
       curl -sSL -H "JOB-TOKEN: ${CI_JOB_TOKEN}" 
