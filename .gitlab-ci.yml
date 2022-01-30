@@ -113,7 +113,7 @@ upload-release: # задача с именем upload-release
     - tar czvf sausage-store-$VERSION.tar.gz sausage-store-$VERSION
     - ls -la
     - >
-    - 'curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file sausage-store-$VERSION.tar.gz https://nexus.praktikum-services.ru/repository/sausage-store-parshin-pavel-frontend/$VERSION/sausage-store-$VERSION.tar.gz'
+    - 'curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file sausage-store-$VERSION.tar.gz https://nexus.praktikum-services.ru/repository/sausage-store-parshin_pavel-frontend/$VERSION/sausage-store-$VERSION.tar.gz'
     
     # - echo ${NEXUS_REPO_USER}
     # - echo ${NEXUS_REPO_PASS}
