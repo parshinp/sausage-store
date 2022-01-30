@@ -91,11 +91,13 @@ sonarqube-check-frontend:
 
 upload-release: # задача с именем upload-release
   stage: release # этап release
+  # image: maven:3.6-jdk-11  
   # only: # запуск этого шага только при изменениях в директориях backend и frontend
   #   changes:
   #   - backend//*
   #   - frontend//*
   before_script:
+   - rm -rf ~/.m2/repository
    # - pwd
    # - cd sausage-store-$VERSION
    # - ls
