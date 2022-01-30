@@ -25,7 +25,8 @@ build-code-job:  # задача с именем build-code-job
     - echo ${CI_PROJECT_DIR} 
     - mkdir sausage-store-$VERSION  #создание директории,в которую копируются артефакты. для организации удобной структуры архива
     - ls -la
-    - mv backend/target/sausage-store-0.0.1-SNAPSHOT.jar sausage-store-$VERSION/sausage-store-$VERSION.jar # копирование собранного бэкенда
+    - ls -la /backend/target
+    - mv backend/target/sausage-store-0.0.1.jar sausage-store-$VERSION/sausage-store-$VERSION.jar # копирование собранного бэкенда
     #sausage-store-0.0.1/sausage-store-0.0.1.jar
     - mv frontend/dist/frontend sausage-store-$VERSION/public_html # копирование собранного фронтэнда
   artifacts:
