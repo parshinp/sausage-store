@@ -133,4 +133,4 @@ notification-slack:
   stage: notification
   script:
    - 'curl -X POST -H "Content-type: application/json" --data "{\"text\":\"Вышла новая версия сосисочной — $VERSION. Скачать фронт можно по ссылке — https://nexus.praktikum-services.ru/repository/sausage-store-parshin_pavel-frontend/$VERSION/sausage-store-$VERSION.tar.gz \"}" https://hooks.slack.com/services/TPV9DP0N4/B02PSECK8JF/$MY_SLACK_TOKEN'
-   - 'curl -X POST -H "Content-type: application/json" --data "{\"text\":\"Скачать бэкенд можно по ссылке — https://nexus.praktikum-services.ru/repository/sausage-store-parshin_pavel-backend/sausage-store/com/yandex/practicum/devops/sausage-store/$VERSION/sausage-store-$VERSION.jar \"}" https://hooks.slack.com/services/TPV9DP0N4/B02PSECK8JF/$MY_SLACK_TOKEN'
+   - 'curl -X POST -H "Content-type: application/json" --data "{\"text\":\"Скачать бэкенд можно по ссылке — https://nexus.praktikum-services.ru/repository/sausage-store-parshin-pavel-backend/sausage-store/com/yandex/practicum/devops/sausage-store/$VERSION/sausage-store-$VERSION.jar \"}" https://hooks.slack.com/services/TPV9DP0N4/B02PSECK8JF/$MY_SLACK_TOKEN'
