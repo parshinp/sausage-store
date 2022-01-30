@@ -106,13 +106,14 @@ upload-release: # задача с именем upload-release
     - ls -la
     - mvn -s settings.xml deploy -DskipTests
     - cd ..
-    - ls -la
+    - ls -laS
     - tar czvf sausage-store-$VERSION.tar.gz sausage-store-$VERSION
     - ls -la
     - >
     - 'curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file sausage-store-$VERSION.tar.gz https://nexus.praktikum-services.ru/repository/sausage-store-pavel-parshin-frontend/$VERSION/sausage-store-$VERSION.tar.gz'
-    - echo ${NEXUS_REPO_USER}
-    - echo ${NEXUS_REPO_PASS}
+    
+    # - echo ${NEXUS_REPO_USER}
+    # - echo ${NEXUS_REPO_PASS}
     
     #- echo "Get artifact from job ${ARTIFACT_JOB_ID}" 
     # - > # скачивание артефакта в файл sausage-store-$VERSION.zip
