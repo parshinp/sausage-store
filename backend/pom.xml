@@ -116,7 +116,6 @@
             </plugin>
         </plugins>
     </build>
-
 <distributionManagement>
   <repository>
        <id>sausage-store</id>
@@ -124,5 +123,4 @@
        <url>${env.NEXUS_REPO_URL}/sausage-store/</url>
    </repository>
 </distributionManagement>
-
 </project>
