@@ -91,7 +91,7 @@ sonarqube-check-frontend:
 
 upload-release: # задача с именем upload-release
   stage: release # этап release
-  # image: maven:3.6-jdk-11  
+  image: maven:3.6-jdk-11  
   # only: # запуск этого шага только при изменениях в директориях backend и frontend
   #   changes:
   #   - backend//*
