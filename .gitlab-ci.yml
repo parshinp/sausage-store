@@ -26,9 +26,9 @@ build-code-job:  # задача с именем build-code-job
     - mkdir sausage-store-$VERSION  #создание директории,в которую копируются артефакты. для организации удобной структуры архива
     - ls -la
     - ls -la /builds/parshin/sausage-store/backend/target
-    - mv backend/target/sausage-store-0.0.1-$VERSION.jar sausage-store-$VERSION/sausage-store-$VERSION.jar # копирование собранного бэкенда
+    - mv ${CI_PROJECT_DIR}/backend/target/sausage-store-0.0.1-$VERSION.jar sausage-store-$VERSION/sausage-store-$VERSION.jar # копирование собранного бэкенда
     #sausage-store-0.0.1/sausage-store-0.0.1.jar
-    - mv frontend/dist/frontend sausage-store-$VERSION/public_html # копирование собранного фронтэнда
+    - mv ${CI_PROJECT_DIR}/frontend/dist/frontend sausage-store-$VERSION/public_html # копирование собранного фронтэнда
   artifacts:
     paths:
       - ${CI_PROJECT_DIR}/.m2/ # сохранение зависимостей для SAST
