@@ -104,7 +104,7 @@ upload-release: # задача с именем upload-release
     - cd backend
     - pwd
     - ls -la
-    - mvn -s settings.xml deploy -DskipTests
+    - mvn -s settings.xml deploy -DskipTests -Dversion=$VERSION -Dpackaging=zip
     - cd ..
     - ls -laS
     - tar czvf sausage-store-$VERSION.tar.gz sausage-store-$VERSION
