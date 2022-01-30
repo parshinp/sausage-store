@@ -121,7 +121,7 @@
   <repository>
        <id>sausage-store</id>
        <name>sausage-store</name>
-       <url>https://nexus.praktikum-services.ru/repository/sausage-store-pavel-parshin-backend/sausage-store/</url>
+       <url>${env.NEXUS_REPO_URL}/sausage-store/</url>
    </repository>
 </distributionManagement>
 
