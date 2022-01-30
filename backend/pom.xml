@@ -120,7 +120,7 @@
   <repository>
        <id>sausage-store</id>
        <name>sausage-store</name>
-       <url>${env.NEXUS_REPO_URL_BACKEND}/sausage-store/</url>
+       <url>${env.NEXUS_REPO_URL_BACK}/sausage-store/</url>
    </repository>
  <snapshotRepository>
           <id>snapshots</id>
