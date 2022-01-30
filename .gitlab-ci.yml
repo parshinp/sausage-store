@@ -107,7 +107,8 @@ upload-release: # задача с именем upload-release
     - mvn -e -s settings.xml deploy -DskipTests
     - cd ..
     - ls -la
-    - tar czvf sausage-store-${VERSION}.tar.gz sausage-store-${VERSION}
+    - tar czvf sausage-store-$VERSION.tar.gz sausage-store-$VERSION
+    - ls -la
     - >
       curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file sausage-store-${VERSION}.tar.gz ${NEXUS_REPO_URL}/${VERSION}/sausage-store-${VERSION}.tar.gz
    
