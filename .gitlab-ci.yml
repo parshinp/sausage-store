@@ -4,8 +4,6 @@ variables:
 stages:
   - build
   - test
-  #- backend-check
-  #- frontend-check
   - release
   - notification
 
@@ -90,8 +88,7 @@ sonarqube-check-frontend:
     - develop
 
 upload-release: # задача с именем upload-release
-  stage: release # этап release
-  # image: maven:3.6-jdk-11  
+  stage: release # этап release 
   # only: # запуск этого шага только при изменениях в директориях backend и frontend
   #   changes:
   #   - backend//*
@@ -114,19 +111,6 @@ upload-release: # задача с именем upload-release
     - ls -la
     - >
     - 'curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file sausage-store-$VERSION.tar.gz https://nexus.praktikum-services.ru/repository/sausage-store-parshin_pavel-frontend/$VERSION/sausage-store-$VERSION.tar.gz'
-    
-    # - echo ${NEXUS_REPO_USER}
-    # - echo ${NEXUS_REPO_PASS}
-    
-    #- echo "Get artifact from job ${ARTIFACT_JOB_ID}" 
-    # - > # скачивание артефакта в файл sausage-store-$VERSION.zip
-    #  curl --location --output sausage-store-test.zip -H "PRIVATE-TOKEN: ${MY_TOKEN}" 
-    #  "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/jobs/${ARTIFACT_JOB_ID}/artifacts"
-    #- ls -la
-    #- zip -d "sausage-store-$VERSION" ".m2/*"
-    #- > # сохранение артефакта в package registry
-    #  curl -sSL -H "JOB-TOKEN: ${CI_JOB_TOKEN}" 
-    #  -T "sausage-store-$VERSION.zip" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/sausage-store/${CI_COMMIT_SHA}/" 
 
 notification-slack:
   # add this comment to show how I managed with issues =))
