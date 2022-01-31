@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.yandex.practicum.devops</groupId>
     <artifactId>sausage-store</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.${env.CI_PIPELINE_ID}</version>
     <name>sausage-store</name>
     <description>Backend for sausage-store</description>
     <properties>
@@ -116,5 +116,16 @@
             </plugin>
         </plugins>
     </build>
-
+<distributionManagement>
+  <repository>
+       <id>sausage-store</id>
+       <name>sausage-store</name>
+       <url>${env.NEXUS_REPO_URL_BACK}/sausage-store/</url>
+   </repository>
+ <snapshotRepository>
+          <id>snapshots</id>
+          <name>Snapshots</name>
+          <url>${env.NEXUS_REPO_URL}/snapshots/</url>
+</snapshotRepository>
+</distributionManagement>
 </project>
