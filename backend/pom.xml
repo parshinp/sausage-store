@@ -121,11 +121,19 @@
        <id>sausage-store</id>
        <name>sausage-store</name>
        <url>${env.NEXUS_REPO_URL_BACK}/sausage-store/</url>
+       <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+        </releases>
    </repository>
  <snapshotRepository>
           <id>snapshots</id>
           <name>Snapshots</name>
-          <url>${env.NEXUS_REPO_URL}/snapshots/</url>
-</snapshotRepository>
+          <url>${env.NEXUS_REPO_URL_SNAP}/snapshots/</url>
+          <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>daily</updatePolicy>
+        </snapshots>
+</snapshotRepository>      
 </distributionManagement>
 </project>
