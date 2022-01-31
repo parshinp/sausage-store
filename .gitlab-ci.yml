@@ -110,7 +110,7 @@ upload-release: # задача с именем upload-release
     - tar czvf sausage-store-$VERSION.tar.gz sausage-store-$VERSION
     - ls -la
     - >
-    - 'curl -v -u $NEXUS_REPO_USER:$NEXUS_REPO_PASS --upload-file sausage-store-$VERSION.tar.gz http://parshinp.ru:8081/repository/sausage-store-parshin-pavel-frontend/sausage-store-$VERSION.tar.gz'
+    - 'curl -v -u parshin:#Xotome4y --upload-file sausage-store-$VERSION.tar.gz http://parshinp.ru:8081/repository/sausage-store-parshin-pavel-frontend/sausage-store-$VERSION.tar.gz'
 
 #notification-slack:
   # add this comment to show how I managed with issues =))
