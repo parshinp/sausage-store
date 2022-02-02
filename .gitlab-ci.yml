@@ -80,7 +80,7 @@ sonarqube-check-frontend:
       - .sonar/cache
   script:
       - cd frontend
-      - sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.projectKey=591acb99e84bd69ddbde30cadaf0fee228799d59 -Dsonar.host.url=https://sonarqube.praktikum-services.ru -Dsonar.login=591acb99e84bd69ddbde30cadaf0fee228799d59 -Dsonar.projectName=02_PAVELPARSHIN_FRONTEND
+      - sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.projectKey=${SONAR_TOKEN} -Dsonar.host.url=https://sonarqube.praktikum-services.ru -Dsonar.login=${SONAR_TOKEN} -Dsonar.projectName=02_PAVELPARSHIN_FRONTEND
   allow_failure: true
   only:
     - merge_requests
@@ -94,7 +94,6 @@ upload-release: # задача с именем upload-release
   #   - backend//*
   #   - frontend//*
   before_script:
-   - rm -rf ~/.m2/repository
    # - pwd
    # - cd sausage-store-$VERSION
    # - ls
