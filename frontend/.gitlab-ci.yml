@@ -1,0 +1,31 @@
+variables:
+   VERSION: 1.0.${CI_PIPELINE_ID}
+
+stages:
+   - build
+   - release
+
+build:
+   stage: build
+   script:
+      - cd frontend
+      - npm install
+      - npm run build
+      - cd ..
+      - mkdir sausage-store-${VERSION}
+      - mv frontend/dist/frontend sausage-store-${VERSION}/public_html # копирование собранного фронтенда  
+   artifacts:
+      paths:
+         - sausage-store-${VERSION}/public_html
+   rules:
+      - changes:
+           - frontend/*
+
+release:
+   stage: release
+   script:
+      - tar czvf sausage-store-${VERSION}.tar.gz sausage-store-${VERSION}
+      - curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file sausage-store-$VERSION.tar.gz ${NEXUS_REPO_URL}/sausage-store-parshin_pavel-frontend/$VERSION/sausage-store-$VERSION.tar.gz
+   rules:
+      - changes:
+           - frontend/*

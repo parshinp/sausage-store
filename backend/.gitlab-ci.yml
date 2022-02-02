@@ -1,0 +1,26 @@
+variables:
+   VERSION: 1.0.${CI_PIPELINE_ID}
+   MAVEN_REPO_PATH: ./.m2/repository
+   JAVA_OPTS: -XX:MaxRAMPercentage=90
+
+stages:
+   - build
+   - release
+
+build:
+   stage: build
+   script:
+      - cd backend
+      - mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH}
+   rules:
+      - changes:
+           - backend/*
+
+release:
+   stage: release
+   script:
+      - cd backend
+      - mvn deploy -DskipTests -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH} -s settings.xml
+   rules:
+      - changes:
+           - backend/*
