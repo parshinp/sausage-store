@@ -140,8 +140,8 @@ before_script:
   - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
   - eval $(ssh-agent -s)
   - apt-get install -y net-tools && apt-get install -y iputils-ping
-  - ifconfig
-  - ping -4 -c 5 62.84.124.218
+#  - ifconfig
+#  - ping -4 -c 5 62.84.124.218
   #сохраняем сгенеренный ранее приватный ключ для раннера
   - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
   - mkdir -p ~/.ssh
