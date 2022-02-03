@@ -11,8 +11,8 @@ stages:
   - module-pipelines
   - deploy
 
-include:
-  - template: Security/SAST.gitlab-ci.yml
+#include:
+#  - template: Security/SAST.gitlab-ci.yml
 
 #build-code-job:  # задача с именем build-code-job
 #  stage: build   # этап build
@@ -63,7 +63,7 @@ include:
 #      - .sonar/cache
 #  script:
 #      - cd backend 
-#      - mvn verify sonar:sonar -Dsonar.projectKey=parshin_sausage-store_AX5VY2NDWyGwrBh1KfJm -Dsonar.host.url=${SONAR_URL} -Dsonar.login=$#{SONAR_TOKEN} -Dsonar.projectName=02_PAVELPARSHIN_BACKEND
+#      - mvn verify sonar:sonar -Dsonar.projectKey=parshin_sausage-store_AX5VY2NDWyGwrBh1KfJm -Dsonar.host.url=${SONAR_URL} -Dsonar.login=${SONAR_TOKEN} -Dsonar.projectName=02_PAVELPARSHIN_BACKEND
 #  allow_failure: true
 #  only:
 #      - merge_requests
