@@ -147,6 +147,7 @@ before_script:
 deploy:
   stage: deploy
   script:
+     - ip ad
      #выполняем простую команду для проверки
      - ssh ${DEV_USER}@${DEV_HOST} "id"
 
