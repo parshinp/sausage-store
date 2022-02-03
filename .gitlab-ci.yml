@@ -151,7 +151,7 @@ deploy:
   stage: deploy
   script:
      #выполняем простую команду для проверки
-     - ssh ${DEV_USER}@${DEV_HOST} "id"
+     - ssh student:62.84.124.218 "id"
 
 #notification-slack:
   # add this comment to show how I managed with issues =))
