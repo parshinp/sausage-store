@@ -13,14 +13,13 @@ build:
       - npm run build
       - cd ..
       - mkdir sausage-store-${VERSION}
-      - mv frontend/dist/frontend sausage-store-${VERSION}/public_html # копирование собранного фронтенда  
+      - mv ${CI_PROJECT_DIR}/frontend/dist/frontend sausage-store-$VERSION/public_html # копирование собранного фронтэнда  
    artifacts:
       paths:
          - sausage-store-${VERSION}/public_html
    rules:
       - changes:
            - frontend/*
-
 release:
    stage: release
    script:
