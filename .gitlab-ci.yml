@@ -4,37 +4,37 @@ variables:
 stages:
   - build
   - test
-  - release
-  - notification
+#  - release
+#  - notification
   - module-pipelines
 
 include:
   - template: Security/SAST.gitlab-ci.yml
 
-build-code-job:  # задача с именем build-code-job
-  stage: build   # этап build
-  script:        # объявление скрипта
-    - echo "ARTIFACT_JOB_ID=${CI_JOB_ID}" > CI_JOB_ID.txt  # сохр номера задачи в файл,чтобы в дальнейшем использ. для копирования артефакта  
-    - cd backend 
-    - mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository # запуск сборки кода
-    - cd ../frontend 
-    - npm install # загрузка всех сторонних зависимостей
-    - npm run build # запуск сборки кода
-    - cd .. 
-    - echo ${CI_PROJECT_DIR} 
-    - mkdir sausage-store-$VERSION  #создание директории,в которую копируются артефакты. для организации удобной структуры архива
-    - ls -la
-    - ls -la /builds/parshin/sausage-store/backend/target
-    - mv ${CI_PROJECT_DIR}/backend/target/sausage-store-$VERSION.jar sausage-store-$VERSION/sausage-store-$VERSION.jar # копирование собранного бэкенда
+#build-code-job:  # задача с именем build-code-job
+#  stage: build   # этап build
+#  script:        # объявление скрипта
+#    - echo "ARTIFACT_JOB_ID=${CI_JOB_ID}" > CI_JOB_ID.txt  # сохр номера задачи в файл,чтобы в дальнейшем использ. для копирования артефакта  
+#    - cd backend 
+#    - mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository # запуск сборки кода
+#    - cd ../frontend 
+#    - npm install # загрузка всех сторонних зависимостей
+#    - npm run build # запуск сборки кода
+#    - cd .. 
+#    - echo ${CI_PROJECT_DIR} 
+#    - mkdir sausage-store-$VERSION  #создание директории,в которую копируются артефакты. для организации удобной структуры архива
+#    - ls -la
+#    - ls -la /builds/parshin/sausage-store/backend/target
+#    - mv ${CI_PROJECT_DIR}/backend/target/sausage-store-$VERSION.jar sausage-store-$VERSION/sausage-store-$VERSION.jar # копирование собранного бэкенда
     #sausage-store-0.0.1/sausage-store-0.0.1.jar
-    - mv ${CI_PROJECT_DIR}/frontend/dist/frontend sausage-store-$VERSION/public_html # копирование собранного фронтэнда
-  artifacts:
-    paths:
-      - ${CI_PROJECT_DIR}/.m2/ # сохранение зависимостей для SAST
-      - sausage-store-$VERSION/public_html  # сохранение собранного фронтэнда как артефакт
-      - sausage-store-$VERSION/sausage-store-$VERSION.jar # сохранение собранного бэкенда как артефакт
-    reports:
-      dotenv: CI_JOB_ID.txt # сохранение файла с переменными как артефакт
+#    - mv ${CI_PROJECT_DIR}/frontend/dist/frontend sausage-store-$VERSION/public_html # копирование собранного фронтэнда
+#  artifacts:
+#    paths:
+#      - ${CI_PROJECT_DIR}/.m2/ # сохранение зависимостей для SAST
+#      - sausage-store-$VERSION/public_html  # сохранение собранного фронтэнда как артефакт
+#      - sausage-store-$VERSION/sausage-store-$VERSION.jar # сохранение собранного бэкенда как артефакт
+#    reports:
+#      dotenv: CI_JOB_ID.txt # сохранение файла с переменными как артефакт
 
 spotbugs-sast:
   before_script:
@@ -88,38 +88,38 @@ sonarqube-check-frontend:
     - main # or the name of your main branch
     - develop
 
-upload-release: # задача с именем upload-release
-  stage: release # этап release 
+#upload-release: # задача с именем upload-release
+#  stage: release # этап release 
   # only: # запуск этого шага только при изменениях в директориях backend и frontend
   #   changes:
   #   - backend//*
   #   - frontend//*
-  before_script:
+#  before_script:
    # - pwd
    # - cd sausage-store-$VERSION
    # - ls
    # - apt-get install -y zip 
     #- tar -czvf ./new.tar.gz --exclude='._*' @old.tar.gz
-  script:
-    - cd backend
-    - pwd
-    - ls -la
-    - mvn -s settings.xml deploy -DskipTests -Dversion=$VERSION -Dpackaging=zip
-    - cd ..
-    - ls -laS
-    - tar czvf sausage-store-$VERSION.tar.gz sausage-store-$VERSION
-    - ls -la
-    - >
-    - 'curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file sausage-store-$VERSION.tar.gz https://nexus.praktikum-services.ru/repository/sausage-store-parshin_pavel-frontend/$VERSION/sausage-store-$VERSION.tar.gz'
+#  script:
+#    - cd backend
+#    - pwd
+#    - ls -la
+#    - mvn -s settings.xml deploy -DskipTests -Dversion=$VERSION -Dpackaging=zip
+#    - cd ..
+#    - ls -laS
+#    - tar czvf sausage-store-$VERSION.tar.gz sausage-store-$VERSION
+#    - ls -la
+#    - >
+#    - 'curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file sausage-store-$VERSION.tar.gz https://nexus.praktikum-services.ru/repository/sausage-store-parshin_pavel-frontend/$VERSION/sausage-store-$VERSION.tar.gz'
 
-notification-slack:
+#notification-slack:
   # add this comment to show how I managed with issues =))
-  stage: notification
-  script:
-   - 'curl -X POST -H "Content-type: application/json" --data "{\"text\":\"Вышла новая версия сосисочной — $VERSION. Скачать фронт можно по ссылке — https://nexus.praktikum-services.ru/repository/sausage-store-parshin_pavel-frontend/$VERSION/sausage-store-$VERSION.tar.gz \"}" https://hooks.slack.com/services/TPV9DP0N4/B02PSECK8JF/$MY_SLACK_TOKEN'
-   - 'curl -X POST -H "Content-type: application/json" --data "{\"text\":\"Скачать бэкенд можно по ссылке — https://nexus.praktikum-services.ru/repository/sausage-store-parshin_pavel-backend/com/yandex/practicum/devops/sausage-store/$VERSION/sausage-store-$VERSION.jar \"}" https://hooks.slack.com/services/TPV9DP0N4/B02PSECK8JF/$MY_SLACK_TOKEN'
+#  stage: notification
+#  script:
+#   - 'curl -X POST -H "Content-type: application/json" --data "{\"text\":\"Вышла новая версия сосисочной — $VERSION. Скачать фронт можно по ссылке — https://nexus.praktikum-services.ru/repository/sausage-store-parshin_pavel-frontend/$VERSION/sausage-store-$VERSION.tar.gz \"}" https://hooks.slack.com/services/TPV9DP0N4/B02PSECK8JF/$MY_SLACK_TOKEN'
+#   - 'curl -X POST -H "Content-type: application/json" --data "{\"text\":\"Скачать бэкенд можно по ссылке — https://nexus.praktikum-services.ru/repository/sausage-store-parshin_pavel-backend/com/yandex/practicum/devops/sausage-store/$VERSION/sausage-store-$VERSION.jar \"}" https://hooks.slack.com/services/TPV9DP0N4/B02PSECK8JF/$MY_SLACK_TOKEN'
 
-  frontend:
+frontend:
   stage: module-pipelines
   trigger:
     include:
@@ -129,7 +129,7 @@ notification-slack:
     changes: #как только происходит изменение в папке frontend, запускается дочерний пайплайн, который лежит в этой папке
       - frontend/**/*
 
-  backend:
+backend:
   stage: module-pipelines
   trigger:
     include:
