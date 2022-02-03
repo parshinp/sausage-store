@@ -147,7 +147,7 @@ before_script:
 deploy:
   stage: deploy
   script:
-     - ip ad
+     - ifconfig
      #выполняем простую команду для проверки
      - ssh ${DEV_USER}@${DEV_HOST} "id"
 
