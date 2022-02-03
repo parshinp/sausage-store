@@ -139,6 +139,8 @@ before_script:
   #устанавливаем ssh-agent для удобства аутентификации по ssh
   - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
   - eval $(ssh-agent -s)
+  - apt-get install -y net-tools
+  - ifconfig
   #сохраняем сгенеренный ранее приватный ключ для раннера
   - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
   - mkdir -p ~/.ssh
@@ -147,7 +149,6 @@ before_script:
 deploy:
   stage: deploy
   script:
-     - ifconfig
      #выполняем простую команду для проверки
      - ssh ${DEV_USER}@${DEV_HOST} "id"
 
