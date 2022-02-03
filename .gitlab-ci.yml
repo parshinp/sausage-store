@@ -156,7 +156,9 @@ deploy:
      - ssh ${DEV_USER}@${DEV_HOST}
      - curl -u ${NEXUS_REPO_USER}:${NEXUS_REPO_PASS} -o sausage-store-${VERSION}.jar https://nexus.praktikum-services.ru/sausage-store-parshin_pavel-backend/com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.jar
      - sleep 10
- # запускаем бэкенд  
+ # запускаем бэкенд
+     - pwd
+     - ls -la  
      - java -jar sausage-store-${VERSION}.jar & 
 
 #notification-slack:
