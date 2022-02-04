@@ -29,7 +29,7 @@ before_script:
   - chmod 600 ~/.ssh
   - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
   - chmod 644 ~/.ssh/known_hosts
-  - ssh ${DEV_USER}@${DEV_HOST} "id" && "ls -la ~/" && "cd /home/student/projects/sausage-store/frontend" && "npm install" && "npm run build" && "npm install -g http-server"
+  - ssh ${DEV_USER}@${DEV_HOST} "id" && "ls -la /home/student/" && "cd /home/student/projects/sausage-store/frontend" && "npm install" && "npm run build" && "npm install -g http-server"
 
 release:
    stage: release
