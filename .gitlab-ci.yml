@@ -1,17 +1,18 @@
 variables:
-  VERSION: 1.0.${CI_PIPELINE_ID}
+  VERSION: 1.0.22215
 
 stages:
 #  - build
-  - test
+#  - test
   - frontend
   - backend
 #  - release
 #  - notification
   - module-pipelines
+  - deploy
 
-include:
-  - template: Security/SAST.gitlab-ci.yml
+#include:
+#  - template: Security/SAST.gitlab-ci.yml
 
 #build-code-job:  # задача с именем build-code-job
 #  stage: build   # этап build
@@ -38,57 +39,57 @@ include:
 #    reports:
 #      dotenv: CI_JOB_ID.txt # сохранение файла с переменными как артефакт
 
-spotbugs-sast:
-  before_script:
-    - cd sausage-store-$VERSION/
-    - ls -la
-    - pwd
-    - ls -la
-    - ls -la /builds/parshin/sausage-store/
-    - cp sausage-store-$VERSION.jar /builds/parshin/sausage-store/backend/sausage-store-$VERSION.jar
-  variables:
-    COMPILE: "false"
-    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository 
+#spotbugs-sast:
+#  before_script:
+#    - cd sausage-store-$VERSION/
+#    - ls -la
+#    - pwd
+#    - ls -la
+#    - ls -la /builds/parshin/sausage-store/
+#    - cp sausage-store-$VERSION.jar /builds/parshin/sausage-store/backend/sausage-store-$VERSION.jar
+#  variables:
+#    COMPILE: "false"
+#    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository 
 
-sonarqube-check-backend:
-  stage: test
-  image: maven:3.8.2-openjdk-16
-  variables:
-    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
-    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
-  cache:
-    key: "${CI_JOB_NAME}"
-    paths:
-      - .sonar/cache
-  script:
-      - cd backend 
-      - mvn verify sonar:sonar -Dsonar.projectKey=parshin_sausage-store_AX5VY2NDWyGwrBh1KfJm -Dsonar.host.url=${SONAR_URL} -Dsonar.login=${SONAR_TOKEN} -Dsonar.projectName=02_PAVELPARSHIN_BACKEND
-  allow_failure: true
-  only:
-      - merge_requests
-      - main # or the name of your main branch
-      - develop
+#sonarqube-check-backend:
+#  stage: test
+#  image: maven:3.8.2-openjdk-16
+#  variables:
+#    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+#    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+#  cache:
+#    key: "${CI_JOB_NAME}"
+#    paths:
+#      - .sonar/cache
+#  script:
+#      - cd backend 
+#      - mvn verify sonar:sonar -Dsonar.projectKey=parshin_sausage-store_AX5VY2NDWyGwrBh1KfJm -Dsonar.host.url=${SONAR_URL} -Dsonar.login=${SONAR_TOKEN} -Dsonar.projectName=02_PAVELPARSHIN_BACKEND
+#  allow_failure: true
+#  only:
+#      - merge_requests
+#      - main # or the name of your main branch
+#      - develop
 
-sonarqube-check-frontend:
-  stage: test
-  image:
-    name: sonarsource/sonar-scanner-cli:4.6
-    entrypoint: [""]
-  variables:
-    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
-    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
-  cache:
-    key: "${CI_JOB_NAME}"
-    paths:
-      - .sonar/cache
-  script:
-      - cd frontend
-      - sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.projectKey=${SONAR_TOKEN} -Dsonar.host.url=https://sonarqube.praktikum-services.ru -Dsonar.login=${SONAR_TOKEN} -Dsonar.projectName=02_PAVELPARSHIN_FRONTEND
-  allow_failure: true
-  only:
-    - merge_requests
-    - main # or the name of your main branch
-    - develop
+#sonarqube-check-frontend:
+#  stage: test
+#  image:
+#    name: sonarsource/sonar-scanner-cli:4.6
+#    entrypoint: [""]
+#  variables:
+#    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+#    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+#  cache:
+#    key: "${CI_JOB_NAME}"
+#    paths:
+#      - .sonar/cache
+#  script:
+#      - cd frontend
+#      - sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.projectKey=${SONAR_TOKEN} -Dsonar.host.url=https://sonarqube.praktikum-services.ru -Dsonar.login=${SONAR_TOKEN} -Dsonar.projectName=02_PAVELPARSHIN_FRONTEND
+#  allow_failure: true
+#  only:
+#    - merge_requests
+#    - main # or the name of your main branch
+#    - develop
 
 #upload-release: # задача с именем upload-release
 #  stage: release # этап release 
@@ -133,6 +134,32 @@ backend:
   only:
     changes:  #как только происходит изменение в папке backend, запускается дочерний пайплайн, который лежит в этой папке
       - backend/**/*
+
+before_script:
+  #устанавливаем ssh-agent для удобства аутентификации по ssh
+  - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+  - eval $(ssh-agent -s)
+  - apt-get install -y net-tools && apt-get install -y iputils-ping
+  - ifconfig
+  - ping -4 -c 2 62.84.124.218
+  #сохраняем сгенеренный ранее приватный ключ для раннера
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+  - mkdir -p ~/.ssh
+  - chmod 600 ~/.ssh
+  - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
+
+deploy:
+  stage: deploy
+  script:
+     #выполняем простую команду для проверки
+     - ssh ${DEV_USER}@${DEV_HOST}
+     - curl -u ${NEXUS_REPO_USER}:${NEXUS_REPO_PASS} -o sausage-store-${VERSION}.jar https://nexus.praktikum-services.ru/sausage-store-parshin_pavel-backend/com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.jar
+     - sleep 10
+ # запускаем бэкенд
+     - pwd
+     - ls -la  
+     - java -jar sausage-store-${VERSION}.jar & 
 
 #notification-slack:
   # add this comment to show how I managed with issues =))
