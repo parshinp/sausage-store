@@ -5,6 +5,7 @@ stages:
    - build-frontend
    - test
    - release-frontend
+   - deploy-frontend
 
 build:
    stage: build-frontend
@@ -43,6 +44,15 @@ sonarqube-check-frontend:
     - main # or the name of your main branch
     - develop
 
+release:
+   stage: release-frontend
+   script:
+      - tar czvf sausage-store-${VERSION}.tar.gz sausage-store-${VERSION}
+      - curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file sausage-store-$VERSION.tar.gz ${NEXUS_REPO_URL}/sausage-store-parshin_pavel-frontend/$VERSION/sausage-store-$VERSION.tar.gz
+   rules:
+      - changes:
+           - frontend/*
+
 before_script:
   - 'command -v ssh-agent >/dev/null || (apt-get update -y && apt-get install openssh-client -y)'
   - eval $(ssh-agent -s)
@@ -53,11 +63,14 @@ before_script:
   - chmod 644 ~/.ssh/known_hosts
   - ssh ${DEV_USER}@${DEV_HOST} "cd /var/www-data && sudo npm install && sudo npm run build && sudo npm install -g http-server"
 
-release:
-   stage: release-frontend
-   script:
-      - tar czvf sausage-store-${VERSION}.tar.gz sausage-store-${VERSION}
-      - curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file sausage-store-$VERSION.tar.gz ${NEXUS_REPO_URL}/sausage-store-parshin_pavel-frontend/$VERSION/sausage-store-$VERSION.tar.gz
-   rules:
+deploy:
+  stage: deploy-frontend
+  script:
+    - pwd
+    - cd frontend 
+    - ls -la
+    - scp sausage-store-frontend.service ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/sausage-store-frontend.service
+    - ssh ${DEV_USER}@${DEV_HOST} "export "CURRENT_VERSION=${VERSION}"; export "VERSION=${VERSION}"; export "DEV_HOST=${DEV_HOST}"; export "NEXUS_REPO_URL=${NEXUS_REPO_URL}"; export "NEXUS_REPO_USER=${NEXUS_REPO_USER}"; export "NEXUS_REPO_PASS=${NEXUS_REPO_PASS}"; setsid /home/student/projects/sausage-store/frontend/deploy.sh"
+  rules:
       - changes:
            - frontend/*
