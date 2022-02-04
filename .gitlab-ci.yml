@@ -137,17 +137,17 @@ backend:
 
 before_script:
   #устанавливаем ssh-agent для удобства аутентификации по ssh
-  - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
-  - eval $(ssh-agent -s)
-  - apt-get install -y net-tools && apt-get install -y iputils-ping
-  - ifconfig
-  - ping -4 -c 2 62.84.124.218
+#  - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+#  - eval $(ssh-agent -s)
+#  - apt-get install -y net-tools && apt-get install -y iputils-ping
+#  - ifconfig
+#  - ping -4 -c 2 62.84.124.218
   #сохраняем сгенеренный ранее приватный ключ для раннера
-  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-  - mkdir -p ~/.ssh
-  - chmod 600 ~/.ssh
-  - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
-  - chmod 644 ~/.ssh/known_hosts
+#  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+#  - mkdir -p ~/.ssh
+#  - chmod 600 ~/.ssh
+#  - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+#  - chmod 644 ~/.ssh/known_hosts
 
 #deploy:
 #  stage: deploy
