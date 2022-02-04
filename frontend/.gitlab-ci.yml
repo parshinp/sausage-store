@@ -29,7 +29,7 @@ before_script:
   - chmod 600 ~/.ssh
   - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
   - chmod 644 ~/.ssh/known_hosts
-  - ssh ${DEV_USER}@${DEV_HOST} "cd /var/www-data && sudo npm install && npm run build && npm install -g http-server"
+  - ssh ${DEV_USER}@${DEV_HOST} "cd /var/www-data && sudo npm install && sudo npm run build && sudo npm install -g http-server"
 
 release:
    stage: release-frontend
