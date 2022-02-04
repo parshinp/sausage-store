@@ -1,12 +1,13 @@
 variables:
    VERSION: 1.0.${CI_PIPELINE_ID}
-#
+#########
 stages:
-   - build
-   - release
+   - build-frontend
+   - test
+   - release-frontend
 
 build:
-   stage: build
+   stage: build-frontend
    script:
       - cd frontend
       - npm install
@@ -20,8 +21,40 @@ build:
    rules:
       - changes:
            - frontend/*
+
+sonarqube-check-frontend:
+  stage: test
+  image:
+    name: sonarsource/sonar-scanner-cli:4.6
+    entrypoint: [""]
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script:
+      - cd frontend
+      - sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.projectKey=${SONAR_TOKEN} -Dsonar.host.url=https://sonarqube.praktikum-services.ru -Dsonar.login=${SONAR_TOKEN} -Dsonar.projectName=02_PAVELPARSHIN_FRONTEND
+  allow_failure: true
+  only:
+    - merge_requests
+    - main # or the name of your main branch
+    - develop
+
+before_script:
+  - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+  - mkdir -p ~/.ssh
+  - chmod 600 ~/.ssh
+  - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
+  - ssh ${DEV_USER}@${DEV_HOST} "cd /var/www-data && sudo npm install && sudo npm run build && sudo npm install -g http-server"
+
 release:
-   stage: release
+   stage: release-frontend
    script:
       - tar czvf sausage-store-${VERSION}.tar.gz sausage-store-${VERSION}
       - curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file sausage-store-$VERSION.tar.gz ${NEXUS_REPO_URL}/sausage-store-parshin_pavel-frontend/$VERSION/sausage-store-$VERSION.tar.gz
