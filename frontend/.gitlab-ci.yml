@@ -2,11 +2,11 @@ variables:
    VERSION: 1.0.${CI_PIPELINE_ID}
 ###
 stages:
-   - build
-   - release
+   - build-frontend
+   - release-frontend
 
 build:
-   stage: build
+   stage: build-frontend
    script:
       - cd frontend
       - npm install
@@ -32,7 +32,7 @@ before_script:
   - ssh ${DEV_USER}@${DEV_HOST} "id" && "ls -la /home/student/" && "cd /home/student/projects/sausage-store/frontend" && "npm install" && "npm run build" && "npm install -g http-server"
 
 release:
-   stage: release
+   stage: release-frontend
    script:
       - tar czvf sausage-store-${VERSION}.tar.gz sausage-store-${VERSION}
       - curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file sausage-store-$VERSION.tar.gz ${NEXUS_REPO_URL}/sausage-store-parshin_pavel-frontend/$VERSION/sausage-store-$VERSION.tar.gz
