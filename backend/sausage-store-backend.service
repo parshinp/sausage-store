@@ -1,19 +1,22 @@
-Unit]
-Description=Sausage-store
+[Unit]
+Description=Sausage store
+After=syslog.target network.target
 
 [Service]
-User=jarservice
-Environment=REPORT_PATH=/log/reports
-Environment=LOG_PATH=/log
-StandardOutput=file:/log/out.log
-Restart=always
-ExecStart=/usr/bin/java \
--Dmyserver.basePath='/home/student/' \
--Dmyserver.bindAddr='127.0.0.1' \
--Dmyserver.bindPort='8080' \
--Dmyserver.hostName='Sausage-store' \
--jar '/home/student/sausage-store.jar'
 SuccessExitStatus=143
+
+User=student
+Type=simple
+
+StandardError=append:/log/err.log
+StandardOutput=append:/log/events.log
+Environment="REPORT_PATH=/log/reports/"
+Environment="LOG_PATH=/log/"
+Restart=always
+
+Environment="LOGGING_LEVEL_ROOT=INFO"
+ExecStart=java -jar /home/student/sausage-store.jar
 
 [Install]
 WantedBy=multi-user.target
+
