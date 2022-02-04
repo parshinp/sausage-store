@@ -3,7 +3,7 @@ variables:
 #########
 stages:
    - build-frontend
-   - sonarqube-check-frontend
+   - test
    - release-frontend
 
 build:
