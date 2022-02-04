@@ -4,12 +4,12 @@ variables:
 # ##  JAVA_OPTS: -XX:MaxRAMPercentage=90
 
 stages:
-   - build
-   - release
-   - deploy
+   - build-backend
+   - release-backend
+   - deploy-backend
 
 build:
-   stage: build
+   stage: build-backend
    script:
       - cd backend
       - mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH}
@@ -18,7 +18,7 @@ build:
            - backend/*
 
 release:
-   stage: release
+   stage: release-backend
    script:
     - cd backend
     - mvn deploy -DskipTests -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH} -s settings.xml
@@ -35,7 +35,7 @@ before_script:
   - ssh ${DEV_USER}@${DEV_HOST} "ls -la ~/"
   
 deploy:
-  stage: deploy
+  stage: deploy-backend
   script:
     - pwd
     - cd backend 
