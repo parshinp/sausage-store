@@ -1,0 +1,24 @@
+[Unit]
+Description=Sausage store front
+After=syslog.target network.target
+
+[Service]
+SuccessExitStatus=143
+
+User=student
+Type=simple
+
+#StandardError=append:/log/err.log
+#StandardOutput=append:/log/events.log
+#Environment="REPORT_PATH=/log/reports/"
+#Environment="LOG_PATH=/log/"
+
+Restart=always
+
+#Environment="LOGGING_LEVEL_ROOT=INFO"
+
+ExecStart=sudo http-server /var/www-data/dist/frontend/ -p 80 --proxy http://localhost:8080
+
+[Install]
+WantedBy=multi-user.target
+
