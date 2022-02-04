@@ -1,5 +1,5 @@
 variables:
-  VERSION: 1.0.22215
+  VERSION: 1.0.$VERSION
 
 stages:
 #  - build
@@ -9,7 +9,7 @@ stages:
 #  - release
 #  - notification
   - module-pipelines
-  - deploy
+#  - deploy
 
 #include:
 #  - template: Security/SAST.gitlab-ci.yml
@@ -149,17 +149,17 @@ before_script:
   - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
   - chmod 644 ~/.ssh/known_hosts
 
-deploy:
-  stage: deploy
-  script:
+#deploy:
+#  stage: deploy
+#  script:
      #выполняем простую команду для проверки
-     - ssh ${DEV_USER}@${DEV_HOST}
-     - curl -u ${NEXUS_REPO_USER}:${NEXUS_REPO_PASS} -o sausage-store-${VERSION}.jar https://nexus.praktikum-services.ru/sausage-store-parshin_pavel-backend/com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.jar
-     - sleep 10
+#     - ssh ${DEV_USER}@${DEV_HOST}
+#     - curl -u ${NEXUS_REPO_USER}:${NEXUS_REPO_PASS} -o sausage-store-${VERSION}.jar https://nexus.praktikum-services.ru/sausage-store-parshin_pavel-backend/com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.jar
+#     - sleep 10
  # запускаем бэкенд
-     - pwd
-     - ls -la  
-     - java -jar sausage-store-${VERSION}.jar & 
+#     - pwd
+#     - ls -la  
+#     - java -jar sausage-store-${VERSION}.jar & 
 
 #notification-slack:
   # add this comment to show how I managed with issues =))
