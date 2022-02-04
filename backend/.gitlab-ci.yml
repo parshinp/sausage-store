@@ -22,6 +22,10 @@ release:
    script:
     - cd backend
     - mvn deploy -DskipTests -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH} -s settings.xml
+
+before_script:
+    - apt-get install -y openssh-client
+    - scp
 deploy:
   stage: deploy
   script:
