@@ -19,8 +19,13 @@ build:
 release:
    stage: release
    script:
-      - cd backend
-      - mvn deploy -DskipTests -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH} -s settings.xml
-   rules:
-      - changes:
-           - backend/*
+deploy:
+  stage: deploy
+  script:
+    - pwd
+    - ls -la
+    - scp ./backend/sausage-store.service ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/sausage-store.service
+    - ssh ${DEV_USER}@${DEV_HOST} "export "CURRENT_VERSION=${VERSION}"; export "VERSION=${VERSION}"; export "DEV_HOST=${DEV_HOST}"; export "NEXUS_REPO_URL=${NEXUS_REPO_URL}"; export "NEXUS_REPO_USER=${NEXUS_REPO_USER}"; export "NEXUS_REPO_PASS=${NEXUS_REPO_PASS}";vsetsid /bin/bash -s " < ./backend/deploy.sh
+  rules:
+     - changes:
+          - backend/*
