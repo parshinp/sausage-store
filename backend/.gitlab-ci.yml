@@ -6,6 +6,7 @@ variables:
 stages:
    - build
    - release
+   - deploy
 
 build:
    stage: build
@@ -19,6 +20,8 @@ build:
 release:
    stage: release
    script:
+    - cd backend
+    - mvn deploy -DskipTests -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH} -s settings.xml
 deploy:
   stage: deploy
   script:
