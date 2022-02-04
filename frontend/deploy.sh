@@ -3,7 +3,7 @@ set -xe
 
 sudo cp -rf sausage-store-frontend.service /etc/systemd/system/sausage-store-frontend.service
 
-curl -u ${NEXUS_REPO_USER}:${NEXUS_REPO_PASS} -o sausage-store.tar.gz ${NEXUS_REPO_URL}/sausage-store-parshin_pavel-frontend/$VERSION/sausage-store-$VERSION.tar.gz
+curl -u ${NEXUS_REPO_USER}:${NEXUS_REPO_PASS} -o sausage-store.tar.gz ${NEXUS_REPO_URL}/sausage-store-parshin_pavel-frontend/$VERSION/sausage-store-$VERSION.tar.gz >> /${DEV_USER}/tar_version.log
 
 tar xvf sausage-store.tar.gz
 

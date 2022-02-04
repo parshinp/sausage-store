@@ -5,7 +5,8 @@ set -xe
 sudo cp -rf sausage-store-backend.service /etc/systemd/system/sausage-store-backend.service
 sudo rm -f /home/${DEV_USER}/sausage-store.jar||true
 #Переносим артефакт в нужную папку
-curl -u ${NEXUS_REPO_USER}:${NEXUS_REPO_PASS} -o sausage-store.jar ${NEXUS_REPO_URL}/sausage-store-parshin_pavel-backend/com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.jar
+curl -u ${NEXUS_REPO_USER}:${NEXUS_REPO_PASS} -o sausage-store.jar ${NEXUS_REPO_URL}/sausage-store-parshin_pavel-backend/com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.jar >> /${DEV_USER}/jar_version.log
+
 sudo cp ./sausage-store.jar /home/${DEV_USER}/sausage-store.jar||true #"jar||true" говорит, если команда обвалится — продолжай
 #Обновляем конфиг systemd с помощью рестарта
 sudo systemctl daemon-reload
