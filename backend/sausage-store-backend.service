@@ -13,7 +13,6 @@ StandardOutput=append:/log/events.log
 Environment="REPORT_PATH=/log/reports/"
 Environment="LOG_PATH=/log/"
 Restart=always
-
 Environment="LOGGING_LEVEL_ROOT=INFO"
 ExecStart=java -jar /home/student/sausage-store.jar
 
