@@ -22,6 +22,7 @@ build:
       - ls -la    
       - mkdir /builds/parshin/sausage-store/sausage-store-$VERSION
       - cp ${CI_PROJECT_DIR}/backend/target/sausage-store-$VERSION.jar /builds/parshin/sausage-store/backend/sausage-store-$VERSION.jar
+      - ls -la /builds/parshin/sausage-store/backend/
    rules:
       - changes:
            - backend/*
@@ -31,10 +32,10 @@ build:
 
 spotbugs-sast:
   before_script:
-#    - pwd
-#    - ls -la
+    - pwd
+    - ls -la
 #    - ls -la /builds/parshin/sausage-store/backend/
-#    - cp /builds/parshin/sausage-store/backend/target/sausage-store-$VERSION.jar /builds/parshin/sausage-store/backend/sausage-store-$VERSION.jar
+    - cp /builds/parshin/sausage-store/backend/target/sausage-store-$VERSION.jar /builds/parshin/sausage-store/backend/sausage-store-$VERSION.jar
   variables:
     COMPILE: "false"
     MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository
