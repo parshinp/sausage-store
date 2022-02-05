@@ -16,7 +16,7 @@ build:
    stage: build-backend
    script:       
       - cd backend
-      - mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH}
+      - mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository
       - ls -la ${CI_PROJECT_DIR}/backend/target
       - pwd
       - ls -la    
@@ -37,7 +37,7 @@ spotbugs-sast:
 #    - cp /builds/parshin/sausage-store/backend/target/sausage-store-$VERSION.jar /builds/parshin/sausage-store/backend/sausage-store-$VERSION.jar
   variables:
     COMPILE: "false"
-    MAVEN_REPO_PATH: ./.m2/repository 
+    MAVEN_REPO_PATH: -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository
 
 sonarqube-check-backend:
   stage: test
