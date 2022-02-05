@@ -8,7 +8,7 @@ include:
 
 stages:
    - build-backend
-   - test-backend
+   - test
    - release-backend
    - deploy-backend
 
@@ -37,7 +37,7 @@ spotbugs-sast:
     MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository 
 
 sonarqube-check-backend:
-  stage: test-backend
+  stage: test
   image: maven:3.8.2-openjdk-16
   variables:
     SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
@@ -54,27 +54,6 @@ sonarqube-check-backend:
       - merge_requests
       - main # or the name of your main branch
       - develop
-
-sonarqube-check-frontend:
-  stage: test
-  image:
-    name: sonarsource/sonar-scanner-cli:4.6
-    entrypoint: [""]
-  variables:
-    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
-    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
-  cache:
-    key: "${CI_JOB_NAME}"
-    paths:
-      - .sonar/cache
-  script:
-      - cd frontend
-      - sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.projectKey=${SONAR_TOKEN} -Dsonar.host.url=https://sonarqube.praktikum-services.ru -Dsonar.login=${SONAR_TOKEN} -Dsonar.projectName=02_PAVELPARSHIN_FRONTEND
-  allow_failure: true
-  only:
-    - merge_requests
-    - main # or the name of your main branch
-    - develop
 
 release:
    stage: release-backend
