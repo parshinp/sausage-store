@@ -54,6 +54,8 @@ release:
            - frontend/*
 
 before_script:
+  - ls -l /usr/bin/apt-get
+  - echo $PATH
   - 'command -v ssh-agent >/dev/null || (apt update -y && apt install openssh-client -y)'
   - eval $(ssh-agent -s)
   - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
