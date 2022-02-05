@@ -17,12 +17,14 @@ build:
    script:
       - cd backend
       - mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH}
+      - ls -ls ${MAVEN_REPO_PATH}
+      - ls -la /builds/parshin/sausage-store/backend/target
    rules:
       - changes:
            - backend/*
-   artifacts:
-     paths:
-      - ${CI_PROJECT_DIR}/.m2/ # сохранение зависимостей для SAST
+#   artifacts:
+#     paths:
+#      - ${CI_PROJECT_DIR}/.m2/ # сохранение зависимостей для SAST
 
 spotbugs-sast:
   before_script:
