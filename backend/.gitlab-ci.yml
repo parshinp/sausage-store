@@ -21,7 +21,7 @@ build:
       - pwd
       - ls -la    
       - mkdir /builds/parshin/sausage-store/sausage-store-$VERSION
-      - cp ${CI_PROJECT_DIR}/backend/target/sausage-store-$VERSION.jar ${CI_PROJECT_DIR}/sausage-store-$VERSION/sausage-store-$VERSION.jar
+      - cp ${CI_PROJECT_DIR}/backend/target/sausage-store-$VERSION.jar /builds/parshin/sausage-store/backend/sausage-store-$VERSION.jar
    rules:
       - changes:
            - backend/*
