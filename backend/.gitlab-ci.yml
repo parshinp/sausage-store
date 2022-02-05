@@ -17,8 +17,6 @@ build:
    script:
       - cd backend
       - mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH}
-      - ls -ls ${MAVEN_REPO_PATH}
-      - ls -la /builds/parshin/sausage-store/backend/target
    rules:
       - changes:
            - backend/*
@@ -30,12 +28,8 @@ spotbugs-sast:
   before_script:
     - pwd
     - ls -la
-    - cd sausage-store-$VERSION/
-    - ls -la
-    - pwd
-    - ls -la
-    - ls -la /builds/parshin/sausage-store/
-    - cp sausage-store-$VERSION.jar /builds/parshin/sausage-store/backend/sausage-store-$VERSION.jar
+    - ls -la /builds/parshin/sausage-store/backend/
+    - cp /builds/parshin/sausage-store/backend/sausage-store-$VERSION.jar /builds/parshin/sausage-store/backend/sausage-store-$VERSION.jar
   variables:
     COMPILE: "false"
     MAVEN_REPO_PATH: ./.m2/repository 
