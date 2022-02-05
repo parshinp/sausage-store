@@ -15,18 +15,10 @@ stages:
 build:
    stage: build-backend
    script:       
-      - echo ${CI_PROJECT_DIR}
       - cd backend
       - mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository
-      - ls -la ${CI_PROJECT_DIR}/backend/target
-      - pwd
-      - ls -la    
-      - cd target
-      - ls -la
       - mkdir ${CI_PROJECT_DIR}/sausage-store-$VERSION
       - cp ${CI_PROJECT_DIR}/backend/target/sausage-store-$VERSION.jar ${CI_PROJECT_DIR}/sausage-store-$VERSION/sausage-store-$VERSION.jar
-      - cd ${CI_PROJECT_DIR}/sausage-store-$VERSION
-      - ls -la
    rules:
       - changes:
            - backend/*
@@ -37,10 +29,7 @@ build:
 
 spotbugs-sast:
   before_script:
-    - pwd
-    - ls -la
     - cd ${CI_PROJECT_DIR}/sausage-store-$VERSION
-    - ls -la 
     - cp sausage-store-$VERSION.jar /builds/parshin/sausage-store/backend/sausage-store-$VERSION.jar
   variables:
     COMPILE: "false"
