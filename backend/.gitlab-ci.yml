@@ -24,7 +24,7 @@ build:
       - cd target
       - ls -la
       - mkdir ${CI_PROJECT_DIR}/sausage-store-$VERSION
-      - cp sausage-store-$VERSION.jar /sausage-store-$VERSION/sausage-store-$VERSION.jar
+      - cp ${CI_PROJECT_DIR}/backend/target/sausage-store-$VERSION.jar ${CI_PROJECT_DIR}/sausage-store-$VERSION/sausage-store-$VERSION.jar
       - cd ${CI_PROJECT_DIR}
       - ls -la
    rules:
