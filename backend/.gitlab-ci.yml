@@ -61,18 +61,20 @@ release:
     - cd backend
     - mvn deploy -DskipTests -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH} -s settings.xml
 
-before_script:
-  - 'command -v ssh-agent >/dev/null || ( apt update -y && apt install openssh-client -y )'
-  - eval $(ssh-agent -s)
-  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-  - mkdir -p ~/.ssh
-  - chmod 600 ~/.ssh
-  - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
-  - chmod 644 ~/.ssh/known_hosts
-  - ssh ${DEV_USER}@${DEV_HOST} "id"
-  - ssh ${DEV_USER}@${DEV_HOST} "ls -la ~/"
+.before_script_template:
+   before_script:
+    - 'command -v ssh-agent >/dev/null || ( apt update -y && apt install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 600 ~/.ssh
+    - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+    - ssh ${DEV_USER}@${DEV_HOST} "id"
+    - ssh ${DEV_USER}@${DEV_HOST} "ls -la ~/"
   
 deploy:
+  extends: .before_script_template
   stage: deploy-backend
   script:
     - pwd
