@@ -25,9 +25,9 @@ build:
    rules:
       - changes:
            - backend/*
-#   artifacts:
-#     paths:
-#      - ${CI_PROJECT_DIR}/.m2/ # сохранение зависимостей для SAST
+   artifacts:
+     paths:
+      - ${CI_PROJECT_DIR}/.m2/ # сохранение зависимостей для SAST
 
 spotbugs-sast:
   before_script:
