@@ -3,6 +3,9 @@ variables:
    MAVEN_REPO_PATH: ./.m2/repository
 ######  JAVA_OPTS: -XX:MaxRAMPercentage=90
 
+include:
+  - template: Security/SAST.gitlab-ci.yml
+
 stages:
    - build-backend
    - test-backend
@@ -17,6 +20,21 @@ build:
    rules:
       - changes:
            - backend/*
+   artifacts:
+     paths:
+      - ${CI_PROJECT_DIR}/.m2/ # сохранение зависимостей для SAST
+
+spotbugs-sast:
+  before_script:
+    - cd sausage-store-$VERSION/
+    - ls -la
+    - pwd
+    - ls -la
+    - ls -la /builds/parshin/sausage-store/
+    - cp sausage-store-$VERSION.jar /builds/parshin/sausage-store/backend/sausage-store-$VERSION.jar
+  variables:
+    COMPILE: "false"
+    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository 
 
 sonarqube-check-backend:
   stage: test-backend
@@ -39,7 +57,7 @@ sonarqube-check-backend:
 
 sonarqube-check-frontend:
   stage: test
-# image:
+  image:
     name: sonarsource/sonar-scanner-cli:4.6
     entrypoint: [""]
   variables:
