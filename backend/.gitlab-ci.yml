@@ -26,6 +26,8 @@ build:
 
 spotbugs-sast:
   before_script:
+    - pwd
+    - ls -la
     - cd sausage-store-$VERSION/
     - ls -la
     - pwd
