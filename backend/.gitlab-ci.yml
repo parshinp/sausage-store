@@ -15,6 +15,7 @@ stages:
 build:
    stage: build-backend
    script:       
+      - echo ${CI_PROJECT_DIR}
       - cd backend
       - mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository
       - ls -la ${CI_PROJECT_DIR}/backend/target
