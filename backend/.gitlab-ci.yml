@@ -37,7 +37,7 @@ spotbugs-sast:
 #    - cp /builds/parshin/sausage-store/backend/target/sausage-store-$VERSION.jar /builds/parshin/sausage-store/backend/sausage-store-$VERSION.jar
   variables:
     COMPILE: "false"
-    MAVEN_REPO_PATH: -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository
+    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository
 
 sonarqube-check-backend:
   stage: test
