@@ -1,7 +1,7 @@
 variables:
    VERSION: 1.0.${CI_PIPELINE_ID}
    MAVEN_REPO_PATH: ./.m2/repository
-#  JAVA_OPTS: -XX:MaxRAMPercentage=90
+##@!  JAVA_OPTS: -XX:MaxRAMPercentage=90
 
 include:
   - template: Security/SAST.gitlab-ci.yml
@@ -81,8 +81,10 @@ deploy:
     - ls -la
     - scp sausage-store-backend.service ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/sausage-store-backend.service
     - ssh ${DEV_USER}@${DEV_HOST} "export "CURRENT_VERSION=${VERSION}"; export "DEV_USER=${DEV_USER}"; export "VERSION=${VERSION}"; export "DEV_HOST=${DEV_HOST}"; export "NEXUS_REPO_URL=${NEXUS_REPO_URL}"; export "NEXUS_REPO_USER=${NEXUS_REPO_USER}"; export "NEXUS_REPO_PASS=${NEXUS_REPO_PASS}"; setsid /home/student/projects/sausage-store/backend/deploy.sh"
+####  
   environment:
     name: production-backend
+####  
   rules:
      - changes:
           - backend/*
