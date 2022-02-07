@@ -53,7 +53,7 @@ sonarqube-check-frontend:
   only:
     - merge_requests
     - main # or the name of your main branch
-    - develop
+    - developing
 
 release:
    stage: release-frontend
