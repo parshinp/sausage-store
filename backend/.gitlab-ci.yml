@@ -18,6 +18,7 @@ stages:
     - chmod 600 ~/.ssh
     - echo "$SSH_KNOWN_HOSTS_YC" >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
+    - cat ~/.ssh/known_hosts
     - ssh ${DEV_USER}@${DEV_HOST_YC} "id"
     - ssh ${DEV_USER}@${DEV_HOST_YC} "ls -la ~/"
   
