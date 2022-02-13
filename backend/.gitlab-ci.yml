@@ -30,7 +30,7 @@ deploy:
     - cd backend 
     - ls -la
     - scp sausage-store-backend.service ${DEV_USER}@${DEV_HOST_YC}:/home/${DEV_USER}/sausage-store-backend.service
-    - ssh ${DEV_USER}@${DEV_HOST_YC} "export "CURRENT_VERSION=${VERSION}"; export "VERSION=${VERSION}"; export "DEV_HOST=${DEV_HOST_YC}"; export "NEXUS_REPO_URL=${NEXUS_REPO_URL}"; export "NEXUS_REPO_USER=${NEXUS_REPO_USER}"; export "NEXUS_REPO_PASS=${NEXUS_REPO_PASS}"; setsid /home/student/projects/sausage-store/backend/deploy.sh"
+    - ssh ${DEV_USER}@${DEV_HOST_YC} "export "CURRENT_VERSION=${VERSION}"; export "VERSION=${VERSION}"; export "DEV_HOST=${DEV_HOST_YC}"; export "NEXUS_REPO_URL=${NEXUS_REPO_URL}"; export "NEXUS_REPO_USER=${NEXUS_REPO_USER}"; export "NEXUS_REPO_PASS=${NEXUS_REPO_PASS}"; setsid ./backend/deploy.sh"
   environment:
     name: production-backend-yc
   rules:
