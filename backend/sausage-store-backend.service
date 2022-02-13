@@ -13,7 +13,7 @@ StandardOutput=append:/opt/log/sausage-store.log
 Environment="REPORT_PATH=/opt/log/reports/"
 Environment="LOG_PATH=/opt/log/"
 Restart=always
-Environment="LOGGING_LEVEL_ROOT=INFO"
+Environment="LOGGING_LEVEL_ROOT=DEBUG"
 ExecStart=java -jar /home/jarservice/sausage-store-0.0.1-SNAPSHOT.jar
 
 [Install]
