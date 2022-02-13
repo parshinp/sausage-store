@@ -29,7 +29,7 @@ deploy:
     - pwd
     - cd backend 
     - ls -la
-    - scp {deploy.sh,sausage-store.service} ${DEV_USER}@${DEV_HOST_YC}:/home/${DEV_USER}/
+    - scp {deploy.sh,sausage-store-backend.service} ${DEV_USER}@${DEV_HOST_YC}:/home/${DEV_USER}/
     - ssh ${DEV_USER}@${DEV_HOST_YC} 
        export "DEV_HOST_YC=${DEV_HOST_YC}"; 
        export "DEV_USER=${DEV_USER}";
