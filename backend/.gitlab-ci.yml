@@ -3,74 +3,23 @@ variables:
    MAVEN_REPO_PATH: ./.m2/repository
 #  JAVA_OPTS: -XX:MaxRAMPercentage=90
 
-include:
-  - template: Security/SAST.gitlab-ci.yml
+#include:
+#  - template: Security/SAST.gitlab-ci.yml
 
 stages:
-   - build-backend
-   - test
-   - release-backend
    - deploy-backend
-
-build:
-   stage: build-backend
-   script:       
-      - cd backend
-      - mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository
-      - mkdir ${CI_PROJECT_DIR}/sausage-store-$VERSION
-      - cp ${CI_PROJECT_DIR}/backend/target/sausage-store-$VERSION.jar ${CI_PROJECT_DIR}/sausage-store-$VERSION/sausage-store-$VERSION.jar
-   rules:
-      - changes:
-           - backend/*
-   artifacts:
-     paths:
-      - ${CI_PROJECT_DIR}/.m2/ # сохранение зависимостей для SAST
-      - sausage-store-$VERSION/sausage-store-$VERSION.jar
-
-spotbugs-sast:
-  before_script:
-    - cd ${CI_PROJECT_DIR}/sausage-store-$VERSION
-    - cp sausage-store-$VERSION.jar /builds/parshin/sausage-store/backend/sausage-store-$VERSION.jar
-  variables:
-    COMPILE: "false"
-    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository
-
-sonarqube-check-backend:
-  stage: test
-  image: maven:3.8.2-openjdk-16
-  variables:
-    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
-    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
-  cache:
-    key: "${CI_JOB_NAME}"
-    paths:
-      - .sonar/cache
-  script:
-      - cd backend 
-      - mvn verify sonar:sonar -Dsonar.projectKey=parshin_sausage-store_AX5VY2NDWyGwrBh1KfJm -Dsonar.host.url=${SONAR_URL} -Dsonar.login=${SONAR_TOKEN} -Dsonar.projectName=02_PAVELPARSHIN_BACKEND
-  allow_failure: true
-  only:
-      - merge_requests
-      - main # or the name of your main branch
-      - develop
-
-release:
-   stage: release-backend
-   script:
-    - cd backend
-    - mvn deploy -DskipTests -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH} -s settings.xml
 
 .before_script_template:
    before_script:
     - 'command -v ssh-agent >/dev/null || ( apt update -y && apt install openssh-client -y )'
     - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - echo "$SSH_PRIVATE_KEY_YC" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
     - chmod 600 ~/.ssh
     - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
-    - ssh ${DEV_USER}@${DEV_HOST} "id"
-    - ssh ${DEV_USER}@${DEV_HOST} "ls -la ~/"
+    - ssh ${DEV_USER}@${DEV_HOST_YC} "id"
+    - ssh ${DEV_USER}@${DEV_HOST_YC} "ls -la ~/"
   
 deploy:
   extends: .before_script_template
@@ -79,11 +28,11 @@ deploy:
     - pwd
     - cd backend 
     - ls -la
-    - scp sausage-store-backend.service ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/sausage-store-backend.service
-    - ssh ${DEV_USER}@${DEV_HOST} "export "CURRENT_VERSION=${VERSION}"; export "DEV_USER=${DEV_USER}"; export "VERSION=${VERSION}"; export "DEV_HOST=${DEV_HOST}"; export "NEXUS_REPO_URL=${NEXUS_REPO_URL}"; export "NEXUS_REPO_USER=${NEXUS_REPO_USER}"; export "NEXUS_REPO_PASS=${NEXUS_REPO_PASS}"; setsid /home/student/projects/sausage-store/backend/deploy.sh"
+    - scp sausage-store-backend.service ${DEV_USER}@${DEV_HOST_YC}:/home/${DEV_USER}/sausage-store-backend.service
+    - ssh ${DEV_USER}@${DEV_HOST_YC} "export "CURRENT_VERSION=${VERSION}"; export "VERSION=${VERSION}"; export "DEV_HOST=${DEV_HOST_YC}"; export "NEXUS_REPO_URL=${NEXUS_REPO_URL}"; export "NEXUS_REPO_USER=${NEXUS_REPO_USER}"; export "NEXUS_REPO_PASS=${NEXUS_REPO_PASS}"; setsid /home/student/projects/sausage-store/backend/deploy.sh"
   environment:
-    name: production-backend
+    name: production-backend-yc
   rules:
      - changes:
           - backend/*
-       when: manual
+#       when: manual
