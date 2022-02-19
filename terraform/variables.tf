@@ -1,4 +1,3 @@
-# variables file_
 variable "yc_token" {
   description = "yandex cloud token"
   type        = string
