@@ -7,15 +7,8 @@ terraform {
   }
 }
 
-provider "yandex" {
-  token     = "AQAEA7qh_PlhAATuwfgnK6_ghEqkj0q-hWVB9fM"
-  cloud_id  = "b1g3jddf4nv5e9okle7p"
-  folder_id = "b1gr4fhu1lstvqs3ad4l"
-  zone      = "ru-central1-a"
-}
-
 resource "yandex_compute_instance" "vm-1" {
-  name = "chapter5-lesson2-pavel-parshin"
+  name = var.yc_res_name
 
   resources {
     cores  = 2
