@@ -1,7 +1,7 @@
 variables:
    VERSION: 1.0.${CI_PIPELINE_ID}
    MAVEN_REPO_PATH: ./.m2/repository
-#  JAVA_OPTS: -XX:MaxRAMPercentage=90
+##  JAVA_OPTS: -XX:MaxRAMPercentage=90
 
 #include:
 #  - template: Security/SAST.gitlab-ci.yml
