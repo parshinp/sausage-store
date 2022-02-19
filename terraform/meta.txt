@@ -1,0 +1,20 @@
+#cloud-config
+#meta-file
+users:
+  - default
+  - name: jarservice
+    ssh-authorized-keys:
+      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDoheZmgk6D+UfcjhIEqKsDuX3BO8OyNvToK6VZYQ9xdTE4wSg26+w1QGIzx1/+tuNI2HTe/yNAhzSY8IXR9iMQnT+4dXgi5QApblExdprPm0HvK8L7ek6mxC/FtARt+/LhuzhG0l704ubbYsLkfD//YfpZbAMyFudLRZ/FoOP+Yr0XoEzicgHJbK5PbVuL9lotWkV2M8Pqoem3sI0W4iPsDbNSrhMw9FnGhUrXeq1wuwjgTnOMO6TfFGFV+azbJGTs5PH1MGp5FrNdM4A6CM6pysdqvt+7Gj6JmnQ5MxKY4MnPUwxSS71kovuIdohE1b7VXxiGr/Oc3r/PevyusFToyFLkYxkhN7NfbYOFtF+CXZcQHpMifnp2Hexpj2LLqborfZinuQFE4a0kZjRSxbU2G7H8QPkcBZDP13Qe7G287H57F1C+insl1ow+fDzcDpfnY93iULuTSt+wdJRL1a6BAE6DciTwRZbYKlYRF4FfndIVQ33Xg4vT/gyg5HeQSxs= jarservice@fhmo63o7r0gn5ic5mhos"
+    groups: sudo
+    shell: /bin/bash
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+  - name: ansible
+    ssh-authorized-keys:
+      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDoheZmgk6D+UfcjhIEqKsDuX3BO8OyNvToK6VZYQ9xdTE4wSg26+w1QGIzx1/+tuNI2HTe/yNAhzSY8IXR9iMQnT+4dXgi5QApblExdprPm0HvK8L7ek6mxC/FtARt+/LhuzhG0l704ubbYsLkfD//YfpZbAMyFudLRZ/FoOP+Yr0XoEzicgHJbK5PbVuL9lotWkV2M8Pqoem3sI0W4iPsDbNSrhMw9FnGhUrXeq1wuwjgTnOMO6TfFGFV+azbJGTs5PH1MGp5FrNdM4A6CM6pysdqvt+7Gj6JmnQ5MxKY4MnPUwxSS71kovuIdohE1b7VXxiGr/Oc3r/PevyusFToyFLkYxkhN7NfbYOFtF+CXZcQHpMifnp2Hexpj2LLqborfZinuQFE4a0kZjRSxbU2G7H8QPkcBZDP13Qe7G287H57F1C+insl1ow+fDzcDpfnY93iULuTSt+wdJRL1a6BAE6DciTwRZbYKlYRF4FfndIVQ33Xg4vT/gyg5HeQSxs= jarservice@fhmo63o7r0gn5ic5mhos"
+    groups: sudo
+    shell: /bin/bash
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+runcmd:
+ - sudo groupadd ansible
+ - sudo usermod -aG ansible ansible
+
