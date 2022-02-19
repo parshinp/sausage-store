@@ -1,4 +1,4 @@
-#provider file
+#provider file_
 provider "yandex" {
   token     = var.yc_token
   cloud_id  = var.yc_cloud_id
