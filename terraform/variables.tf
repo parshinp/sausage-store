@@ -44,6 +44,6 @@ variable "yc_network_id" {
 variable "yc_meta_file" {
   description = "metafile with users data creation"
   type        = string
-  default     = "/home/jarservice/example-01/meta.txt"
+  default     = "/home/jarservice/project/sausage-store/terraform/meta.txt"
 }
 
