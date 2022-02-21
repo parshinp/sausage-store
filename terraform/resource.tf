@@ -1,5 +1,5 @@
 resource "yandex_compute_instance" "vm-1" {
-  name = var.yc_res_name
+  name = var.chapter5_lesson2_pavel_parshin
 
   resources {
     cores  = 2
@@ -8,7 +8,7 @@ resource "yandex_compute_instance" "vm-1" {
 
   boot_disk {
     initialize_params {
-      image_id = var.yc_image_id
+      image_id = var.ubuntu_20_04_lts_vgpu_v20211027
     }
   }
 
