@@ -23,12 +23,6 @@ variable "zone_ru_central1_a" {
   default     = "ru-central1-a"
 }
 
-variable "chapter5_lesson2_pavel_parshin" {
-  description = "yandex cloud resource name"
-  type        = string
-  default     = "chapter5-lesson2-pavel-parshin"
-}
-
 variable "ubuntu_20_04_lts_vgpu_v20211027" {
   description = "Ubuntu 20.04 LTS VGPU v20211027"
   type        = string
@@ -41,9 +35,9 @@ variable "yc_network_id" {
   default     = "e9bmsiue0hk5kl2dou85"
 }
 
-variable "yc_meta_file" {
-  description = "metafile with users data creation"
-  type        = string
-  default     = "/home/jarservice/project/sausage-store/terraform/meta.txt"
-}
+#variable "yc_meta_file" {
+#  description = "metafile with users data creation"
+#  type        = string
+#  default     = "/home/jarservice/project/sausage-store/terraform/meta.txt"
+#}
 

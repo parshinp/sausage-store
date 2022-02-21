@@ -1,5 +1,5 @@
 resource "yandex_compute_instance" "vm-1" {
-  name = var.chapter5_lesson2_pavel_parshin
+  name = "chapter5-lesson2-pavel-parshin"
 
   resources {
     cores  = 2
@@ -18,7 +18,7 @@ resource "yandex_compute_instance" "vm-1" {
   }
 
   metadata = {
-    user-data = var.yc_meta_file
+    user-data = "${file("/home/jarservice/example-01/meta.txt")}"
   }
 
 }
