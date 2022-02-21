@@ -1,17 +1,17 @@
 stages:
-  - frontend
+#  - frontend
   - backend
   - module-pipelines
 
-frontend:
-  stage: module-pipelines
-  trigger:
-    include:
-      - "/frontend/.gitlab-ci.yml"
-    strategy: depend #depend нужен, если какой-нибудь дочерний пайплайн свалился, мы знали, что общий пайплайн тоже идёт с ошибкой
-  only:
-    changes: #как только происходит изменение в папке frontend, запускается дочерний пайплайн, который лежит в этой папке
-      - frontend/**/*
+#frontend:
+#  stage: module-pipelines
+#  trigger:
+#    include:
+#      - "/frontend/.gitlab-ci.yml"
+#    strategy: depend #depend нужен, если какой-нибудь дочерний пайплайн свалился, мы знали, что общий пайплайн тоже идёт с ошибкой
+#  only:
+#    changes: #как только происходит изменение в папке frontend, запускается дочерний пайплайн, который лежит в этой папке
+#      - frontend/**/*
 
 backend:
   stage: module-pipelines
