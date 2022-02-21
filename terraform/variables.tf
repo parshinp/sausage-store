@@ -5,13 +5,13 @@ variable "my_yc_token" {
   sensitive   = true
 }
 
-variable "yc_cloud_id" {
+variable "yandex_cloud_praktikum_devops_course" {
   description = "yandex cloud id"
   type        = string
   default     = "b1g3jddf4nv5e9okle7p"
 }
 
-variable "yc_folder_id" {
+variable "yandex_cloud_students_2nd_stream" {
   description = "folder id"
   type        = string
   default     = "b1gr4fhu1lstvqs3ad4l"
