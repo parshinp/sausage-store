@@ -1,8 +1,8 @@
-# variables file
+# variables file_
 variable "yc_token" {
   description = "yandex cloud token"
   type        = string
-  default     = "AQAEA7qh_PlhAATuwfgnK6_ghEqkj0q-hWVB9fM"
+  sensitive   = true
 }
 
 variable "yc_cloud_id" {
@@ -27,5 +27,24 @@ variable "yc_res_name" {
   description = "yandex cloud resource name"
   type        = string
   default     = "chapter5-lesson2-pavel-parshin"
+}
+
+variable "yc_image_id" {
+  description = "yandex cloud image id"
+  type        = string
+  default     = "fd80qm01ah03dkqb14lc"
+}
+
+variable "yc_network_id" {
+  description = "yandex cloud network id"
+  type        = string
+  default     = "e9bmsiue0hk5kl2dou85"
+}
+
+variable "yc_meta_file" {
+  description = "metafile with users data creation"
+  type        = string
+  default     = "/home/jarservice/example-01/meta.txt"
+# default     = "${file("/home/jarservice/example-01/meta.txt")}"
 }
 
