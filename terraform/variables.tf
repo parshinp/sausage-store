@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 # variables file_
-=======
->>>>>>> 56acc9e64554ab3c2204960e712bf28de491fd75
 variable "yc_token" {
   description = "yandex cloud token"
   type        = string
