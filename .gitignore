@@ -1,6 +1,7 @@
 # .tfstate files
 *.tfstate
 *.tfstate.*
+terraform/secret.tfvars
 
 .terraform
 .terraform.lock.hcl
