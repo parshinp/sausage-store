@@ -1,7 +1,8 @@
 # .tfstate files
 *.tfstate
 *.tfstate.*
-terraform/secret.tfvars
+*.tfvars
+backend.conf
 
 .terraform
 .terraform.lock.hcl

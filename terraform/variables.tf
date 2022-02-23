@@ -35,6 +35,18 @@ variable "yc_auto_created_default_subnet_id" {
   default     = "e9bmsiue0hk5kl2dou85"
 }
 
+#variable "s3_access_key" {
+#  description = "Yandex access key"
+#  type        = string
+#  sensitive   = true
+#}
+
+#variable "s3_secret_key" {
+#  description = "Yandex secret key"
+#  type        = string
+#  sensitive   = true
+#}
+
 #variable "yc_auto_created_default_network_id" {
 #  description = "Auto-created default subnet for zone ru-central1-a"
 #  type        = string
