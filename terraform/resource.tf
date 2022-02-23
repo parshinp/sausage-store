@@ -13,9 +13,9 @@ resource "yandex_compute_instance" "vm-1" {
   }
 
   network_interface {
-    subnet_id = var.yc_network_id
+    subnet_id = var.yc_auto_created_default_subnet_id
     nat       = false
-  }
+}
 
   metadata = {
     user-data = "${file("/home/jarservice/example-01/meta.txt")}"
