@@ -35,27 +35,3 @@ variable "yc_auto_created_default_subnet_id" {
   default     = "e9bmsiue0hk5kl2dou85"
 }
 
-#variable "s3_access_key" {
-#  description = "Yandex access key"
-#  type        = string
-#  sensitive   = true
-#}
-
-#variable "s3_secret_key" {
-#  description = "Yandex secret key"
-#  type        = string
-#  sensitive   = true
-#}
-
-#variable "yc_auto_created_default_network_id" {
-#  description = "Auto-created default subnet for zone ru-central1-a"
-#  type        = string
-#  default     = "enpv2krbk8skcahr9q5q"
-#}
-
-#variable "yc_meta_file" {
-#  description = "metafile with users data creation"
-#  type        = string
-#  default     = "/home/jarservice/project/sausage-store/terraform/meta.txt"
-#}
-
