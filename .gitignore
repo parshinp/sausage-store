@@ -4,3 +4,4 @@
 
 .terraform
 .terraform.lock.hcl
+.ansible_vault_pass
