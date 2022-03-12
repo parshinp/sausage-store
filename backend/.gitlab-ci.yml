@@ -30,7 +30,8 @@ deploy:
     - cd backend 
     - ls -la
     - scp {deploy.sh,sausage-store-backend.service} ${DEV_USER}@${DEV_HOST_YC}:/home/${DEV_USER}/
-    - ssh ${DEV_USER}@${DEV_HOST_YC} "export "DEV_USER=${DEV_USER}"; export "DEV_HOST_YC=${DEV_HOST_YC}"; export "PSQL_USER=${PSQL_USER}"; export "PSQL_PASSWORD=${PSQL_PASSWORD}"; export "PSQL_HOST=${PSQL_HOST}"; export "PSQL_PORT=${PSQL_PORT}"; export "PSQL_DBNAME=${PSQL_DBNAME}"; setsid /home/${DEV_USER}/deploy.sh"
+    - ssh ${DEV_USER}@${DEV_HOST_YC} "export "DEV_USER=${DEV_USER}"; export "DEV_HOST_YC=${DEV_HOST_YC}"; export "PSQL_USER=${PSQL_USER}"; export "PSQL_PASSWORD=${PSQL_PASSWORD}"; export "PSQL_HOST=${PSQL_HOST}"; export "PSQL_PORT=${PSQL_PORT}"; export "PSQL_DBNAME=${PSQL_DBNAME}"; "export "CURRENT_VERSION=${VERSION}"; export "VERSION=${VERSION}"; export "NEXUS_REPO_URL=${NEXUS_REPO_URL}"; export "NEXUS_REPO_USER=${NEXUS_REPO_USER}"; export "NEXUS_REPO_PASS=${NEXUS_REPO_PASS}"; setsid /home/${DEV_USER}/deploy.sh"
+   
   environment:
     name: production-backend-yc
   rules:
