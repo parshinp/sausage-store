@@ -64,13 +64,13 @@ release:
    before_script:
     - 'command -v ssh-agent >/dev/null || ( apt update -y && apt install openssh-client -y )'
     - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - echo "$SSH_PRIVATE_KEY_YC" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
     - chmod 600 ~/.ssh
-    - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+    - echo "$SSH_KNOWN_HOSTS_YC" >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
-    - ssh ${DEV_USER}@${DEV_HOST} "id"
-    - ssh ${DEV_USER}@${DEV_HOST} "ls -la ~/"
+    - ssh ${DEV_USER}@${DEV_HOST_YC} "id"
+    - ssh ${DEV_USER}@${DEV_HOST_YC} "ls -la ~/"
   
 deploy:
   extends: .before_script_template
@@ -79,8 +79,8 @@ deploy:
     - pwd
     - cd backend 
     - ls -la
-    - scp {deploy.sh,sausage-store-backend.service} ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/
-    - ssh ${DEV_USER}@${DEV_HOST} "export "CURRENT_VERSION=${VERSION}"; export "DEV_USER=${DEV_USER}"; export "VERSION=${VERSION}"; export "DEV_HOST=${DEV_HOST}"; export "NEXUS_REPO_URL=${NEXUS_REPO_URL}"; export "NEXUS_REPO_USER=${NEXUS_REPO_USER}"; export "NEXUS_REPO_PASS=${NEXUS_REPO_PASS}"; setsid /home/${DEV_USER}/deploy.sh"
+    - scp {deploy.sh,sausage-store-backend.service} ${DEV_USER}@${DEV_HOST_YC}:/home/${DEV_USER}/
+    - ssh ${DEV_USER}@${DEV_HOST_YC} "export "CURRENT_VERSION=${VERSION}"; export "DEV_USER=${DEV_USER}"; export "VERSION=${VERSION}"; export "DEV_HOST=${DEV_HOST}"; export "NEXUS_REPO_URL=${NEXUS_REPO_URL}"; export "NEXUS_REPO_USER=${NEXUS_REPO_USER}"; export "NEXUS_REPO_PASS=${NEXUS_REPO_PASS}"; setsid /home/${DEV_USER}/deploy.sh"
   environment:
     name: production-backend
   rules:
