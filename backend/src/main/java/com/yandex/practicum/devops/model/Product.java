@@ -1,62 +1,83 @@
 package com.yandex.practicum.devops.model;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 @Entity
-public class Product {
+public class OrderProduct {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @EmbeddedId
+    @JsonIgnore
+    private OrderProductPK pk;
 
-    @NotNull(message = "Product name is required.")
-    @Basic(optional = false)
-    private String name;
+    @Column(nullable = false) private Integer quantity;
 
-    private Double price;
-
-    private String pictureUrl;
-
-    public Product(Long id, @NotNull(message = "Product name is required.") String name, Double price, String pictureUrl) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.pictureUrl = pictureUrl;
+    public OrderProduct() {
+        super();
     }
 
-    public Product() {
+    public OrderProduct(Order order, Product product, Integer quantity) {
+        pk = new OrderProductPK();
+        pk.setOrder(order);
+        pk.setProduct(product);
+        this.quantity = quantity;
     }
 
-    public Long getId() {
-        return id;
+    @Transient
+    public Product getProduct() {
+        return this.pk.getProduct();
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    @Transient
+    public Double getTotalPrice() {
+        return getProduct().getPrice() * getQuantity();
     }
 
-    public String getName() {
-        return name;
+    public OrderProductPK getPk() {
+        return pk;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPk(OrderProductPK pk) {
+        this.pk = pk;
     }
 
-    public Double getPrice() {
-        return price;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
-    public String getPictureUrl() {
-        return pictureUrl;
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((pk == null) ? 0 : pk.hashCode());
+
+        return result;
     }
 
-    public void setPictureUrl(String pictureUrl) {
-        this.pictureUrl = pictureUrl;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        OrderProduct other = (OrderProduct) obj;
+
+        if (pk == null) {
+            return other.pk == null;
+        }
+        else return pk.equals(other.pk);
     }
 }
