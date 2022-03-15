@@ -8,10 +8,10 @@ SuccessExitStatus=143
 User=jarservice
 Type=simple
 
-StandardError=append:/log/err.log
-StandardOutput=append:/log/events.log
-Environment="REPORT_PATH=/log/reports/"
-Environment="LOG_PATH=/log/"
+StandardError=append:/opt/log/err.log
+StandardOutput=append:/opt/log/events.log
+Environment="REPORT_PATH=/opt/log/reports/"
+Environment="LOG_PATH=/opt/log/"
 Restart=always
 Environment="LOGGING_LEVEL_ROOT=INFO"
 #ExecStart=java -jar /home/jarservice/sausage-store.jar
@@ -25,4 +25,6 @@ ExecStart=/usr/bin/java \
 
 [Install]
 WantedBy=multi-user.target
+
+
 
