@@ -14,7 +14,14 @@ Environment="REPORT_PATH=/log/reports/"
 Environment="LOG_PATH=/log/"
 Restart=always
 Environment="LOGGING_LEVEL_ROOT=INFO"
-ExecStart=java -jar /home/jarservice/sausage-store.jar
+#ExecStart=java -jar /home/jarservice/sausage-store.jar
+
+#Start backend jar file
+ExecStart=/usr/bin/java \
+-jar '/home/jarservice/sausage-store.jar' \
+--spring.datasource.url=jdbc:postgresql://rc1a-5xcy25zgi3jzfg6u.mdb.yandexcloud.net:6432/testdb \
+--spring.datasource.username=sa \
+--spring.datasource.password=password
 
 [Install]
 WantedBy=multi-user.target
