@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #export PSQL_CONNECTION="postgresql://$PSQL_ADMIN:$PSQL_PASSWORD@$PSQL_HOST:$PSQL_PORT/$PSQL_DBNAME"
-PSQL_CONNECTION="postgresql://sa:password@rc1a-5xcy25zgi3jzfg6u.mdb.yandexcloud.net:6432/testdb"
+PSQL_CONNECTION="postgresql://$PSQL_USER:$PSQL_PASSWORD@$PSQL_HOST:$PSQL_PORT/$PSQL_DBNAME"
 
 touch init.sql
 
