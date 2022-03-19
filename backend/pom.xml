@@ -32,6 +32,12 @@
         </dependency>
 
         <dependency>
+           <groupId>org.flywaydb</groupId>
+           <artifactId>flyway-core</artifactId>
+           <version>8.0.5</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
@@ -121,6 +127,16 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-maven-plugin</artifactId>
+            <version>8.0.5</version>
+            <configuration>
+                <locations>
+                    <location>classpath:db/migration</location>
+                </locations>
+            </configuration>
+        </plugin>
         </plugins>
     </build>
 <distributionManagement>

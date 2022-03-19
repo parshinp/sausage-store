@@ -18,8 +18,8 @@ Environment="LOGGING_LEVEL_ROOT=INFO"
 
 #Start backend jar file
 ExecStart=/usr/bin/java \
--jar '/home/jarservice/sausage-store.jar' \
---spring.datasource.url=jdbc:postgresql://rc1a-5xcy25zgi3jzfg6u.mdb.yandexcloud.net:6432/testdb \
+-jar '~/sausage-store.jar' \
+--spring.datasource.url=jdbc:postgresql://c-c9qslvj961omn1nevnjl.rw.mdb.yandexcloud.net:6432/testdb \
 --spring.datasource.username=sa \
 --spring.datasource.password=password
 
