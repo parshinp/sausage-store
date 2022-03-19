@@ -14,6 +14,14 @@ StandardOutput=append:/opt/log/sausage-store.log
 Environment="REPORT_PATH=/opt/log/reports/"
 Environment="LOG_PATH=/opt/log/"
 Restart=always
+Environment="LOGGING_LEVEL_ROOT=DEBUG"
+ExecStart=java -jar /home/jarservice/sausage-store.jar
+=======
+StandardError=append:/opt/log/err.log
+StandardOutput=append:/opt/log/events.log
+Environment="REPORT_PATH=/opt/log/reports/"
+Environment="LOG_PATH=/opt/log/"
+Restart=always
 Environment="LOGGING_LEVEL_ROOT=INFO"
 #ExecStart=java -jar /home/jarservice/sausage-store.jar
 
@@ -23,6 +31,7 @@ ExecStart=/usr/bin/java \
 --spring.datasource.url=jdbc:postgresql://rc1a-5xcy25zgi3jzfg6u.mdb.yandexcloud.net:6432/testdb \
 --spring.datasource.username=sa \
 --spring.datasource.password=password
+>>>>>>> ad1fa32e85fea9357ce78a15ee2867cdadff88bb
 
 [Install]
 WantedBy=multi-user.target
