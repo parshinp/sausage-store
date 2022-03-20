@@ -16,6 +16,7 @@ build:
    stage: build-backend
    script:       
       - cd backend
+      - cp backend/src/test/resources/database/add_users.sql /builds/parshin/sausage-store/backend/target/test-classes/database/
       - mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository
       - mkdir ${CI_PROJECT_DIR}/sausage-store-$VERSION
       - cp ${CI_PROJECT_DIR}/backend/target/sausage-store-$VERSION.jar ${CI_PROJECT_DIR}/sausage-store-$VERSION/sausage-store-$VERSION.jar
