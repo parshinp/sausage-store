@@ -22,6 +22,7 @@ ExecStart=/usr/bin/java \
 --spring.datasource.url=jdbc:postgresql://c-c9qslvj961omn1nevnjl.rw.mdb.yandexcloud.net:6432/testdb \
 --spring.datasource.username=sa \
 --spring.datasource.password=password
+--spring.flyway.baselineOnMigrate=true
 
 [Install]
 WantedBy=multi-user.target
