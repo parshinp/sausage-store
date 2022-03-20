@@ -4,7 +4,7 @@ variables:
    SAST_JAVA_VERSION: 11
    SECURE_LOG_LEVEL: "debug"
    FAIL_NEVER: 1
-   JAVA_OPTS: -XX:MaxRAMPercentage=90.0 -Xmx2g
+   JAVA_OPTS: -XX:MaxRAMPercentage=90.0
    
 
 include:
