@@ -17,8 +17,8 @@ build:
    script:       
       - pwd
       - cd backend
-      - ls -la /builds/parshin/sausage-store/backend/src/test/resources/database/
-    ###  - cp ${CI_PROJECT_DIR}/backend/src/test/resources/database/create_users.sql ${CI_PROJECT_DIR}/backend/target/test-classes/database/
+    #  - ls -la /builds/parshin/sausage-store/backend/src/test/resources/database/
+    #  - cp ${CI_PROJECT_DIR}/backend/src/test/resources/database/create_users.sql ${CI_PROJECT_DIR}/backend/target/test-classes/database/
       - mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository
       - mkdir ${CI_PROJECT_DIR}/sausage-store-$VERSION
       - cp ${CI_PROJECT_DIR}/backend/target/sausage-store-$VERSION.jar ${CI_PROJECT_DIR}/sausage-store-$VERSION/sausage-store-$VERSION.jar
