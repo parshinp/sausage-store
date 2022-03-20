@@ -21,7 +21,7 @@ ExecStart=/usr/bin/java \
 -jar '/opt/sausage-store.jar' \
 --spring.datasource.url=jdbc:postgresql://c-c9qslvj961omn1nevnjl.rw.mdb.yandexcloud.net:6432/testdb \
 --spring.datasource.username=sa \
---spring.datasource.password=password
+--spring.datasource.password=password \
 --spring.flyway.baselineOnMigrate=true
 
 [Install]
