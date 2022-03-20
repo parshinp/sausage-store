@@ -1,6 +1,9 @@
 variables:
    VERSION: 1.0.${CI_PIPELINE_ID}
    MAVEN_REPO_PATH: ./.m2/repository
+   SAST_JAVA_VERSION: 11
+   SECURE_LOG_LEVEL: "debug"
+   FAIL_NEVER: 1
    JAVA_OPTS: -XX:MaxRAMPercentage=90.0 -Xmx2g
    
 
@@ -16,6 +19,7 @@ stages:
 build:
    stage: build-backend
    script:       
+      - java --version
       - pwd
       - cd backend
     #  - ls -la /builds/parshin/sausage-store/backend/src/test/resources/database/
