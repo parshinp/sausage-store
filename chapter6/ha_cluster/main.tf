@@ -45,6 +45,31 @@ resource "yandex_mdb_postgresql_cluster" "parshin-ha-node-db" {
     }
   }
 
+  user {
+    name     = "admin_user"
+    password = "password"
+    permission {
+      database_name = "testdb"
+    }
+  }
+
+  user {
+    name     = "read_user"
+    password = "password"
+    permission {
+      database_name = "testdb"
+    }
+  }
+
+  user {
+    name     = "write_user"
+    password = "password"
+    permission {
+      database_name = "testdb"
+    }
+  }
+
+
   host {
     zone             = "ru-central1-a"
     subnet_id        = yandex_vpc_subnet.pp1subnet.id

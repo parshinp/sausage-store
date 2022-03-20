@@ -39,6 +39,34 @@ resource "yandex_mdb_postgresql_cluster" "parshin-single-node-db" {
   user {
     name     = "sa"
     password = "password"
+    conn_limit = 20
+    permission {
+      database_name = "testdb"
+    }
+  }
+
+ user {
+    name     = "admin_user"
+    password = "password"
+    conn_limit = 5
+    permission {
+      database_name = "testdb"
+    }
+  }
+
+  user {
+    name     = "read_user"
+    password = "password"
+    conn_limit = 5
+    permission {
+      database_name = "testdb"
+    }
+  }
+
+  user {
+    name     = "write_user"
+    password = "password"
+    conn_limit = 5
     permission {
       database_name = "testdb"
     }
