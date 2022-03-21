@@ -6,14 +6,15 @@ variables:
    JAVA_OPTS: -XX:MaxRAMPercentage=90.0
    
 
-#include:
-#  - template: Security/SAST.gitlab-ci.yml
+include:
+  - template: Security/SAST.gitlab-ci.yml
 
 stages:
+   - build-backend
+   - test
+   - release-backend
    - deploy-backend
 
-<<<<<<< HEAD
-=======
 build:
    stage: build-backend
    script:       
@@ -64,7 +65,6 @@ release:
     - cd backend
     - mvn deploy -DskipTests -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH} -s settings.xml
 
->>>>>>> 344506ec48f9ab7777af8a9c9ea885a9a13be3a8
 .before_script_template:
    before_script:
     - 'command -v ssh-agent >/dev/null || ( apt update -y && apt install openssh-client -y )'
@@ -74,10 +74,6 @@ release:
     - chmod 600 ~/.ssh
     - echo "$SSH_KNOWN_HOSTS_YC" >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
-<<<<<<< HEAD
-    - cat ~/.ssh/known_hosts
-=======
->>>>>>> ad1fa32e85fea9357ce78a15ee2867cdadff88bb
     - ssh ${DEV_USER}@${DEV_HOST_YC} "id"
     - ssh ${DEV_USER}@${DEV_HOST_YC} "ls -la ~/"
   
@@ -89,18 +85,11 @@ deploy:
     - cd backend 
     - ls -la
     - scp {deploy.sh,sausage-store-backend.service} ${DEV_USER}@${DEV_HOST_YC}:/home/${DEV_USER}/
-<<<<<<< HEAD
-    - ssh ${DEV_USER}@${DEV_HOST} "export "CURRENT_VERSION=${VERSION}"; export "DEV_USER=${DEV_USER}"; export "VERSION=${VERSION}"; export "DEV_HOST=${DEV_HOST}"; export "NEXUS_REPO_URL=${NEXUS_REPO_URL}"; export "NEXUS_REPO_USER=${NEXUS_REPO_USER}"; export "NEXUS_REPO_PASS=${NEXUS_REPO_PASS}"; setsid /home/${DEV_USER}/deploy.sh"
-=======
     - ssh ${DEV_USER}@${DEV_HOST_YC} "export "CURRENT_VERSION=${VERSION}"; export "DEV_USER=${DEV_USER}"; export "VERSION=${VERSION}"; export "DEV_HOST=${DEV_HOST}"; export "NEXUS_REPO_URL=${NEXUS_REPO_URL}"; export "NEXUS_REPO_USER=${NEXUS_REPO_USER}"; export "NEXUS_REPO_PASS=${NEXUS_REPO_PASS}"; setsid /home/${DEV_USER}/deploy.sh"
->>>>>>> ad1fa32e85fea9357ce78a15ee2867cdadff88bb
   environment:
     name: production-backend-yc
   rules:
      - changes:
           - backend/*
-<<<<<<< HEAD
-#       when: manual
-=======
      #  when: manual
->>>>>>> ad1fa32e85fea9357ce78a15ee2867cdadff88bb
+

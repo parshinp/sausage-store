@@ -8,10 +8,6 @@ SuccessExitStatus=143
 User=jarservice
 Type=simple
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 344506ec48f9ab7777af8a9c9ea885a9a13be3a8
 StandardError=append:/opt/log/sausage-store.log
 StandardOutput=append:/opt/log/sausage-store.log
 Environment="REPORT_PATH=/opt/log/reports/"
