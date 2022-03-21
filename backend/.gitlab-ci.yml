@@ -91,5 +91,5 @@ deploy:
   rules:
      - changes:
           - backend/*
-     #  when: manual
+     ##  when: manual
 
