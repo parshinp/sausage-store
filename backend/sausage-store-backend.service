@@ -22,7 +22,7 @@ ExecStart=/usr/bin/java \
 --spring.datasource.username=sa \
 --spring.datasource.password=password \
 --spring.flyway.baselineOnMigrate=true \
---spring.data.mongodb.uri=mongodb://parshin:Testusr1234@rc1b-nczpq63snuc5a3z2.mdb.yandexcloud.net:27018:27018/parshin?tls=true 
+--spring.data.mongodb.uri=mongodb://parshin:Testusr1234@rc1b-nczpq63snuc5a3z2.mdb.yandexcloud.net:27018/parshin?tls=true 
 
 [Install]
 WantedBy=multi-user.target
