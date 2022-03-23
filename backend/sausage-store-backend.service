@@ -15,7 +15,7 @@ Environment="LOG_PATH=/opt/log/"
 Restart=always
 Environment="LOGGING_LEVEL_ROOT=INFO"
 
-#Start backend jar file
+#Start backend jar file with Mongo DB
 ExecStart=/usr/bin/java \
 -jar '/opt/sausage-store.jar' \
 --spring.datasource.url=jdbc:postgresql://c-c9qslvj961omn1nevnjl.rw.mdb.yandexcloud.net:6432/testdb \
@@ -27,5 +27,3 @@ ExecStart=/usr/bin/java \
 [Install]
 WantedBy=multi-user.target
 
-
-#ExecStart=java -jar /opt/sausage-store.jar
