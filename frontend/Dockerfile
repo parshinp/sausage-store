@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-# FROM node:14.17.3
-FROM node:8.17.0
-=======
 FROM node:14.17.3
->>>>>>> 1cf5bad70a85d15c5df494b900c5d13aa65c05e8
 # Create app directory
 WORKDIR /usr/src/app
 COPY . .
