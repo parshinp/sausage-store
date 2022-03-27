@@ -1,5 +1,5 @@
 # FROM node:14.17.3
-FROM node:17.6.0
+FROM node:8.17.0
 # Create app directory
 WORKDIR /usr/src/app
 COPY . .
