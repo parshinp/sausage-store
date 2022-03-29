@@ -29,9 +29,9 @@ build:
       - mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH}
       - mkdir ${CI_PROJECT_DIR}/sausage-store-$VERSION
       - cp ${CI_PROJECT_DIR}/backend/target/sausage-store-$VERSION.jar ${CI_PROJECT_DIR}/sausage-store-$VERSION/sausage-store-$VERSION.jar
-#   rules:
-#      - changes:
-#           - backend/*
+   rules:
+      - changes:
+           - backend/*
    artifacts:
      paths:
       - ${MAVEN_REPO_PATH} # сохранение зависимостей для SAST#
@@ -65,6 +65,7 @@ sonarqube-check-backend:
       - merge_requests
       - main # or the name of your main branch
       - develop
+      - docker
 
 build-backend:
   stage: build-backend-docker

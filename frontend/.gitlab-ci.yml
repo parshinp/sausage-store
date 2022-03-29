@@ -32,9 +32,9 @@ build:
    artifacts:
       paths:
          - sausage-store-${VERSION}/public_html
-#   rules:
-#      - changes:
-#           - frontend/*
+   rules:
+      - changes:
+           - frontend/*
 
 sonarqube-check-frontend:
   dependencies:
@@ -101,7 +101,7 @@ deploy-frontend:
       /bin/bash -s " < ./frontend/fronend_deploy.sh
   environment:
     name: prod-frontend-docker
-#  rules:
-#    - changes:
-#         - frontend/*
+  rules:
+    - changes:
+         - frontend/*
 #      when: manual
