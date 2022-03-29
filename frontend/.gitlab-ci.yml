@@ -1,6 +1,6 @@
 variables:
 #   VERSION: 1.0.${CI_PIPELINE_ID}
-MODULE: frontend
+#MODULE: frontend
 
 stages:
    - build-frontend
@@ -20,7 +20,7 @@ stages:
     - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
 
-build:
+build-front:
    stage: build-frontend
    script:
       - echo "ARTIFACT_JOB_ID=${CI_JOB_ID}" > CI_JOB_ID.txt  # сохранение номера задачи в файл, чтобы в дальнейшем использовать для копирования артефакта 
@@ -39,7 +39,7 @@ build:
 
 sonarqube-check-frontend:
   dependencies:
-    - build-frontend
+    - build-front
   stage: test
   image:
     name: sonarsource/sonar-scanner-cli:4.6
@@ -58,7 +58,7 @@ sonarqube-check-frontend:
   only:
     - merge_requests
     - main # or the name of your main branch
-    - developing
+    - docker
 
 build-frontend-docker:
   stage: build-docker-front

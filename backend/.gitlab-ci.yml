@@ -5,7 +5,7 @@ variables:
    SAST_JAVA_VERSION: 11
    SECURE_LOG_LEVEL: "debug"
    JAVA_OPTS: -XX:MaxRAMPercentage=90.0
-   MODULE: backend
+#   MODULE: backend
    
 include:
   - template: Security/SAST.gitlab-ci.yml
@@ -20,7 +20,7 @@ stages:
    - deploy-docker
 #   - release-backend
 
-build:
+build-back:
    stage: build-backend
    script:       
       - java --version
@@ -40,7 +40,7 @@ build:
 
 spotbugs-sast:
   dependencies:
-    - build-backend
+    - build-back
   before_script:
     - cd ${CI_PROJECT_DIR}/sausage-store-$VERSION
     - cp sausage-store-$VERSION.jar /builds/parshin/sausage-store/backend/sausage-store-$VERSION.jar
