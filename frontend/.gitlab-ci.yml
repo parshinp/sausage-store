@@ -6,7 +6,7 @@ stages:
    - test
    - build-docker-front
    - release-docker-front
-#   - release-frontend
+##   - release-frontend
    - deploy-frontend
 
 .before_script_template:
