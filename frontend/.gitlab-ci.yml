@@ -1,12 +1,13 @@
 variables:
 #   VERSION: 1.0.${CI_PIPELINE_ID}
+MODULE: frontend
 
 stages:
    - build-frontend
    - test
    - build-docker-front
    - release-docker-front
-##   - release-frontend
+#   - release-frontend
    - deploy-frontend
 
 .before_script_template:
