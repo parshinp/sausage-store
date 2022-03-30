@@ -56,7 +56,7 @@ sonarqube-check-frontend:
       - .sonar/cache
   script:
       - cd frontend
-      - sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.projectKey=${SONAR_TOKEN} -Dsonar.host.url=https://sonarqube.praktikum-services.ru -sonar.login=${SONAR_TOKEN} -Dsonar.projectName=02_PAVELPARSHIN_FRONTEND
+      - sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.projectKey=${SONAR_TOKEN} -Dsonar.host.url=https://sonarqube.praktikum-services.ru -Dsonar.login=${SONAR_TOKEN} -Dsonar.projectName=02_PAVELPARSHIN_FRONTEND
   allow_failure: true
 
 build-frontend-docker:
@@ -65,11 +65,11 @@ build-frontend-docker:
   stage: build-docker-front
   image: docker:20.10.12-dind-rootless
   before_script:
-    - until docker info; do sleep 2; done
-    # переменные CI_REGISTRY_USER, CI_REGISTRY_PASSWORD, CI_REGISTRY генерятся Гитлабом, их задавать не надо
-   # - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-  script:
+   # - until docker info; do sleep 2; done
+   # переменные CI_REGISTRY_USER, CI_REGISTRY_PASSWORD, CI_REGISTRY генерятся Гитлабом, их задавать не надо
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+  #  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - cd frontend
     - >
       docker build
