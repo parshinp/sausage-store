@@ -91,7 +91,7 @@ deploy-frontend:
        export "CI_REGISTRY_USER=${CI_REGISTRY_USER}";
        export "CI_JOB_TOKEN=${CI_JOB_TOKEN}";
        export "CI_REGISTRY=${CI_REGISTRY}";
-      /bin/bash -s " < ./frontend/fronend_deploy.sh
+      /bin/bash -s " < ./frontend/frontend_deploy.sh
   environment:
     name: prod-frontend-docker
   rules:
