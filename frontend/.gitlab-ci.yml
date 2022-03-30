@@ -44,7 +44,7 @@ build-front:
 spotbugs-sast:
   stage: test
   dependencies:
-    - build-frontend
+    - build-front
   variables:
     COMPILE: "false"
   rules:
