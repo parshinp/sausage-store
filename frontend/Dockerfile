@@ -6,4 +6,4 @@ RUN npm install
 RUN npm install -g http-server
 RUN npm run build
 EXPOSE 80
-ENTRYPOINT ["http-server", "dist/frontend/", "-p", "80", "--proxy", "http://172.18.0.2:8080"]
+ENTRYPOINT ["http-server", "dist/frontend/", "-p", "80", "--proxy", "http://backend.sausage_network:8080"]
