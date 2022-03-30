@@ -52,7 +52,7 @@ sonarqube-check-frontend:
       - .sonar/cache
   script:
       - cd frontend
-      - sonar-scanner -Dsonar.projectKey=parshin_sausage-store_AX5VY2NDWyGwrBh1KfJm -Dsonar.host.url=${SONAR_URL} -Dsonar.login=${SONAR_TOKEN} -Dsonar.projectName=02_PAVELPARSHIN_FRONTEND
+      - sonar-scanner -Dsonar.projectKey=591acb99e84bd69ddbde30cadaf0fee228799d59 -Dsonar.host.url=${SONAR_URL} -Dsonar.login=${SONAR_TOKEN} -Dsonar.projectName=02_PAVELPARSHIN_FRONTEND
   allow_failure: true
 
 build-frontend-docker:
@@ -88,6 +88,8 @@ deploy-frontend:
   stage: deploy-frontend
   image: alpine:3.15.0
   script:
+    - pwd
+    - ls -la
     - ssh ${DEV_USER}@${DEV_HOST}
       "export "VERSION=${VERSION}";
        export "CI_REGISTRY_USER=${CI_REGISTRY_USER}";
