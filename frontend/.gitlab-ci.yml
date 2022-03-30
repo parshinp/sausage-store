@@ -42,8 +42,8 @@ build-front:
            - frontend/*
 
 sonarqube-check-frontend:
-  dependencies:
-    - build-front
+#  dependencies:
+#    - build-front
   stage: test
   image:
     name: sonarsource/sonar-scanner-cli:4.6
@@ -65,6 +65,8 @@ sonarqube-check-frontend:
     - docker
 
 build-frontend-docker:
+  dependencies:
+    - build-front
   stage: build-docker-front
   image: docker:20.10.12-dind-rootless
   before_script:
