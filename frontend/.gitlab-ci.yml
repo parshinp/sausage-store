@@ -37,6 +37,8 @@ build-front:
            - frontend/*
 
 sonarqube-check-frontend:
+  dependencies:
+    - build-front
   stage: test
   image:
     name: "sonarsource/sonar-scanner-cli:latest"
@@ -50,7 +52,7 @@ sonarqube-check-frontend:
       - .sonar/cache
   script:
       - cd frontend
-      - sonar-scanner -Dsonar.projectKey=${SONAR_TOKEN} -Dsonar.host.url=${SONAR_URL} -Dsonar.login=${SONAR_TOKEN} -Dsonar.projectName=02_PAVELPARSHIN_FRONTEND
+      - sonar-scanner -Dsonar.projectKey=parshin_sausage-store_AX5VY2NDWyGwrBh1KfJm -Dsonar.host.url=${SONAR_URL} -Dsonar.login=${SONAR_TOKEN} -Dsonar.projectName=02_PAVELPARSHIN_FRONTEND
   allow_failure: true
 
 build-frontend-docker:
