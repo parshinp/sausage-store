@@ -9,16 +9,6 @@ stages:
    - release-docker-front
    - deploy-frontend
 
-.before_script_template:
-   before_script:
-    - apk add openssh-client bash
-    - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
-    - chmod 644 ~/.ssh/known_hosts
-
 build-front:
    stage: build-frontend
    script:
@@ -52,7 +42,12 @@ sonarqube-check-frontend:
       - .sonar/cache
   script:
       - cd frontend
-      - sonar-scanner -Dsonar.projectKey=591acb99e84bd69ddbde30cadaf0fee228799d59 -Dsonar.host.url=${SONAR_URL} -Dsonar.login=${SONAR_TOKEN} -Dsonar.projectName=02_PAVELPARSHIN_FRONTEND
+   #   - sonar-scanner -Dsonar.projectKey=591acb99e84bd69ddbde30cadaf0fee228799d59 -Dsonar.host.url=${SONAR_URL} -Dsonar.login=${SONAR_TOKEN} -Dsonar.projectName=02_PAVELPARSHIN_FRONTEND
+      - sonar-scanner \
+        -Dsonar.projectKey=591acb99e84bd69ddbde30cadaf0fee228799d60 \
+        -Dsonar.sources=. \
+        -Dsonar.host.url=https://sonarqube.praktikum-services.ru \
+        -Dsonar.login=591acb99e84bd69ddbde30cadaf0fee228799d59  
   allow_failure: true
 
 build-frontend-docker:
@@ -84,9 +79,18 @@ upload-backend-latest:
     - docker tag $CI_REGISTRY_IMAGE/sausage-frontend:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/sausage-frontend:latest
     - docker push $CI_REGISTRY_IMAGE/sausage-frontend:latest
 
+
 deploy-frontend:
   stage: deploy-frontend
   image: alpine:3.15.0
+  before_script:
+    - apk add openssh-client bash
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
   script:
     - pwd
     - ls -la
