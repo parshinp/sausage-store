@@ -2,6 +2,7 @@ variables:
 #VERSION: 1.0.${CI_PIPELINE_ID}
 
 include:
+  - template: Security/SAST.gitlab-ci.yml
   - project: 'templates/ci'
     file: 'DockerInDockerTemplate.yml'
 
@@ -40,12 +41,20 @@ build-front:
       - changes:
            - frontend/*
 
+spotbugs-sast:
+  stage: test
+  dependencies:
+    - build-frontend
+  variables:
+    COMPILE: "false"
+  rules:
+    - changes:
+      - frontend/**/*
+
 sonarqube-check-frontend:
-#  dependencies:
-#    - build-front
   stage: test
   image:
-    name: sonarsource/sonar-scanner-cli:4.6
+    name: "sonarsource/sonar-scanner-cli:latest"
     entrypoint: [""]
   variables:
     SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
@@ -56,7 +65,7 @@ sonarqube-check-frontend:
       - .sonar/cache
   script:
       - cd frontend
-      - sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.projectKey=${SONAR_TOKEN} -Dsonar.host.url=https://sonarqube.praktikum-services.ru -Dsonar.login=${SONAR_TOKEN} -Dsonar.projectName=02_PAVELPARSHIN_FRONTEND
+      - sonar-scanner -Dsonar.projectKey=${SONAR_TOKEN} -Dsonar.host.url=https://sonarqube.praktikum-services.ru -Dsonar.login=${SONAR_TOKEN} -Dsonar.projectName=02_PAVELPARSHIN_FRONTEND
   allow_failure: true
 
 build-frontend-docker:
@@ -69,13 +78,8 @@ build-frontend-docker:
    # переменные CI_REGISTRY_USER, CI_REGISTRY_PASSWORD, CI_REGISTRY генерятся Гитлабом, их задавать не надо
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
-  #  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - cd frontend
-    - >
-      docker build
-      --build-arg VERSION=$VERSION
-      --tag $CI_REGISTRY_IMAGE/sausage-frontend:$CI_COMMIT_SHA
-      .
+    - docker build --build-arg VERSION=$VERSION --tag $CI_REGISTRY_IMAGE/sausage-frontend:$CI_COMMIT_SHA .
     - docker push $CI_REGISTRY_IMAGE/sausage-frontend:$CI_COMMIT_SHA
 
 upload-backend-latest:
