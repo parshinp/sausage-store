@@ -57,12 +57,9 @@ sonarqube-check-frontend:
       - .sonar/cache
   script:
       - cd frontend
-      - sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.projectKey=${SONAR_TOKEN} -Dsonar.host.url=https://sonarqube.praktikum-services.ru -Dsonar.login=parshin17706 -Dsonar.projectName=02_PAVELPARSHIN_FRONTEND
+      - sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.projectKey=02_PAVELPARSHIN_FRONTEND -Dsonar.host.url=https://sonarqube.praktikum-services.ru -Dsonar.login=${SONAR_TOKEN}
+      # -Dsonar.projectName=02_PAVELPARSHIN_FRONTEND
   allow_failure: true
-  only:
-    - merge_requests
-    - main # or the name of your main branch
-    - docker
 
 build-frontend-docker:
   dependencies:
