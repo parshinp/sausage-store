@@ -49,6 +49,8 @@ spotbugs-sast:
 #    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository
 
 sonarqube-check-backend:
+  dependencies:
+    - build-back
   stage: test
   image: maven:3.8.2-openjdk-16
   variables:
@@ -69,6 +71,8 @@ sonarqube-check-backend:
       - docker
 
 build-backend:
+  dependencies:
+    - build-back
   stage: build-backend-docker
   image: docker:20.10.12-dind-rootless
   before_script:

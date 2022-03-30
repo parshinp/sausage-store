@@ -1,6 +1,6 @@
 #!/bin/bash
 set +e
-
+#
 sudo docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
 sudo docker network create -d bridge sausage_network || true
 sudo docker pull gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-frontend:latest
