@@ -9,7 +9,7 @@ sudo docker rm frontend || true
 set -e
 sudo docker run -d --name frontend \
     --network=sausage_network \
-    --p 80:80 \
+    --publish 80:80 \
     --restart always \
     --pull always \
     gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-frontend:latest
