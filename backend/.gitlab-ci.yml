@@ -104,12 +104,6 @@ upload-backend-latest:
 deploy-backend:
   stage: deploy-docker
   image: alpine:3.15.0
-  # если хотим сделать деплой по кнопке
-  #rules:
-  #  - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-  #    when: manual
-  #  - if: '$CI_COMMIT_BRANCH == "master"'
-  #    when: manual
   before_script:
     - apk add openssh-client bash
     - eval $(ssh-agent -s)
@@ -131,9 +125,3 @@ deploy-backend:
       /bin/bash -s " < ./backend/backend_deploy.sh 
   environment:
     name: prod-backend-docker
-
-#release:
-#   stage: release-backend
-#   script:
-#    - cd backend
-#    - mvn deploy -DskipTests -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH} -s settings.xml
