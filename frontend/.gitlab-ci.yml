@@ -42,7 +42,7 @@ sonarqube-check-frontend:
       - .sonar/cache
   script:
       - cd ${CI_PROJECT_DIR}/frontend/
-   #   - sonar-scanner -Dsonar.projectKey=591acb99e84bd69ddbde30cadaf0fee228799d59 -Dsonar.host.url=${SONAR_URL} -Dsonar.login=${SONAR_TOKEN} -Dsonar.projectName=02_PAVELPARSHIN_FRONTEND
+   ##   - sonar-scanner -Dsonar.projectKey=591acb99e84bd69ddbde30cadaf0fee228799d59 -Dsonar.host.url=${SONAR_URL} -Dsonar.login=${SONAR_TOKEN} -Dsonar.projectName=02_PAVELPARSHIN_FRONTEND
       - sonar-scanner -X -Dsonar.projectKey=591acb99e84bd69ddbde30cadaf0fee228799d60 -Dsonar.sources=. -Dsonar.host.url=https://sonarqube.praktikum-services.ru -Dsonar.login=591acb99e84bd69ddbde30cadaf0fee228799d59
   allow_failure: true
 
