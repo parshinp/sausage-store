@@ -1,3 +1,6 @@
+# !! Bonus !!
+# terraform tfstate was uploaded to s3://pavel-parshin-backup/terraform/ -- single node main.tf was modified
+
 #Single Node PostgreSQL
 
 psql "host=rc1a-5xcy25zgi3jzfg6u.mdb.yandexcloud.net \
