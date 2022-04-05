@@ -76,9 +76,15 @@ build-backend:
     - until docker info; do sleep 1; done
     # переменные CI_REGISTRY_USER, CI_REGISTRY_PASSWORD, CI_REGISTRY генерятся Гитлабом, их задавать не надо
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - >
+      apk update
+    - >
+      apk --no-cache add curl
   script:
     - cp sausage-store-${VERSION}/sausage-store-${VERSION}.jar backend/
     - cd backend
+    - >
+      curl https://storage.yandexcloud.net/cloud-certs/CA.pem -o YandexInternalRootCA.crt
     - >
       docker build
       --build-arg VERSION=$VERSION
