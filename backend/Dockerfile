@@ -1,8 +1,18 @@
 #Это так называймый мультистейдж докер-файл. Сначала делаем образ, который соберёт нам java-приложение,
 #а затем из него берём собранный артефакт и кладём его в новый образ, чтобы оставить в нём меньше лишнего
 
-FROM maven:3.8.2-openjdk-16-slim as builder
+#FROM maven:3.8.2-openjdk-16-slim as builder
 # задаём переменную VERSION, которая будет использоваться для сборки проекта
+#ARG VERSION=${VERSION}
+#WORKDIR /usr/src/app
+#COPY ./src ./src
+#COPY *.xml ./
+# копируем CA-сертификат Яндекса в образ
+# RUN curl https://storage.yandexcloud.net/cloud-certs/CA.pem -o YandexInternalRootCA.crt \
+#    && mvn package -Dversion.application=${VERSION}
+
+# release
+FROM openjdk:16-jdk-alpine
 ARG VERSION=${VERSION}
 WORKDIR /usr/src/app
 COPY ./src ./src
@@ -10,10 +20,6 @@ COPY *.xml ./
 # копируем CA-сертификат Яндекса в образ
 RUN curl https://storage.yandexcloud.net/cloud-certs/CA.pem -o YandexInternalRootCA.crt \
     && mvn package -Dversion.application=${VERSION}
-
-# release
-FROM openjdk:16-jdk-alpine
-ARG VERSION=${VERSION}
 WORKDIR /app
 COPY --from=builder /usr/src/app/YandexInternalRootCA.crt .
 # подкидываем CA-сертификат Яндекса в хранилище сертификатов для Java
