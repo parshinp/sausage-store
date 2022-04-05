@@ -19,7 +19,7 @@ COPY ./src ./src
 COPY *.xml ./
 # копируем CA-сертификат Яндекса в образ
 RUN apk add curl && apk add mvn && curl https://storage.yandexcloud.net/cloud-certs/CA.pem -o YandexInternalRootCA.crt \
-    && mvn package -Dversion.application=${VERSION}
+    && maven package -Dversion.application=${VERSION}
 WORKDIR /app
 COPY --from=builder /usr/src/app/YandexInternalRootCA.crt .
 # подкидываем CA-сертификат Яндекса в хранилище сертификатов для Java
