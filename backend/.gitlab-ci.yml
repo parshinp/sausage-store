@@ -1,5 +1,5 @@
 variables:
-##   VERSION: 1.0.${CI_PIPELINE_ID}
+#  VERSION: 1.0.${CI_PIPELINE_ID}
    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository
    SAST_JAVA_VERSION: 11
    SECURE_LOG_LEVEL: "debug"
@@ -15,7 +15,6 @@ stages:
    - build-backend
    - test
    - build-backend-docker
-   - release-docker
    - deploy-docker
 
 build-back:
@@ -83,23 +82,9 @@ build-backend:
     - >
       docker build
       --build-arg VERSION=$VERSION
-      --tag $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
+      --tag $CI_REGISTRY_IMAGE/sausage-backend:$VERSION
       .
-    - docker push $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
-
-upload-backend-latest:
-  variables:
-    GIT_STRATEGY: none
-  image: docker:20.10.12-dind-rootless
-  stage: release-docker
-  before_script:
-    - until docker info; do sleep 1; done
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-  script:
-    - docker pull $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
-    # если образ прошел проверки в CI (сканирование, тесты и т.д), то тегаем latest
-    - docker tag $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/sausage-backend:latest
-    - docker push $CI_REGISTRY_IMAGE/sausage-backend:latest
+    - docker push $CI_REGISTRY_IMAGE/sausage-backend:$VERSION
 
 deploy-backend:
   stage: deploy-docker
