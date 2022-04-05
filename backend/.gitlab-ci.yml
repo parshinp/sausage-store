@@ -15,7 +15,6 @@ stages:
    - build-backend
    - test
    - build-backend-docker
-  # - release-docker
    - deploy-docker
 
 build-back:
