@@ -84,30 +84,11 @@ build-backend:
     - cp sausage-store-${VERSION}/sausage-store-${VERSION}.jar backend/
     - cd backend
     - >
-      curl https://storage.yandexcloud.net/cloud-certs/CA.pem -o YandexInternalRootCA.crt
-    - >
       docker build
       --build-arg VERSION=$VERSION
       --tag $CI_REGISTRY_IMAGE/sausage-backend:$VERSION
       .
     - docker push $CI_REGISTRY_IMAGE/sausage-backend:$VERSION
-        # если образ прошел проверки в CI (сканирование, тесты и т.д), то тегаем latest
-    - docker tag $CI_REGISTRY_IMAGE/sausage-backend:$VERSION $CI_REGISTRY_IMAGE/sausage-backend:$VERSION
-    - docker push $CI_REGISTRY_IMAGE/sausage-backend:$VERSION
-
-#upload-backend-latest:
-#  variables:
-#    GIT_STRATEGY: none
-#  image: docker:20.10.12-dind-rootless
-#  stage: release-docker
-#  before_script:
-#    - until docker info; do sleep 1; done
-#    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-#  script:
-#    - docker pull $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
-    # если образ прошел проверки в CI (сканирование, тесты и т.д), то тегаем latest
-#    - docker tag $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/sausage-backend:latest
-#    - docker push $CI_REGISTRY_IMAGE/sausage-backend:latest
 
 deploy-backend:
   stage: deploy-docker
