@@ -107,6 +107,8 @@ deploy-backend:
        export "CI_REGISTRY_USER=${CI_REGISTRY_USER}";
        export "CI_JOB_TOKEN=${CI_JOB_TOKEN}";
        export "CI_REGISTRY=${CI_REGISTRY}";
+       export PASSWORD="$(vault kv get -field=spring.datasource.password secret/sausage-store)"
+       echo $PASSWORD;
       /bin/bash -s " < ./backend/backend_deploy.sh 
   environment:
     name: prod-backend-docker
