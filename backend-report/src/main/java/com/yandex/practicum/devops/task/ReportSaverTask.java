@@ -1,5 +1,6 @@
 package com.yandex.practicum.devops.task;
 
+import com.yandex.practicum.devops.TrustAllCerts;
 import com.yandex.practicum.devops.model.Report;
 import com.yandex.practicum.devops.repository.ReportRepository;
 import org.slf4j.Logger;
@@ -23,8 +24,9 @@ public class ReportSaverTask {
         this.reportRepository = reportRepository;
     }
 
-    @Scheduled(fixedDelay = 300000)
-    public void saveReport() {
+    @Scheduled(fixedDelay = 60000)
+    public void saveReport() throws Exception {
+        TrustAllCerts.trustAllCerts();
         log.info("Saving report");
         Report report =
                 restTemplate.getForObject("https://d5dg7f2abrq3u84p3vpr.apigw.yandexcloud.net/report", Report.class);
