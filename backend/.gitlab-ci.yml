@@ -43,7 +43,7 @@ spotbugs-sast:
     - cp sausage-store-$VERSION.jar /builds/parshin/sausage-store/backend/sausage-store-$VERSION.jar
   variables:
     COMPILE: "false"
-#    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository
+#   MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository
 
 sonarqube-check-backend:
   dependencies:
@@ -101,12 +101,11 @@ deploy-backend:
     - ssh ${DEV_USER}@${DEV_HOST}
       "export "VERSION=${VERSION}";
        export "SPRING_DATASOURCE_URL=${PSQL_HOST}";
-       export "SPRING_DATASOURCE_USERNAME=${PSQL_USER}";
-       export "SPRING_DATASOURCE_PASSWORD=${PSQL_PASSWORD}";
-       export "SPRING_DATA_MONGODB_URI=${MONGO_DATA}";
        export "CI_REGISTRY_USER=${CI_REGISTRY_USER}";
        export "CI_JOB_TOKEN=${CI_JOB_TOKEN}";
        export "CI_REGISTRY=${CI_REGISTRY}";
+       export "SPRING_VAULT_HOST=${SPRING_VAULT_HOST}";
+       export "SPRING_VAULT_TOKEN=${SPRING_VAULT_TOKEN}";
       /bin/bash -s " < ./backend/backend_deploy.sh 
   environment:
     name: prod-backend-docker
