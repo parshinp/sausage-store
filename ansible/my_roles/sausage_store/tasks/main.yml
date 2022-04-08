@@ -1,0 +1,139 @@
+---
+- name: Task 1 -- Update apt cache
+  apt: update_cache=true cache_valid_time=600
+  when: ansible_os_family == 'Debian'
+  changed_when: false
+  become: yes
+
+- name: Task 1.2 -- nodeJS install
+  ansible.builtin.shell:
+        cmd: curl -fsSL https://deb.nodesource.com/setup_17.x | sudo -E bash -
+  become: true
+
+- name: Task 1.3 -- nodeJS install
+  ansible.builtin.shell:
+        cmd: sudo apt-get install -y nodejs
+  become: true
+
+- name: Task 2 --  Install Java
+  apt:
+    name: "{{ packages }}"
+    state: present
+  become: yes
+  vars:
+     packages:
+           - openjdk-16-jdk
+           - python3-lxml
+
+- name: Task 2.1 -- Install "http-server" package globally.
+  community.general.npm:
+    name: http-server
+    global: yes
+  become: true
+
+- name: Task 3 -- Add user jarservice
+  user:
+        name: jarservice
+        uid: 2001
+        group: jarservice
+        shell: /bin/bash
+        createhome: yes
+        password: "$6$mysecretsalt$zOkde5rKUttgx8WroZlUgQDBP8qoRDksDc1O7vl88ZkRbJS5deM/973hnsbvjdczyrFkk9dIeYdirgXD8Kn6X0"
+  become: yes
+
+- name: Include vars
+  include_vars:
+        dir: vars
+
+- name: Taks 4 -- Add user www-data
+  user:
+        name: www-data
+        uid: 2002
+        group: www-data
+        shell: /bin/bash
+        createhome: yes
+        password: "$6$mysecretsalt$kWkTDG6e8iyYMv6PPqxPvG67.JF3QhC2gSVGqBH7NpKCsHZFN6jjDiOLVeqAvC0rncXrbldE9AkJjHahibfDf0"
+  become: yes
+
+- name: Task 5 -- Create a directory if it does not exist
+  ansible.builtin.file:
+        path: /var/www-data/dist/frontend
+        state: directory
+        mode: '0755'
+        owner: www-data
+        group: www-data
+  become: yes
+
+- name: Task 6 -- Download backend arfifact from Nexus
+  maven_artifact:
+        group_id: com.yandex.practicum.devops
+        artifact_id: sausage-store
+        repository_url: 'https://nexus.praktikum-services.ru/repository/sausage-store-parshin_pavel-backend/'
+        username: '{{ nexus_user }}'
+        password: '{{ nexus_password }}'
+        dest: /home/jarservice/
+        mode: '0644'
+  become_method: sudo
+  become: true
+
+- name: Task 7 -- Download frontend arfifact from Nexus
+  ansible.builtin.shell:
+          cmd: curl -u "{{ nexus_user }}":"{{ nexus_password }}" -L -X GET 'https://nexus.praktikum-services.ru/service/rest/v1/search/assets/download?sort=version&direction=asc&repository=sausage-store-parshin_pavel-frontend' --output /home/jarservice/frontend.tar.gz
+  #get_url:
+  #url: 'https://nexus.praktikum-services.ru/service/rest/v1/search/assets/download?sort=version&direction=desc&repository=sausage-store-parshin_pavel-frontend'
+  #dest: /home/jarservice/
+  #username: '{{ nexus_user }}'
+  #password: '{{ nexus_password }}'
+  #force: yes
+  become_method: sudo
+  become: true
+  #register: downloaded_file
+  #no_log: false
+
+- name: Task 7.1 -- Extract frontend arfifact from Nexus
+  ansible.builtin.shell:
+          cmd: tar xvf /home/jarservice/frontend.tar.gz --directory=/home/jarservice/
+  become: true
+
+- name: Task 7.2  
+  ansible.builtin.shell:        
+          cmd: mv -f /home/jarservice/sausage-store-1.0*.* /home/jarservice/frontend
+  become: true
+
+- name: Task 7.3
+  ansible.builtin.shell:
+          cmd: cp -rf /home/jarservice/frontend/public_html/* /var/www-data/dist/frontend/
+  become: true
+
+- name: Task 8 -- Copy backend service file
+  ansible.builtin.copy:
+    src: /home/jarservice/project/sausage-store/backend/sausage-store-backend.service
+    dest: /etc/systemd/system/sausage-store-backend.service
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Task 9 -- Copy frontend service file
+  ansible.builtin.copy:
+    src: /home/jarservice/project/sausage-store/frontend/sausage-store-frontend.service
+    dest: /etc/systemd/system/sausage-store-frontend.service
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Task 10 -- Start backend service
+  ansible.builtin.systemd:
+      state: restarted
+      daemon_reload: yes
+      name: sausage-store-backend.service
+  become: true
+
+- name: Task 11 -- Start frontend service
+  ansible.builtin.systemd:
+      state: restarted
+      daemon_reload: yes
+      name: sausage-store-frontend.service
+  become: true
+

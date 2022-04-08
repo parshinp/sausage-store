@@ -8,13 +8,21 @@ SuccessExitStatus=143
 User=jarservice
 Type=simple
 
-StandardError=append:/log/err.log
-StandardOutput=append:/log/events.log
-Environment="REPORT_PATH=/log/reports/"
-Environment="LOG_PATH=/log/"
+StandardError=append:/opt/log/sausage-store.log
+StandardOutput=append:/opt/log/sausage-store.log
+Environment="REPORT_PATH=/opt/log/reports/"
+Environment="LOG_PATH=/opt/log/"
 Restart=always
 Environment="LOGGING_LEVEL_ROOT=INFO"
-ExecStart=java -jar /home/jarservice/sausage-store.jar
+
+#Start backend jar file with Mongo DB
+ExecStart=/usr/bin/java \
+-jar '/opt/sausage-store.jar' \
+--spring.datasource.url=jdbc:postgresql://c-c9qslvj961omn1nevnjl.rw.mdb.yandexcloud.net:6432/testdb \
+--spring.datasource.username=sa \
+--spring.datasource.password=password \
+--spring.flyway.baselineOnMigrate=true \
+--spring.data.mongodb.uri=mongodb://parshin:Testusr1234@rc1b-nczpq63snuc5a3z2.mdb.yandexcloud.net:27018/parshin?tls=true 
 
 [Install]
 WantedBy=multi-user.target

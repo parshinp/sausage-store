@@ -1,22 +1,30 @@
 variables:
-   VERSION: 1.0.${CI_PIPELINE_ID}
-   MAVEN_REPO_PATH: ./.m2/repository
-###########  JAVA_OPTS: -XX:MaxRAMPercentage=90
-
+#  VERSION: 1.0.${CI_PIPELINE_ID}
+   MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository
+   SAST_JAVA_VERSION: 11
+   SECURE_LOG_LEVEL: "debug"
+   JAVA_OPTS: -XX:MaxRAMPercentage=90.0
+   SAST_EXCLUDED_ANALYZERS: "eslint-sast,nodejs-scan-sast"
+   
 include:
   - template: Security/SAST.gitlab-ci.yml
+  - project: 'templates/ci'
+    file: 'DockerInDockerTemplate.yml'  
 
 stages:
    - build-backend
    - test
-   - release-backend
-   - deploy-backend
+   - build-backend-docker
+   - deploy-docker
 
-build:
+build-back:
    stage: build-backend
    script:       
+      - java --version
+      - pwd
+      - echo "ARTIFACT_JOB_ID=${CI_JOB_ID}" > CI_JOB_ID.txt  # сохранение номера задачи в файл, чтобы в дальнейшем использовать для копирования артефакта 
       - cd backend
-      - mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository
+      - mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH}
       - mkdir ${CI_PROJECT_DIR}/sausage-store-$VERSION
       - cp ${CI_PROJECT_DIR}/backend/target/sausage-store-$VERSION.jar ${CI_PROJECT_DIR}/sausage-store-$VERSION/sausage-store-$VERSION.jar
    rules:
@@ -24,20 +32,22 @@ build:
            - backend/*
    artifacts:
      paths:
-      - ${CI_PROJECT_DIR}/.m2/ # сохранение зависимостей для SAST
+      - ${MAVEN_REPO_PATH} # сохранение зависимостей для SAST#
       - sausage-store-$VERSION/sausage-store-$VERSION.jar
 
 spotbugs-sast:
+  dependencies:
+    - build-back
   before_script:
     - cd ${CI_PROJECT_DIR}/sausage-store-$VERSION
     - cp sausage-store-$VERSION.jar /builds/parshin/sausage-store/backend/sausage-store-$VERSION.jar
   variables:
     COMPILE: "false"
-    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository
-  #dependencies:
-  #  - build
+#    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository
 
 sonarqube-check-backend:
+  dependencies:
+    - build-back
   stage: test
   image: maven:3.8.2-openjdk-16
   variables:
@@ -55,38 +65,48 @@ sonarqube-check-backend:
       - merge_requests
       - main # or the name of your main branch
       - develop
+      - docker
 
-release:
-   stage: release-backend
-   script:
+build-backend:
+  dependencies:
+    - build-back
+  stage: build-backend-docker
+  image: docker:20.10.12-dind-rootless
+  before_script:
+    - until docker info; do sleep 1; done
+    # переменные CI_REGISTRY_USER, CI_REGISTRY_PASSWORD, CI_REGISTRY генерятся Гитлабом, их задавать не надо
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - cp sausage-store-${VERSION}/sausage-store-${VERSION}.jar backend/
     - cd backend
-    - mvn deploy -DskipTests -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH} -s settings.xml
+    - >
+      docker build
+      --build-arg VERSION=$VERSION
+      --tag $CI_REGISTRY_IMAGE/sausage-backend:$VERSION
+      .
+    - docker push $CI_REGISTRY_IMAGE/sausage-backend:$VERSION
 
-.before_script_template:
-   before_script:
-    - 'command -v ssh-agent >/dev/null || ( apt update -y && apt install openssh-client -y )'
+deploy-backend:
+  stage: deploy-docker
+  image: alpine:3.15.0
+  before_script:
+    - apk add openssh-client bash
     - eval $(ssh-agent -s)
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
-    - chmod 600 ~/.ssh
+    - chmod 700 ~/.ssh
     - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
-    - ssh ${DEV_USER}@${DEV_HOST} "id"
-    - ssh ${DEV_USER}@${DEV_HOST} "ls -la ~/"
-  
-deploy:
-  extends: .before_script_template
-  stage: deploy-backend
   script:
-    - pwd
-    - cd backend 
-    - ls -la
-    - scp sausage-store-backend.service ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/sausage-store-backend.service
-    - ssh ${DEV_USER}@${DEV_HOST} "export "CURRENT_VERSION=${VERSION}"; export "DEV_USER=${DEV_USER}"; export "VERSION=${VERSION}"; export "DEV_HOST=${DEV_HOST}"; export "NEXUS_REPO_URL=${NEXUS_REPO_URL}"; export "NEXUS_REPO_USER=${NEXUS_REPO_USER}"; export "NEXUS_REPO_PASS=${NEXUS_REPO_PASS}"; setsid /home/student/projects/sausage-store/backend/deploy.sh"
-#    - ssh ${DEV_USER}@${DEV_HOST} "setsid /home/student/projects/sausage-store/backend/deploy.sh"
+    - ssh ${DEV_USER}@${DEV_HOST}
+      "export "VERSION=${VERSION}";
+       export "SPRING_DATASOURCE_URL=${PSQL_HOST}";
+       export "SPRING_DATASOURCE_USERNAME=${PSQL_USER}";
+       export "SPRING_DATASOURCE_PASSWORD=${PSQL_PASSWORD}";
+       export "SPRING_DATA_MONGODB_URI=${MONGO_DATA}";
+       export "CI_REGISTRY_USER=${CI_REGISTRY_USER}";
+       export "CI_JOB_TOKEN=${CI_JOB_TOKEN}";
+       export "CI_REGISTRY=${CI_REGISTRY}";
+      /bin/bash -s " < ./backend/backend_deploy.sh 
   environment:
-    name: production-backend
-  rules:
-     - changes:
-          - backend/*
-       when: manual
+    name: prod-backend-docker

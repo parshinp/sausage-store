@@ -74,14 +74,10 @@ public class OrderProduct {
             return false;
         }
         OrderProduct other = (OrderProduct) obj;
-        if (pk == null) {
-            if (other.pk != null) {
-                return false;
-            }
-        } else if (!pk.equals(other.pk)) {
-            return false;
-        }
 
-        return true;
+        if (pk == null) {
+            return other.pk == null;
+        }
+        else return pk.equals(other.pk);
     }
 }

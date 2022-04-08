@@ -1,0 +1,5 @@
+---
+- hosts: terraform_server
+  roles:
+    - sausage_store
+
