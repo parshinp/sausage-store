@@ -1,0 +1,47 @@
+version: "3.3"
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: gitlab.praktikum-services.ru:5050/parshin/sausage-store/backend:${BACKEND_VERSION}
+    container_name: sausage-store-backend
+    environment:
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${SPRING_DATASOURCE_HOST}:${SPRING_DATASOURCE_PORT}/${SPRING_DATASOURCE_DATABASE}
+      SPRING_FLYWAY_BASELINE-ON-MIGRATE: "true"
+      SPRING_CLOUD_VAULT_TOKEN: ${SPRING_VAULT_TOKEN}
+    networks:
+      - sausage-store
+  backend-report:
+    build:
+      context: ./backend-report
+      dockerfile: Dockerfile
+    image: gitlab.praktikum-services.ru:5050/parshin/sausage-store/backend-report:${BACKEND_REPORT_VERSION}
+    container_name: sausage-store-backend-report
+    environment:
+      SPRING_CLOUD_VAULT_TOKEN: ${SPRING_VAULT_TOKEN}
+    networks:
+      - sausage-store
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: gitlab.praktikum-services.ru:5050/parshin/sausage-store/frontend:${FRONTEND_VERSION}
+    container_name: sausage-store-frontend
+    ports:
+      - "80:80"
+    networks:
+      - sausage-store
+  vault:
+    image: vault
+    container_name: vault1
+    environment:
+      SPRING_VAULT_TOKEN: ${SPRING_VAULT_TOKEN}
+      VAULT_SERVER: "http://127.0.0.1:8208"
+      VAULT_ADDR: "http://127.0.0.1:8208"
+    networks:
+      - sausage-store
+
+networks:
+  sausage-store:
