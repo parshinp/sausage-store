@@ -17,4 +17,5 @@ sudo docker run -d --name backend \
     --network=sausage_network \
     --restart=always \
     --pull=always \
+    --env-file .env \
     gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-backend:$VERSION
