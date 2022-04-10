@@ -100,7 +100,7 @@ deploy-backend:
   script:
     - ssh ${DEV_USER}@${DEV_HOST}
       "export "VERSION=${VERSION}";
-       export "SPRING_DATASOURCE_URL=${PSQL_HOST}";
+       export "PSQL_HOST=${PSQL_HOST}";
        export "CI_REGISTRY_USER=${CI_REGISTRY_USER}";
        export "CI_JOB_TOKEN=${CI_JOB_TOKEN}";
        export "CI_REGISTRY=${CI_REGISTRY}";
