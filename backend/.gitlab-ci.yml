@@ -106,6 +106,6 @@ deploy-backend:
        export "CI_REGISTRY=${CI_REGISTRY}";
        export "SPRING_VAULT_HOST=${SPRING_VAULT_HOST}";
        export "SPRING_VAULT_TOKEN=${SPRING_VAULT_TOKEN}";
-      /bin/bash -s " < ./backend/backend_deploy.sh 
+      /bin/bash -s " < ./compose_back_deploy.sh 
   environment:
-    name: prod-backend-docker
+    name: prod-backend-docker-compose
