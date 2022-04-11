@@ -7,7 +7,6 @@ variables:
    SAST_EXCLUDED_ANALYZERS: "eslint-sast,nodejs-scan-sast"
    
 include:
-  - template: Security/SAST.gitlab-ci.yml
   - project: 'templates/ci'
     file: 'DockerInDockerTemplate.yml'  
 
