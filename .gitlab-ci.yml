@@ -25,3 +25,13 @@ backend:
   only:
     changes:  #как только происходит изменение в папке backend, запускается дочерний пайплайн, который лежит в этой папке
       - backend/**/*
+
+backend-report:
+  stage: module-pipelines
+  trigger:
+    include:
+      - "/backend-report/.gitlab-ci.yml"
+    strategy: depend
+  only:
+    changes:  #как только происходит изменение в папке backend, запускается дочерний пайплайн, который лежит в этой папке
+      - backend-report/**/*

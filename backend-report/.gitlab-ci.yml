@@ -12,64 +12,10 @@ include:
     file: 'DockerInDockerTemplate.yml'  
 
 stages:
-   - build-backend
-   - test
    - build-backend-docker
    - deploy-docker
 
-build-back:
-   stage: build-backend
-   script:       
-      - java --version
-      - pwd
-      - echo "ARTIFACT_JOB_ID=${CI_JOB_ID}" > CI_JOB_ID.txt  # сохранение номера задачи в файл, чтобы в дальнейшем использовать для копирования артефакта 
-      - cd backend
-      - mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH}
-      - mkdir ${CI_PROJECT_DIR}/sausage-store-$VERSION
-      - cp ${CI_PROJECT_DIR}/backend/target/sausage-store-$VERSION.jar ${CI_PROJECT_DIR}/sausage-store-$VERSION/sausage-store-$VERSION.jar
-   rules:
-      - changes:
-           - backend/*
-   artifacts:
-     paths:
-      - ${MAVEN_REPO_PATH} # сохранение зависимостей для SAST#
-      - sausage-store-$VERSION/sausage-store-$VERSION.jar
-
-spotbugs-sast:
-  dependencies:
-    - build-back
-  before_script:
-    - cd ${CI_PROJECT_DIR}/sausage-store-$VERSION
-    - cp sausage-store-$VERSION.jar /builds/parshin/sausage-store/backend/sausage-store-$VERSION.jar
-  variables:
-    COMPILE: "false"
-#   MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository
-
-sonarqube-check-backend:
-  dependencies:
-    - build-back
-  stage: test
-  image: maven:3.8.2-openjdk-16
-  variables:
-    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
-    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
-  cache:
-    key: "${CI_JOB_NAME}"
-    paths:
-      - .sonar/cache
-  script:
-      - cd backend 
-      - mvn verify sonar:sonar -Dsonar.projectKey=parshin_sausage-store_AX5VY2NDWyGwrBh1KfJm -Dsonar.host.url=${SONAR_URL} -Dsonar.login=${SONAR_TOKEN} -Dsonar.projectName=02_PAVELPARSHIN_BACKEND
-  allow_failure: true
-  only:
-      - merge_requests
-      - main # or the name of your main branch
-      - develop
-      - docker
-
 build-backend:
-  dependencies:
-    - build-back
   stage: build-backend-docker
   image: docker:20.10.12-dind-rootless
   before_script:
@@ -77,14 +23,12 @@ build-backend:
     # переменные CI_REGISTRY_USER, CI_REGISTRY_PASSWORD, CI_REGISTRY генерятся Гитлабом, их задавать не надо
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
-    - cp sausage-store-${VERSION}/sausage-store-${VERSION}.jar backend/
-    - cd backend
     - >
       docker build
       --build-arg VERSION=$VERSION
-      --tag $CI_REGISTRY_IMAGE/sausage-backend:$VERSION
+      --tag $CI_REGISTRY_IMAGE/sausage-backend-report:$VERSION
       .
-    - docker push $CI_REGISTRY_IMAGE/sausage-backend:$VERSION
+    - docker push $CI_REGISTRY_IMAGE/sausage-backend-report:$VERSION
 
 deploy-backend:
   stage: deploy-docker
@@ -108,4 +52,4 @@ deploy-backend:
        export "SPRING_VAULT_TOKEN=${SPRING_VAULT_TOKEN}";
       /bin/bash -s " < ./backend/backend_deploy.sh 
   environment:
-    name: prod-backend-docker
+    name: prod-backend-report-docker
