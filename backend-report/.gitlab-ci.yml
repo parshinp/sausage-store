@@ -18,6 +18,7 @@ build-backend:
   stage: build-backend-docker
   image: docker:20.10.12-dind-rootless
   before_script:
+    - cd backend-report
     - until docker info; do sleep 1; done
     # переменные CI_REGISTRY_USER, CI_REGISTRY_PASSWORD, CI_REGISTRY генерятся Гитлабом, их задавать не надо
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
