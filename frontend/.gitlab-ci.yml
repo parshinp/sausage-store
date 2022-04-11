@@ -87,9 +87,9 @@ deploy-frontend:
     - chmod 700 ~/.ssh
     - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
-    - pwd
   script:
     - ssh ${DEV_USER}@${DEV_HOST}
+    - pwd
       "export "VERSION=${VERSION}";
        export "CI_REGISTRY_USER=${CI_REGISTRY_USER}";
        export "CI_JOB_TOKEN=${CI_JOB_TOKEN}";
