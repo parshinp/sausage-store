@@ -88,8 +88,7 @@ deploy-frontend:
     - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
   script:
-    - ssh ${DEV_USER}@${DEV_HOST}
-    - pwd
+    - ssh ${DEV_USER}@${DEV_HOST} && pwd
       "export "VERSION=${VERSION}";
        export "CI_REGISTRY_USER=${CI_REGISTRY_USER}";
        export "CI_JOB_TOKEN=${CI_JOB_TOKEN}";
@@ -100,4 +99,4 @@ deploy-frontend:
   rules:
     - changes:
          - frontend/*
-##      when: manual
+#      when: manual
