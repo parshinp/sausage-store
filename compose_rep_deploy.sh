@@ -1,4 +1,5 @@
 #!/bin/bash
+/home/jarservice/project/sausage-store
 set +e
 touch .env.report
 cat > .env.report <<EOF

@@ -1,4 +1,5 @@
 #!/bin/bash
+/home/jarservice/project/sausage-store
 set +e
 sudo docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
 #sudo docker-compose build || true

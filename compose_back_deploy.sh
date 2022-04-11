@@ -1,4 +1,5 @@
 #!/bin/bash
+cd /home/jarservice/project/sausage-store
 set +e
 touch .env.back
 cat > .env.back <<EOF
