@@ -36,7 +36,7 @@ build-jar:
 
 spotbugs-sast:
   dependencies:
-    - build-backend-jar
+    - build-jar
   before_script:
     - cd ${CI_PROJECT_DIR}/sausage-store-$VERSION
     - cp sausage-store-$VERSION.jar /builds/parshin/sausage-store/backend/sausage-store-$VERSION.jar
@@ -45,7 +45,7 @@ spotbugs-sast:
 
 build-backend:
   dependencies:
-    - build-backend-jar
+    - build-jar
   stage: build-backend-docker
   image: docker:20.10.12-dind-rootless
   before_script:
