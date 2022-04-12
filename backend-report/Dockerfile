@@ -13,7 +13,9 @@ RUN apk add curl \
     && rm -rf YandexInternalRootCA.crt \
     && addgroup --system jaruser \
     && adduser -S -s /bin/false -G jaruser jaruser -D -H \
-    && apk add --no-cache dumb-init==1.2.5-r0
+    && apk add --no-cache dumb-init==1.2.5-r0 \
+    && pwd \
+    && ls -la
 COPY --chown=jaruser:jaruser \
      ./sausage-store-report-${VERSION}.jar ./sausage-store-report.jar
 EXPOSE 8081
