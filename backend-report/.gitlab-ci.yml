@@ -25,8 +25,8 @@ build-jar:
       - echo "ARTIFACT_JOB_ID=${CI_JOB_ID}" > CI_JOB_ID.txt  # сохранение номера задачи в файл, чтобы в дальнейшем использовать для копирования артефакта 
       - cd backend
       - mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH}
-      - mkdir ${CI_PROJECT_DIR}/sausage-store-$VERSION
-      - cp ${CI_PROJECT_DIR}/backend/target/sausage-store-report-$VERSION.jar ${CI_PROJECT_DIR}/sausage-store-report-$VERSION/sausage-store-report-$VERSION.jar
+      - mkdir ${CI_PROJECT_DIR}/sausage-store-report-$VERSION
+      - cp ${CI_PROJECT_DIR}/backend-report/target/sausage-store-report-$VERSION.jar ${CI_PROJECT_DIR}/sausage-store-report-$VERSION/sausage-store-report-$VERSION.jar
    rules:
       - changes:
            - backend/*
