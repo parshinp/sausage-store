@@ -20,10 +20,8 @@ stages:
 build-jar:
    stage: build-backend-jar
    script:       
-      - java --version
-      - pwd
       - echo "ARTIFACT_JOB_ID=${CI_JOB_ID}" > CI_JOB_ID.txt  # сохранение номера задачи в файл, чтобы в дальнейшем использовать для копирования артефакта 
-      - cd backend
+      - cd backend-report
       - mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH}
       - mkdir ${CI_PROJECT_DIR}/sausage-store-report-$VERSION
       - cp ${CI_PROJECT_DIR}/backend-report/target/sausage-store-report-$VERSION.jar ${CI_PROJECT_DIR}/sausage-store-report-$VERSION/sausage-store-report-$VERSION.jar
@@ -40,7 +38,7 @@ spotbugs-sast:
     - build-jar
   before_script:
     - cd ${CI_PROJECT_DIR}/sausage-store-$VERSION
-    - cp sausage-store-$VERSION.jar /builds/parshin/sausage-store/backend/sausage-store-$VERSION.jar
+    - cp sausage-store-report-$VERSION.jar /builds/parshin/sausage-store/backend-report/sausage-store-report-$VERSION.jar
   variables:
     COMPILE: "false"
 
