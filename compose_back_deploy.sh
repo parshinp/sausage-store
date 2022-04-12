@@ -8,6 +8,6 @@ SPRING_VAULT_TOKEN=${SPRING_VAULT_TOKEN}
 VERSION=${VERSION}
 EOF
 sudo docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
+sudo docker pull gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-backend:$VERSION
 set -e
-sudo docker-compose pull gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-backend:$VERSION
 sudo docker-compose --env-file .env.back up -d backend
