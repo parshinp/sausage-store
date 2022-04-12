@@ -3,7 +3,7 @@ FROM maven:3.8-openjdk-16 as builder
 ARG VERSION
 WORKDIR /usr/src/app
 COPY . .
-RUN mvn package -DskipTests -Dversion.application=${VERSION}
+RUN mvn package -DskipTests -Dversion.application=sausage-store-report-${VERSION}
 
 FROM openjdk:16
 
