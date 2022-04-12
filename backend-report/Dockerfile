@@ -11,13 +11,14 @@ RUN curl https://storage.yandexcloud.net/cloud-certs/CA.pem -o YandexInternalRoo
     && keytool -importcert -file YandexInternalRootCA.crt \
     -alias yandex -cacerts -storepass changeit -noprompt \
     && rm -rf YandexInternalRootCA.crt \
-    && addgroup --system jaruser \
-    && adduser -S -s /bin/false -G jaruser jaruser -D -H \
+#    && addgroup --system jaruser \
+#    && adduser -S -s /bin/false -G jaruser jaruser -D -H \
 #    && apk add --no-cache dumb-init==1.2.5-r0 \
 #    && pwd \
 #    && ls -la
-COPY --chown=jaruser:jaruser \
-     ./sausage-store-report-${VERSION}.jar ./sausage-store-report.jar
+#COPY --chown=jaruser:jaruser \
+#     ./sausage-store-report-${VERSION}.jar ./sausage-store-report.jar
+COPY ./sausage-store-report-${VERSION}.jar ./sausage-store-report.jar
 EXPOSE 8081
 # приложение будет запускаться под пользователем jaruser
 USER jaruser
