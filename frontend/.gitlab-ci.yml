@@ -81,4 +81,4 @@ deploy-frontend:
   rules:
     - changes:
          - frontend/*
-#      when: manual
+##      when: manual
