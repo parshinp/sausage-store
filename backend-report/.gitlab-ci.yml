@@ -13,6 +13,7 @@ include:
 
 stages:
    - build-backend-jar
+   - test
    - build-backend-docker
    - deploy-docker-compose
 
