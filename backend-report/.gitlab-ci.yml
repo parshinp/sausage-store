@@ -20,7 +20,6 @@ stages:
 build-jar:
    stage: build-backend-jar
    script:       
-      - echo "ARTIFACT_JOB_ID=${CI_JOB_ID}" > CI_JOB_ID.txt  # сохранение номера задачи в файл, чтобы в дальнейшем использовать для копирования артефакта 
       - cd backend-report
       - mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH}
       - mkdir ${CI_PROJECT_DIR}/sausage-store-report-$VERSION
@@ -47,6 +46,8 @@ build-backend:
     - build-jar
   stage: build-backend-docker
   image: docker:20.10.12-dind-rootless
+  cache:
+  key: "${CI_JOB_NAME}"
   before_script:
     - cd backend-report
     - until docker info; do sleep 1; done
@@ -56,6 +57,7 @@ build-backend:
     - ls -la ${CI_PROJECT_DIR}
     - cp ${CI_PROJECT_DIR}/sausage-store-report-$VERSION/sausage-store-report-${VERSION}.jar ${CI_PROJECT_DIR}/backend-report
     - cd ${CI_PROJECT_DIR}/backend-report
+    - ls -la target
     - ls -la
     - >
       docker build
@@ -76,6 +78,7 @@ deploy-backend-compose:
     - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
   script:
+    - scp ./docker-compose.yml ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/sausage-store/docker-compose.yml
     - ssh ${DEV_USER}@${DEV_HOST}
       "export "VERSION=${VERSION}";
        export "SPRING_DATASOURCE_URL=${PSQL_HOST}";

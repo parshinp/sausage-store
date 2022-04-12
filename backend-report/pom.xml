@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.yandex.practicum.devops</groupId>
     <artifactId>sausage-store-report</artifactId>
-    <version>${VERSION}</version>
+    <version>${version.application}</version>
     <name>sausage-store-report</name>
     <description>Report for sausage-store</description>
     <dependencyManagement>
