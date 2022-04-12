@@ -77,7 +77,7 @@ deploy-backend-compose:
     - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
   script:
-    - scp ./docker-compose.yml ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/sausage-store/docker-compose.yml
+    - scp ${CI_PROJECT_DIR}/docker-compose.yml ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/sausage-store/docker-compose.yml
     - ssh ${DEV_USER}@${DEV_HOST}
       "export "VERSION=${VERSION}";
        export "SPRING_DATASOURCE_URL=${PSQL_HOST}";
