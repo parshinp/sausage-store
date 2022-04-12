@@ -54,7 +54,7 @@ build-backend:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
     - ls -la ${CI_PROJECT_DIR}
-    - cp ${CI_PROJECT_DIR}/sausage-store-report-$VERSION/sausage-store-report-${VERSION}.jar backend-report
+    - cp ${CI_PROJECT_DIR}/sausage-store-report-$VERSION/sausage-store-report-${VERSION}.jar ${CI_PROJECT_DIR}/backend-report
     - cd backend-report
     - ls -la
     - >
