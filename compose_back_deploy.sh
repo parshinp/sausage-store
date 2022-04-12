@@ -9,4 +9,4 @@ VERSION=${VERSION}
 EOF
 sudo docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
 set -e
-sudo docker-compose --env-file .env.back up -d --no-deps --build backend
+sudo docker-compose --env-file .env.back up -d backend

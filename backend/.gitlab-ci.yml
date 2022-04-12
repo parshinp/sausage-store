@@ -65,6 +65,7 @@ sonarqube-check-backend:
       - main # or the name of your main branch
       - develop
       - docker
+      - microservices
 
 build-backend:
   dependencies:
