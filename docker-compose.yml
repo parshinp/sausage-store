@@ -4,7 +4,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    image: gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-backend:$VERSION
+    image: gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-backend:${VERSION}
     container_name: backend2
     environment:
       SPRING_VAULT_HOST: "${SPRING_VAULT_HOST}"
@@ -17,7 +17,7 @@ services:
     build:
       context: ./backend-report
       dockerfile: Dockerfile
-    image: gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-backend-report:$VERSION
+    image: gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-backend-report:${VERSION}
     container_name: report
     environment:
       SPRING_VAULT_TOKEN: "${SPRING_VAULT_TOKEN}"
@@ -29,7 +29,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    image: gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-frontend:$VERSION
+    image: gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-frontend:${VERSION}
     container_name: frontend2
     ports:
       - "80:80"
