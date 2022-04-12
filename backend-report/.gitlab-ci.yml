@@ -11,7 +11,7 @@ include:
     file: 'DockerInDockerTemplate.yml'  
 
 stages:
-   - build-backend-docker
+#   - build-backend-docker
    - deploy-docker-compose
 
 #build-backend:
