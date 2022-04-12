@@ -1,6 +1,6 @@
 FROM maven:3.8-openjdk-16 as builder
 #Create build directory
-ARG VERSION
+#ARG VERSION
 WORKDIR /usr/src/app
 COPY . .
 RUN echo $VERSION && mvn package -DskipTests -Dversion.application=1.0.0
