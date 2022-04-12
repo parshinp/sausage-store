@@ -58,7 +58,6 @@ build-frontend-docker:
     - cd frontend
     - ls -la
     - docker build --build-arg VERSION=1.0.${CI_PIPELINE_ID} --tag $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION .
-    - docker push $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION
     - docker tag $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION
     - docker push $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION
 
