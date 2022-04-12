@@ -11,24 +11,24 @@ include:
     file: 'DockerInDockerTemplate.yml'  
 
 stages:
-#   - build-backend-docker
+   - build-backend-docker
    - deploy-docker-compose
 
-#build-backend:
-#  stage: build-backend-docker
-#  image: docker:20.10.12-dind-rootless
-#  before_script:
-#    - cd backend-report
-#    - until docker info; do sleep 1; done
+build-backend:
+  stage: build-backend-docker
+  image: docker:20.10.12-dind-rootless
+  before_script:
+    - cd backend-report
+    - until docker info; do sleep 1; done
     # переменные CI_REGISTRY_USER, CI_REGISTRY_PASSWORD, CI_REGISTRY генерятся Гитлабом, их задавать не надо
-#    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-#  script:
-#    - >
-#      docker build
-#      --build-arg VERSION=$VERSION
-#      --tag $CI_REGISTRY_IMAGE/sausage-backend-report:$VERSION
-#      .
-#      - docker push $CI_REGISTRY_IMAGE/sausage-backend-report:$VERSION
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - >
+      docker-compose build
+      --build-arg VERSION=$VERSION
+      --tag $CI_REGISTRY_IMAGE/sausage-backend-report:$VERSION
+      .
+      - docker-compose push $CI_REGISTRY_IMAGE/sausage-backend-report:$VERSION
 
 deploy-backend-compose:
   stage: deploy-docker-compose

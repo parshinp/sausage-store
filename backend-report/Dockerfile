@@ -3,7 +3,7 @@ FROM maven:3.8-openjdk-16 as builder
 ARG VERSION
 WORKDIR /usr/src/app
 COPY . .
-RUN echo $VERSION && mvn -X package -DskipTests -Dversion.application=${VERSION}
+RUN mvn -X package -DskipTests -Dversion.application=${VERSION}
 
 FROM openjdk:16
 
