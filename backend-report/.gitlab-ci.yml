@@ -56,7 +56,7 @@ build-backend:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
     - >
-      docker-compose build
+      docker build
       --build-arg VERSION=$VERSION
       --tag $CI_REGISTRY_IMAGE/sausage-backend-report:$VERSION
       .
