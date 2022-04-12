@@ -7,14 +7,45 @@ variables:
    SAST_EXCLUDED_ANALYZERS: "eslint-sast,nodejs-scan-sast"
    
 include:
+  - template: Security/SAST.gitlab-ci.yml
   - project: 'templates/ci'
     file: 'DockerInDockerTemplate.yml'  
 
 stages:
+   - build-backend-jar
    - build-backend-docker
    - deploy-docker-compose
 
+build-jar:
+   stage: build-backend-jar
+   script:       
+      - java --version
+      - pwd
+      - echo "ARTIFACT_JOB_ID=${CI_JOB_ID}" > CI_JOB_ID.txt  # сохранение номера задачи в файл, чтобы в дальнейшем использовать для копирования артефакта 
+      - cd backend
+      - mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH}
+      - mkdir ${CI_PROJECT_DIR}/sausage-store-$VERSION
+      - cp ${CI_PROJECT_DIR}/backend/target/sausage-store-report-$VERSION.jar ${CI_PROJECT_DIR}/sausage-store-report-$VERSION/sausage-store-report-$VERSION.jar
+   rules:
+      - changes:
+           - backend/*
+   artifacts:
+     paths:
+      - ${MAVEN_REPO_PATH} # сохранение зависимостей для SAST#
+      - sausage-store-report-$VERSION/sausage-store-report-$VERSION.jar
+
+spotbugs-sast:
+  dependencies:
+    - build-backend-jar
+  before_script:
+    - cd ${CI_PROJECT_DIR}/sausage-store-$VERSION
+    - cp sausage-store-$VERSION.jar /builds/parshin/sausage-store/backend/sausage-store-$VERSION.jar
+  variables:
+    COMPILE: "false"
+
 build-backend:
+  dependencies:
+    - build-backend-jar
   stage: build-backend-docker
   image: docker:20.10.12-dind-rootless
   before_script:
