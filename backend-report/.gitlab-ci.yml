@@ -28,7 +28,7 @@ stages:
 #      --build-arg VERSION=$VERSION
 #      --tag $CI_REGISTRY_IMAGE/sausage-backend-report:$VERSION
 #      .
-#    - docker push $CI_REGISTRY_IMAGE/sausage-backend-report:$VERSION
+##     - docker push $CI_REGISTRY_IMAGE/sausage-backend-report:$VERSION
 
 deploy-backend:
   stage: deploy-docker-compose
