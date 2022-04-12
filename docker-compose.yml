@@ -22,6 +22,7 @@ services:
     environment:
       SPRING_VAULT_TOKEN: "${SPRING_VAULT_TOKEN}"
       SPRING_VAULT_HOST: "${SPRING_VAULT_HOST}"
+      VERSION: "${VERSION}"
     networks:
       - sausage-store
   
