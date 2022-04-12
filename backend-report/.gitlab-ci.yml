@@ -30,7 +30,7 @@ stages:
 #      .
 ##     - docker push $CI_REGISTRY_IMAGE/sausage-backend-report:$VERSION
 
-deploy-backend:
+deploy-backend-compose:
   stage: deploy-docker-compose
   image: alpine:3.15.0
   before_script:
