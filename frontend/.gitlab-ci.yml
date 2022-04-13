@@ -49,12 +49,10 @@ build-front:
 
 build-frontend-docker-compose:
   stage: build-docker-front-compose
-  image: docker:20.10.12-dind-rootless
+  image: docker:20.10.12-dind
   dependencies:
     - build-front
   before_script:
-    - service dockerd status
-    - service dockerd start
     #- dockerd
     - until docker info; do sleep 1; done
     # переменные CI_REGISTRY_USER, CI_REGISTRY_PASSWORD, CI_REGISTRY генерятся Гитлабом, их задавать не надо
