@@ -28,10 +28,10 @@ build-front:
       - changes:
            - frontend/*
 
-sonarqube-check-frontend:
+#sonarqube-check-frontend:
   dependencies:
     - build-front
-  stage: test
+#  stage: test
   image:
     name: "sonarsource/sonar-scanner-cli:latest"
     entrypoint: [""]
