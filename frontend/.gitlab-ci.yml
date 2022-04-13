@@ -48,22 +48,40 @@ sonarqube-check-frontend:
   allow_failure: true
 
 build-frontend-docker-compose:
-  stage: build-docker-front-compose
+  stage: build
   image: docker:20.10.12-dind-rootless
-  cache:
-    key: "${CI_JOB_NAME}"
   dependencies:
-    - build-front
+    - build-docker-front-compose
   before_script:
-    - cd frontend
-    - until docker info; do sleep 2; done
+    - until docker info; do sleep 1; done
+    # переменные CI_REGISTRY_USER, CI_REGISTRY_PASSWORD, CI_REGISTRY генерятся Гитлабом, их задавать не надо
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - cd backend
+    - >
+      docker build
+      --build-arg VERSION=$VERSION
+      --tag $CI_REGISTRY_IMAGE/sausage-frontend:$CI_COMMIT_SHA
+      .
+    - docker push $CI_REGISTRY_IMAGE/sausage-frontend:$CI_COMMIT_SHA
+
+#build-frontend-docker-compose:
+#  stage: build-docker-front-compose
+#  image: docker:20.10.12-dind-rootless
+#  cache:
+#    key: "${CI_JOB_NAME}"
+#  dependencies:
+#    - build-front
+#  before_script:
+#    - cd frontend
+#    - until docker info; do sleep 2; done
     # переменные CI_REGISTRY_USER, CI_REGISTRY_PASSWORD, CI_REGISTRY генерятся Гитлабом, их задавать не надо
     # - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-  script:
-    - docker build --build-arg VERSION=1.0.${CI_PIPELINE_ID} --tag $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION .
-    - docker tag $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker push $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION
+#  script:
+#    - docker build --build-arg VERSION=1.0.${CI_PIPELINE_ID} --tag $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION .
+#    - docker tag $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION
+#    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+#    - docker push $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION
 
 deploy-frontend:
   stage: deploy-frontend
