@@ -17,6 +17,7 @@ build-front:
       - npm run build
       - cd ..
       - mkdir sausage-store-${VERSION}
+      - mv nginx.tmpl ./sausage-store-${VERSION}
       - mv ${CI_PROJECT_DIR}/frontend/dist/frontend sausage-store-$VERSION/public_html # копирование собранного фронтэнда  
    artifacts:
       paths:
@@ -55,7 +56,6 @@ build-frontend-docker:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
     - cd frontend
-    - cd nginx.tmpl ./sausage-store-${VERSION}
     - ls -la
     - docker build --build-arg VERSION=1.0.${CI_PIPELINE_ID} --tag $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION .
     - docker tag $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION
