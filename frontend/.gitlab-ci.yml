@@ -3,7 +3,7 @@ variables:
 
 include:
   - project: 'templates/ci'
-    file: 'DockerInDockerTemplate.yml'
+    file: 'DockerInDockerTemplate.yml'  
 
 stages:
    - build-frontend
