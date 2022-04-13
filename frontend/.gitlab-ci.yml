@@ -52,18 +52,18 @@ build-frontend-docker:
   image: docker:20.10.12-dind-rootless
   cache:
     key: "${CI_JOB_NAME}"
- # dependencies:
- #   - build-front
+  dependencies:
+    - build-front
   before_script:
     - cd frontend
     - until docker info; do sleep 2; done
     # переменные CI_REGISTRY_USER, CI_REGISTRY_PASSWORD, CI_REGISTRY генерятся Гитлабом, их задавать не надо
     #- docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
-    - docker build --build-arg VERSION=1.0.${CI_PIPELINE_ID} --tag $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION .
-    - docker tag $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker push $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION
+    - sudo docker build --build-arg VERSION=1.0.${CI_PIPELINE_ID} --tag $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION .
+    - sudo docker tag $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION
+    - sudo docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - sudo docker push $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION
 
 deploy-frontend:
   stage: deploy-frontend
