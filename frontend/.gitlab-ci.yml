@@ -48,10 +48,10 @@ sonarqube-check-frontend:
   allow_failure: true
 
 build-frontend-docker-compose:
-  stage: build
+  stage: build-docker-front-compose
   image: docker:20.10.12-dind-rootless
   dependencies:
-    - build-docker-front-compose
+    - build-front
   before_script:
     - until docker info; do sleep 1; done
     # переменные CI_REGISTRY_USER, CI_REGISTRY_PASSWORD, CI_REGISTRY генерятся Гитлабом, их задавать не надо
