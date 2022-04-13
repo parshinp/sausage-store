@@ -6,7 +6,6 @@ stages:
    - build-frontend
    - test
    - build-docker-front
-#   - release-docker-front
    - deploy-frontend
 
 build-front:
