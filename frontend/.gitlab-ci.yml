@@ -7,7 +7,7 @@ include:
 
 stages:
    - build-frontend
-   - test
+#   - test
    - build-docker-front-compose
    - deploy-frontend
 
