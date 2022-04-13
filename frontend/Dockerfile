@@ -1,4 +1,5 @@
 FROM nginxproxy/nginx-proxy
+ARG VERSION
 # Create app directory
 WORKDIR /usr/src/app
 COPY sausage-store-${VERSION}/ .
