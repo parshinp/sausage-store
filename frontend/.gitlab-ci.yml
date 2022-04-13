@@ -61,7 +61,7 @@ build-frontend-docker:
     - docker tag $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION
     - docker push $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION
 
-#upload-backend-latest:
+##upload-backend-latest:
 #  variables:
 #    GIT_STRATEGY: none
 #  image: docker:20.10.12-dind-rootless
