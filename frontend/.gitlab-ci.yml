@@ -49,7 +49,7 @@ sonarqube-check-frontend:
 
 build-frontend-docker:
   stage: build-docker-front
-  image: docker:20.10.12-dind-rootless
+  image: docker:20.10.11-dind-rootless
   cache:
     key: "${CI_JOB_NAME}"
   dependencies:
