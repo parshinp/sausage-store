@@ -5,11 +5,13 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     image: gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-backend:${VERSION}
+    expose: "80"
     container_name: backend2
     environment:
       SPRING_VAULT_HOST: "${SPRING_VAULT_HOST}"
       SPRING_VAULT_TOKEN: "${SPRING_VAULT_TOKEN}"
-      SPRING_FLYWAY_BASELINE-ON-MIGRATE: "true"  
+      SPRING_FLYWAY_BASELINE-ON-MIGRATE: "true"
+      VIRTUAL_HOST: "test2"
     networks:
       - sausage-store
   
@@ -26,16 +28,31 @@ services:
     networks:
       - sausage-store
   
-  frontend:
+  loadbalancer:
     build:
       context: ./frontend
       dockerfile: Dockerfile
     image: gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-frontend:${VERSION}
-    container_name: frontend2
+    container_name: loadbalancer
     ports:
       - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    environment:
+       DEFAULT_HOST: "test2"
     networks:
       - sausage-store
+
+  #frontend:
+  #  build:
+  #    context: ./frontend
+  #    dockerfile: Dockerfile
+  #  image: gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-frontend:${VERSION}
+  #  container_name: frontend2
+  #  ports:
+  #    - "80:80"
+  #  networks:
+  #    - sausage-store
 
 networks:
   sausage-store:
