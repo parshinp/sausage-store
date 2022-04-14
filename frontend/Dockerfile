@@ -1,5 +1,6 @@
 FROM nginxproxy/nginx-proxy
 ARG VERSION=${VERSION}
+ARG CI_PROJECT_DIR=${CI_PROJECT_DIR}
 # Create app directory
 WORKDIR /usr/src/app
 #COPY ${CI_PROJECT_DIR}/frontend/sausage-store-${VERSION} .
