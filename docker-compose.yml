@@ -5,7 +5,8 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     image: gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-backend:${VERSION}
-    expose: "80"
+    expose: 
+       - "80"
     container_name: backend2
     environment:
       SPRING_VAULT_HOST: "${SPRING_VAULT_HOST}"

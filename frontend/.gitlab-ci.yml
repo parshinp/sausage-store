@@ -18,7 +18,8 @@ build-front:
       - cd ..
       - mkdir sausage-store-${VERSION}
       - mv ${CI_PROJECT_DIR}/frontend/nginx.tmpl ${CI_PROJECT_DIR}/frontend/sausage-store-${VERSION}
-      - mv ${CI_PROJECT_DIR}/frontend/dist/frontend sausage-store-$VERSION/public_html # копирование собранного фронтэнда  
+      - mv ${CI_PROJECT_DIR}/frontend/dist/frontend sausage-store-$VERSION/public_html # копирование собранного фронтэнда
+      - ls -la 
    artifacts:
       paths:
          - sausage-store-${VERSION}/public_html
