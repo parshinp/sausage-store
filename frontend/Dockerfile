@@ -11,6 +11,7 @@ RUN npm install && npm run build && ls -la /usr/src/app
 FROM nginxproxy/nginx-proxy
 #ARG VERSION
 # Create app directory
+RUN ls -la & pwd
 COPY ./default.conf /etc/nginx/conf.d/default.conf
 COPY ./includes/ /etc/nginx/includes/
 WORKDIR /app
