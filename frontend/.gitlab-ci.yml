@@ -18,13 +18,14 @@ build-front:
       - cd ..
       - mkdir sausage-store-${VERSION}
       - mv ${CI_PROJECT_DIR}/frontend/nginx.tmpl ${CI_PROJECT_DIR}/frontend/sausage-store-${VERSION}
-      - mv ${CI_PROJECT_DIR}/frontend/dist/frontend sausage-store-$VERSION/public_html # копирование собранного фронтэнда  
+      - mv ${CI_PROJECT_DIR}/frontend/dist/frontend sausage-store-$VERSION/public_html # копирование собранного фронтэнда
+      - ls -la 
    artifacts:
       paths:
          - sausage-store-${VERSION}/public_html
-   rules:
-      - changes:
-           - frontend/*
+#   rules:
+#      - changes:
+#           - frontend/*
 
 sonarqube-check-frontend:
   dependencies:
@@ -55,6 +56,7 @@ build-frontend-docker:
    #  переменные CI_REGISTRY_USER, CI_REGISTRY_PASSWORD, CI_REGISTRY генерятся Гитлабом, их задавать не надо
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
+    - ls -la
     - cd frontend
     - ls -la
     - docker build --build-arg VERSION=1.0.${CI_PIPELINE_ID} --tag $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION .
@@ -75,15 +77,17 @@ deploy-frontend:
     - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
   script:
+    - scp -r ./sausage-store-${VERSION}/public_html ${DEV_USER}@${DEV_HOST}:/tmp/
     - ssh ${DEV_USER}@${DEV_HOST}
       "export "VERSION=${VERSION}";
+       export "CI_PROJECT_DIR=${CI_PROJECT_DIR}";
        export "CI_REGISTRY_USER=${CI_REGISTRY_USER}";
        export "CI_JOB_TOKEN=${CI_JOB_TOKEN}";
        export "CI_REGISTRY=${CI_REGISTRY}";
       /bin/bash -s " < ./compose_front_deploy.sh
   environment:
     name: prod-frontend-docker-compose
-  rules:
-    - changes:
-         - frontend/*
-##      when: manual
+#  rules:
+#    - changes:
+#         - frontend/*
+#      when: manual
