@@ -30,9 +30,9 @@ services:
       - sausage-store
   
   loadbalancer:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+#    build:
+#      context: ./frontend
+#      dockerfile: Dockerfile
     image: gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-frontend:${VERSION}
     container_name: loadbalancer
     ports:

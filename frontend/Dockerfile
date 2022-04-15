@@ -11,6 +11,8 @@ RUN npm install && npm run build && ls -la /usr/src/app
 FROM nginxproxy/nginx-proxy
 #ARG VERSION
 # Create app directory
+COPY ./default.conf /etc/nginx/conf.d/default.conf
+COPY ./includes/ /etc/nginx/includes/
 WORKDIR /app
 #RUN addgroup --system jaruser \
 #    && adduser -S -s /bin/false -G jaruser jaruser -D -H
