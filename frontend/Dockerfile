@@ -15,7 +15,7 @@ WORKDIR /app
 RUN addgroup --system jaruser \
     && adduser -S -s /bin/false -G jaruser jaruser -D -H
 COPY --chown=jaruser:jaruser \
-     --from=builder /usr/src/app/dist/* /usr/share/nginx/html/
+     --from=builder /usr/src/app/dist/ /usr/share/nginx/html/
 RUN cp nginx.tmpl .
 #EXPOSE 80
 #ENTRYPOINT ["http-server", "dist/frontend/", "-p", "80", "--proxy", "http://backend2:8080"]
