@@ -66,6 +66,7 @@ sonarqube-check-backend:
       - develop
       - docker
       - microservices
+      - loadbalancer
 
 build-backend:
   dependencies:
