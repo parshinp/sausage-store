@@ -14,7 +14,7 @@ FROM nginxproxy/nginx-proxy
 WORKDIR /app
 #RUN addgroup --system jaruser \
 #    && adduser -S -s /bin/false -G jaruser jaruser -D -H
-COPY --from=builder /usr/src/app/dist/ /usr/share/nginx/html/
+COPY --from=builder /usr/src/app/dist/* /usr/share/nginx/html/
 RUN cp /usr/src/app/nginx.tmpl .
 #EXPOSE 80
 #ENTRYPOINT ["http-server", "dist/frontend/", "-p", "80", "--proxy", "http://backend2:8080"]
