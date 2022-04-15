@@ -77,7 +77,7 @@ deploy-frontend:
     - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
   script:
-#    - scp -r ./sausage-store-${VERSION}/public_html ${DEV_USER}@${DEV_HOST}:/tmp/ -- так не сработает :)
+##    - scp -r ./sausage-store-${VERSION}/public_html ${DEV_USER}@${DEV_HOST}:/tmp/ -- так не сработает :)
     - ssh ${DEV_USER}@${DEV_HOST}
       "export "VERSION=${VERSION}";
        export "CI_PROJECT_DIR=${CI_PROJECT_DIR}";
