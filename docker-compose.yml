@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
     image: gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-backend:${VERSION}
     expose: 
-       - "80"
+       - "8080"
     environment:
       SPRING_VAULT_HOST: "${SPRING_VAULT_HOST}"
       SPRING_VAULT_TOKEN: "${SPRING_VAULT_TOKEN}"

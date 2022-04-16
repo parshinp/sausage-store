@@ -87,7 +87,7 @@ deploy-frontend:
       /bin/bash -s " < ./compose_front_deploy.sh
   environment:
     name: prod-frontend-docker-compose
-##  rules:
+#  rules:
 #    - changes:
 #         - frontend/*
 #      when: manual
