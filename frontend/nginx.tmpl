@@ -20,7 +20,7 @@ server {
   }
 
   location /api {
-      proxy_pass http://{{ $host }}:8080;
+      proxy_pass http://{{ $host }};
   }
 }
 {{ end }}
