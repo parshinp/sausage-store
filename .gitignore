@@ -3,6 +3,7 @@
 *.tfstate.*
 *.tfvars
 backend.conf
+deploy_vault.sh
 
 .terraform
 .terraform.lock.hcl

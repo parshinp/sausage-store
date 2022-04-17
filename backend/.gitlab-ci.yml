@@ -110,6 +110,9 @@ deploy-backend:
     - chmod 644 ~/.ssh/known_hosts
   script:
     - ssh ${DEV_USER}@${DEV_HOST}
+      "export "SPRING_VAULT_TOKEN=${SPRING_VAULT_TOKEN}"; 
+      /bin/bash -s " < ./vault/deploy_vault.sh
+    - ssh ${DEV_USER}@${DEV_HOST}
       "export "VERSION=${VERSION}";
        export "SPRING_DATASOURCE_URL=${PSQL_HOST}";
        export "CI_REGISTRY_USER=${CI_REGISTRY_USER}";
