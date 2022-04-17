@@ -111,7 +111,7 @@ deploy-backend:
   script:
     - ssh ${DEV_USER}@${DEV_HOST}
       "export "SPRING_VAULT_TOKEN=${SPRING_VAULT_TOKEN}"; 
-      /bin/bash -s " < ./vault/deploy_vault.sh
+      /bin/bash -s " < ./compose_vault_deploy.sh
     - ssh ${DEV_USER}@${DEV_HOST}
       "export "VERSION=${VERSION}";
        export "SPRING_DATASOURCE_URL=${PSQL_HOST}";
