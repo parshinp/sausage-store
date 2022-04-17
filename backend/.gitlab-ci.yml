@@ -15,7 +15,9 @@ stages:
    - build-backend
    - test
    - build-backend-docker
+   - release-backend
    - deploy-docker
+   - notification
 
 build-back:
    stage: build-backend
@@ -87,6 +89,14 @@ build-backend:
       .
     - docker push $CI_REGISTRY_IMAGE/sausage-backend:$VERSION
 
+release:
+   dependencies:
+    - build-back
+   stage: release-backend
+   script:
+    - cd backend
+    - mvn deploy -DskipTests -Dversion.application=${VERSION} -Dmaven.repo.local=${MAVEN_REPO_PATH} -s settings.xml
+
 deploy-backend:
   stage: deploy-docker
   image: alpine:3.15.0
@@ -110,3 +120,8 @@ deploy-backend:
       /bin/bash -s " < ./compose_back_deploy.sh 
   environment:
     name: prod-backend-docker-compose
+
+notification-slack:
+  stage: notification
+  script:
+   - 'curl -X POST -H "Content-type: application/json" --data "{\"text\":\"Вышла новая версия сосисочной — $VERSION. Скачать backend можно по ссылке — https://nexus.praktikum-services.ru/repository/sausage-store-parshin_pavel-backend/com/yandex/practicum/devops/sausage-store/$VERSION/sausage-store-$VERSION.jar \"}" https://hooks.slack.com/services/TPV9DP0N4/B02PSECK8JF/$MY_SLACK_TOKEN'

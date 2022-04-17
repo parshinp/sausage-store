@@ -6,7 +6,9 @@ stages:
    - build-frontend
    - test
    - build-docker-front
+   - release-frontend
    - deploy-frontend
+   - notification
 
 build-front:
    stage: build-frontend
@@ -63,6 +65,15 @@ build-frontend-docker:
     - docker tag $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION
     - docker push $CI_REGISTRY_IMAGE/sausage-frontend:$VERSION
 
+release:
+   dependencies:
+    - build-front
+   stage: release-frontend
+   script:
+      - tar czvf sausage-store-${VERSION}.tar.gz sausage-store-${VERSION}
+      - curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file sausage-store-$VERSION.tar.gz ${NEXUS_REPO_URL}/sausage-store-parshin_pavel-frontend/$VERSION/sausage-store-$VERSION.tar.gz
+   rules:
+
 deploy-frontend:
   dependencies:
     - build-front
@@ -91,3 +102,8 @@ deploy-frontend:
 #    - changes:
 #         - frontend/*
 #      when: manual
+
+notification-slack:
+  stage: notification
+  script:
+   - 'curl -X POST -H "Content-type: application/json" --data "{\"text\":\"Вышла новая версия сосисочной — $VERSION. Скачать frontend можно по ссылке — https://nexus.praktikum-services.ru/repository/sausage-store-parshin_pavel-frontend/$VERSION/sausage-store-$VERSION.tar.gz \"}" https://hooks.slack.com/services/TPV9DP0N4/B02PSECK8JF/$MY_SLACK_TOKEN'

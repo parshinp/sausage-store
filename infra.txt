@@ -1,2 +1,20 @@
-main VM 130.193.38.73
-back VM 51.250.18.48
+!!!! docker compose scale works !!!!
+
+bash-5.1# cat /etc/nginx/conf.d/default.conf
+upstream backend2 {
+    server f62b3f4e431e:8080;
+    server 38c4644f0429:8080;
+    server 6170458a4407:8080;
+    server ba4bbcbcdc78:8080;
+}
+server {
+  listen 80;
+  location / {
+    root   /usr/share/nginx/html;
+    index  index.html;
+    try_files $uri $uri/ /index.html;
+  }
+  location /api {
+      proxy_pass http://backend2;
+  }
+}
