@@ -1,4 +1,5 @@
 #!/bin/sh
+cd /home/jarservice/project/sausage-store
 set +e
 
 sudo docker-compose up -d vault
