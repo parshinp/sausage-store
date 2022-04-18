@@ -1,20 +1,17 @@
-!!!! docker compose scale works !!!!
+1. Backend скейлится
 
-bash-5.1# cat /etc/nginx/conf.d/default.conf
+/etc/nginx/conf.d # cat default.conf
 upstream backend2 {
-    server f62b3f4e431e:8080;
-    server 38c4644f0429:8080;
-    server 6170458a4407:8080;
-    server ba4bbcbcdc78:8080;
-}
-server {
-  listen 80;
-  location / {
-    root   /usr/share/nginx/html;
-    index  index.html;
-    try_files $uri $uri/ /index.html;
-  }
-  location /api {
-      proxy_pass http://backend2;
-  }
-}
+    server bb92b8a63c8f:8080;
+    server 51dfef65d0fc:8080;
+
+frontend                  /app/docker-entrypoint.sh  ...   Up      0.0.0.0:80->80/tcp,:::80->80/tcp
+sausage-store_backend_1   dumb-init java -jar -Dmyse ...   Up      8080/tcp
+sausage-store_backend_2   dumb-init java -jar -Dmyse ...   Up      8080/tcp
+vault                     docker-entrypoint.sh serve ...   Up      0.0.0.0:8200->8200/tcp
+
+
+2. vault перенес в compose - только переменные еще не спрятал, но в процессе.
+
+3. по бонусному заданию - жду пока обновятся dns-записи для sausagestore.parshinp.ru для моего домена.
+После прикручу ssl и настрою кеширование.
