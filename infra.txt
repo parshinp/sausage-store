@@ -1,2 +1,17 @@
-main VM 130.193.38.73
-back VM 51.250.18.48
+1. Backend скейлится
+
+/etc/nginx/conf.d # cat default.conf
+upstream backend2 {
+    server bb92b8a63c8f:8080;
+    server 51dfef65d0fc:8080;
+
+frontend                  /app/docker-entrypoint.sh  ...   Up      0.0.0.0:80->80/tcp,:::80->80/tcp
+sausage-store_backend_1   dumb-init java -jar -Dmyse ...   Up      8080/tcp
+sausage-store_backend_2   dumb-init java -jar -Dmyse ...   Up      8080/tcp
+vault                     docker-entrypoint.sh serve ...   Up      0.0.0.0:8200->8200/tcp
+
+
+2. vault перенес в compose - только переменные еще не спрятал, но в процессе.
+
+3. по бонусному заданию - жду пока обновятся dns-записи для sausagestore.parshinp.ru для моего домена.
+После прикручу ssl и настрою кеширование.
