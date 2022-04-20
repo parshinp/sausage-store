@@ -8,3 +8,4 @@ compose_vault_deploy.sh
 .terraform
 .terraform.lock.hcl
 .ansible_vault_pass
+.env
