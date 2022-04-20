@@ -110,7 +110,12 @@ deploy-backend:
     - chmod 644 ~/.ssh/known_hosts
   script:
     - ssh ${DEV_USER}@${DEV_HOST}
-      "export "SPRING_VAULT_TOKEN=${SPRING_VAULT_TOKEN}"; 
+      "export "SPRING_VAULT_TOKEN=${SPRING_VAULT_TOKEN}";
+       export "PSQL_USER=${PSQL_USER}";
+       export "PSQL_PASSWORD=${PSQL_PASSWORD}";
+       export "MONGO_DATA=${MONGO_DATA}";
+       export "PSQL_DBNAME=${PSQL_DBNAME}";
+       export "PSQL_HOST=${PSQL_HOST}";
       /bin/bash -s " < ./compose_vault_deploy.sh
     - ssh ${DEV_USER}@${DEV_HOST}
       "export "VERSION=${VERSION}";
