@@ -5,6 +5,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     image: gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-backend:${VERSION}
+    container_name: green
     expose: 
        - "8080"
     healthcheck:
@@ -19,8 +20,8 @@ services:
       SPRING_FLYWAY_BASELINE-ON-MIGRATE: "true"
       VIRTUAL_HOST: backend2
       VIRTUAL_PORT: 8080
-    networks:
-      - sausage-store
+   # networks:
+   #   - sausage-store
     depends_on:
       - vault
 
@@ -29,6 +30,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     image: gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-backend:${VERSION}
+    container_name: blue
     expose: 
        - "8080"
     healthcheck:
@@ -43,8 +45,8 @@ services:
       SPRING_FLYWAY_BASELINE-ON-MIGRATE: "true"
       VIRTUAL_HOST: backend2
       VIRTUAL_PORT: 8080
-    networks:
-      - sausage-store
+   # networks:
+   #   - sausage-store
     depends_on:
       - vault
   
@@ -58,8 +60,8 @@ services:
       SPRING_VAULT_TOKEN: ${SPRING_VAULT_TOKEN}
       SPRING_VAULT_HOST: ${SPRING_VAULT_HOST}
       VERSION: $VERSION
-    networks:
-      - sausage-store
+  #  networks:
+  #    - sausage-store
   
   loadbalancer:
     image: gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-frontend:${VERSION}
@@ -70,8 +72,8 @@ services:
       - /var/run/docker.sock:/tmp/docker.sock:ro
     environment:
       DEFAULT_HOST: backend2
-    networks:
-      - sausage-store
+  #  networks:
+  #    - sausage-store
 
   vault:
     image: vault:latest
@@ -86,9 +88,9 @@ services:
           - "8200"
     cap_add:
           - IPC_LOCK
-    networks:
-      - sausage-store
+  #  networks:
+  #    - sausage-store
 
 
-networks:
-  sausage-store:
+#networks:
+#  sausage-store:
