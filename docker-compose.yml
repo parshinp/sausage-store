@@ -5,7 +5,6 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     image: gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-backend:${VERSION}
-    container_name: green
     expose: 
        - "8080"
     healthcheck:
@@ -30,7 +29,6 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     image: gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-backend:${VERSION}
-    container_name: blue
     expose: 
        - "8080"
     healthcheck:
