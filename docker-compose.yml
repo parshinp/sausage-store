@@ -20,8 +20,8 @@ services:
       SPRING_FLYWAY_BASELINE-ON-MIGRATE: "true"
       VIRTUAL_HOST: backend2
       VIRTUAL_PORT: 8080
-  #  networks:
-  #    - sausage-store
+   # networks:
+   #   - sausage-store
     depends_on:
       - vault
 
@@ -45,8 +45,8 @@ services:
       SPRING_FLYWAY_BASELINE-ON-MIGRATE: "true"
       VIRTUAL_HOST: backend2
       VIRTUAL_PORT: 8080
-  #  networks:
-  #    - sausage-store
+   # networks:
+   #   - sausage-store
     depends_on:
       - vault
   
