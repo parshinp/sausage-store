@@ -14,7 +14,7 @@ set -e
 
 # BLUE and GREEN runs
 if [ "$( sudo docker container inspect -f '{{.State.Health.Status}}' green )" == "healthy" ] && [ "$( sudo docker container inspect -f '{{.State.Health.Status}}' blue )" == "healthy" ];
-then sudo docker-compose stop green && sudo docker rm green && sudo docker pull gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-backend-$VERSION && sudo docker-compose --env-file=.env.back up -d green
+then sudo docker-compose stop green && sudo docker rm green && sudo docker pull gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-backend:$VERSION && sudo docker-compose --env-file=.env.back up -d green
 while [ "$( sudo docker container inspect -f '{{.State.Health.Status}}' green )" != "healthy" ]; do
         sleep 1;
 done
@@ -24,7 +24,7 @@ fi
 
 # BLUE and GREEN stopped
 if [ "$( sudo docker container inspect -f '{{.State.Health.Status}}' green )" == "unhealthy" ] && [ "$( sudo docker container inspect -f '{{.State.Health.Status}}' blue )" == "unhealthy" ];
-then sudo docker rm green && sudo docker pull gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-backend-$VERSION && sudo docker-compose --env-file=.env.back up -d green
+then sudo docker rm green && sudo docker pull gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-backend:$VERSION && sudo docker-compose --env-file=.env.back up -d green
 while [ "$( sudo docker container inspect -f '{{.State.Health.Status}}' green )" != "healthy" ]; do
         sleep 1;
 done
@@ -34,7 +34,7 @@ fi
 
 # BLUE runs GREEN stopped
 if [ "$( sudo docker container inspect -f '{{.State.Health.Status}}' green )" == "unhealthy" ] && [ "$( sudo docker container inspect -f '{{.State.Health.Status}}' blue )" == "healthy" ];
-then sudo docker pull gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-backend-$VERSION && sudo docker-compose --env-file=.env.back up -d green
+then sudo docker pull gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-backend:$VERSION && sudo docker-compose --env-file=.env.back up -d green
 while [ "$( sudo docker container inspect -f '{{.State.Health.Status}}' green )" != "healthy" ]; do
         sleep 1;
 done
@@ -44,7 +44,7 @@ fi
 
 # BLUE stopped GREEN runs
 if [ "$( sudo docker container inspect -f '{{.State.Health.Status}}' green )" == "healthy" ] && [ "$( sudo docker container inspect -f '{{.State.Health.Status}}' blue )" == "unhealthy" ];
-then sudo docker pull gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-backend-$VERSION && sudo docker-compose --env-file=.env.back up -d blue
+then sudo docker pull gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-backend:$VERSION && sudo docker-compose --env-file=.env.back up -d blue
 while [ "$( sudo docker container inspect -f '{{.State.Health.Status}}' blue )" != "healthy" ]; do
         sleep 1;
 done
