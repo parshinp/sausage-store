@@ -21,11 +21,9 @@ spec:
     spec:
       containers:
         - name: backend
-          image: gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-backend:1.0.60876
+          image: gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-backend:1.0.62812
           imagePullPolicy: IfNotPresent
           env:
-            - name: PSQL_HOST
-              value: jdbc:postgresql://c-c9qslvj961omn1nevnjl.rw.mdb.yandexcloud.net:6432/testdb
             - name: SPRING_VAULT_HOST
               value: 130.193.38.73
             - name: SPRING_VAULT_TOKEN
