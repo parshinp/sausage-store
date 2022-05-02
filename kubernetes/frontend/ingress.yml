@@ -5,9 +5,9 @@ metadata:
   name: frontend
 spec:
   ingressClassName: "nginx"
-  tls:
-    - hosts:
-        - sausagestore.parshinp.ru
+  #tls:
+  #  - hosts:
+  #      - sausagestore.parshinp.ru
   rules:
     - host: sausagestore.parshinp.ru
       http:
