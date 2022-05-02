@@ -20,7 +20,7 @@ spec:
         app: frontend
       containers:
         - name: frontend
-          image: gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-frontend:1.0.60876
+          image: gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-frontend:1.0.63379
           imagePullPolicy: IfNotPresent
           ports:
             - name: frontend
