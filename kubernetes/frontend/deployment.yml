@@ -26,15 +26,10 @@ spec:
             - name: frontend
               containerPort: 8080
           volumeMounts:
-      #    - name: docker-sock-volume  
-      #      mountPath: /var/run/docker.sock
           - name: nginx-config
-            mountPath: /etc/nginx/conf.d/
+            mountPath: /etc/nginx/conf.d/sausagestore.conf
+            subPath: sausagestore.conf
       volumes:
-      #- name: docker-sock-volume
-      #  hostPath:
-      #    path: /var/run/docker.sock
-      #    type: File
       - name: nginx-config
         configMap:
           name: sausagestore-configmap
