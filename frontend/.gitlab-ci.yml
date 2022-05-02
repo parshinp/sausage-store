@@ -13,7 +13,7 @@ stages:
 build-front:
    stage: build-frontend
    script:
-      - echo "ARTIFACT_JOB_ID=${CI_JOB_ID}" > CI_JOB_ID.txt  # сохранение номера задачи в файл, чтобы в дальнейшем использовать для копирования артефакта 
+      - echo "ARTIFACT_JOB_ID=${CI_JOB_ID}" > CI_JOB_ID.txt  ## сохранение номера задачи в файл, чтобы в дальнейшем использовать для копирования артефакта 
       - cd frontend
       - npm install
       - npm run build
