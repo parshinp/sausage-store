@@ -38,9 +38,9 @@ spec:
             httpGet:
               path: /actuator/health
               port: 8080
-            initialDelaySeconds: 15
+            initialDelaySeconds: 20
             periodSeconds: 30
-            timeoutSeconds: 1
+            timeoutSeconds: 10
             failureThreshold: 6
       imagePullSecrets:
         - name: docker-config-secret
