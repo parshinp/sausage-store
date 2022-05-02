@@ -2,15 +2,15 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nginx-conf
+  name: sausagestore-configmap
 data:
   nginx.conf: |
     apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: sausage-store-configmap
+  name: sausagestore-configmap
 data:
-  sausage-store.conf: |
+  sausagestore.conf: |
     server {
 
       listen 8080;
@@ -22,6 +22,6 @@ data:
       }
 
       location /api {
-          proxy_pass http://backend:8081;
+          proxy_pass http://backend:8080;
       }
     }
