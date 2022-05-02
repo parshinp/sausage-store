@@ -9,7 +9,7 @@ spec:
   #  - hosts:
   #      - sausagestore.parshinp.ru
   rules:
-    - host: sausagestore.parshinp.ru
+    - host: 178.154.194.109
       http:
         paths:
         - path: /
