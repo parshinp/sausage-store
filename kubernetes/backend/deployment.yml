@@ -6,7 +6,7 @@ metadata:
   labels:
     app: backend
 spec:
-  replicas: 1
+  replicas: 3
   # Стратегия развёртывания. Recreate — удалит сначала все старые поды 
   # Есть и более гибкая стратегии, например, RollingUpdate, которая будет обновлять поды порциями  
   strategy:
@@ -24,9 +24,9 @@ spec:
           image: gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-backend:1.0.63128
           imagePullPolicy: IfNotPresent
           env:
-            - name: SPRING_CLOUD_VAULT_HOST
+            - name: SPRING_VAULT_HOST
               value: 130.193.38.73
-            - name: SPRING_CLOUD_VAULT_TOKEN
+            - name: SPRING_VAULT_TOKEN
               valueFrom:
                 secretKeyRef:
                   name: vault
