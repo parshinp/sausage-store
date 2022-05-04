@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-backend-report:1.0.60876
+          image: gitlab.praktikum-services.ru:5050/parshin/sausage-store/sausage-backend-report:1.0.64646
           imagePullPolicy: IfNotPresent
           env:
             - name: SPRING_VAULT_HOST
