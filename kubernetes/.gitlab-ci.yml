@@ -1,0 +1,17 @@
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  image: alpine/k8s:1.22.6
+  environment:
+    name: k8s
+    url: https://84.201.153.31
+  when: manual
+  before_script:
+    - mkdir -p ~/.kube
+    - chmod 700 ~/.kube
+    - cat "$kubeconfig" > ~/.kube/config
+    - chmod 644 ~/.kube/config
+  script:
+    - kubectl apply -f kubernetes/ --recursive

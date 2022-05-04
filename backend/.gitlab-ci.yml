@@ -12,7 +12,7 @@ include:
     file: 'DockerInDockerTemplate.yml'  
 
 stages:
-   - build-backend
+   - build-jar
    - test
    - build-backend-docker
    - release-backend
@@ -20,7 +20,7 @@ stages:
    - notification
 
 build-back:
-   stage: build-backend
+   stage: build-jar
    script:       
       - java --version
       - pwd
